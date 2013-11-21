@@ -1,18 +1,22 @@
-CC_FLAGS=-std=c++11 -Wall -g
-LD_FLAGS=null
+# Because i like it nice and tidy
 
-CPP_FILES := $(wildcard src/*.cpp)
-OBJ_FILES := $(patsubst src/%.cpp,bin/%.o,$(CPP_FILES))
+CC_FLAGS=-std=c++11 -Wall -g -I $(wildcard lib/*)
+LD_FLAGS=-lboost_system
 
-server.exe: $(OBJ_FILES)
-	g++ -o $@ $^
+CPP_FILES=$(wildcard src/$(1)/*.cpp)
+OBJ_FILES=$(patsubst src/%.cpp,bin/%.o,$(call CPP_FILES,$(1)))
+
+all: client.exe server.exe
+
+server.exe: $(call OBJ_FILES,server)
+	g++ $(LD_FLAGS) -o $@ $^
+
+client.exe: $(call OBJ_FILES,client)
+	g++ $(LD_FLAGS) -o $@ $^
 
 bin/%.o: src/%.cpp
-	mkdir -p bin
+	mkdir -p $(dir $@)
 	g++ $(CC_FLAGS) -c -o $@ $<
-
-#VectorTest.o: VectorTest.cpp
-#	g++ $(flags) -o $@ $<
 
 #VectorTest.cpp: VectorTest.h
 #	cxxtestgen --error-printer -o $@ $<
@@ -23,3 +27,6 @@ bin/%.o: src/%.cpp
 clean:
 	rm -rf bin
 	rm -f *.exe
+
+rebuild-lib:
+	lib/boost_1_55_0/b2 -a	#tar låååång tid
