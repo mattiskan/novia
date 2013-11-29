@@ -16,12 +16,11 @@ struct MapSquare {
 
 
 class Map {
-
 private:
-  MapSquare squares[MAP_SIZE][MAP_SIZE];
+  MapSquare* squares[MAP_SIZE][MAP_SIZE];
 
 public:
-  
+  Map();
 };
 
 #endif

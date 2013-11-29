@@ -11,7 +11,6 @@ class Building : public MapObject {
   Player owner;
   BuildingType type;
   int a;
-
 };
 
 #endif

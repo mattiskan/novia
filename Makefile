@@ -1,6 +1,6 @@
 # Because i like it nice and tidy
 
-CC_FLAGS=-std=c++11 -Wall -g -I $(wildcard lib/*)
+CC_FLAGS=-std=c++11 -g -I $(wildcard lib/*)
 LD_FLAGS=-lboost_system
 
 CPP_FILES=$(wildcard src/$(1)/*.cpp)

@@ -34,14 +34,3 @@ public:
   }
 
 };
-
-
-int main() {
-  ::unlink(SOCKET_FILE); // Remove previous binding.
-  stream_protocol::endpoint ep(SOCKET_FILE);
-  
-  ConnectionHandler srv(ep);
-  srv.run();
-
-  return 0;
-}
