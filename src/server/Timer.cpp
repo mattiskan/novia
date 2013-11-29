@@ -8,5 +8,5 @@ const TimerEvent* Timer::add(TimerFn f){
 
 void Timer::tick() {
   for(auto it=queuedEvents.begin(); it != queuedEvents.end(); ++it)
-    it->tick();
+    it->fn();
 }

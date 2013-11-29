@@ -2,3 +2,7 @@
 
 Map::Map(){
 }
+
+iterator Map::getMapObjects(){
+    
+}

@@ -4,18 +4,14 @@
 #include <list>
 #include <chrono>
 #include <iostream>
+#include <functional>
 
-typedef bool (*TimerFn)(void);
+typedef std::function<bool ()>TimerFn;
 
 struct TimerEvent {
   TimerEvent(TimerFn f, int d) : fn(f), dur(d) { }
-  
-  bool tick(){
-    fn();
-  }
-
-private:
   TimerFn fn;
+private:
   int dur;
 };
 

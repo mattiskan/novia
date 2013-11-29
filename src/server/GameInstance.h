@@ -5,18 +5,20 @@
 #include "Timer.h"
 #include "ConnectionHandler.cpp"
 
+using std::chrono::system_clock;
+using std::chrono::milliseconds;
+
 int main(int argc, char ** argv);
 
 struct EvenWaiter {
-  
-EvenWaiter(int millis): nextFrame(std::chrono::system_clock::now()), delta(millis){ }
+EvenWaiter(int millis): nextFrame(system_clock::now()), delta(millis){ }
   void operator()() {
     nextFrame += delta;
     std::this_thread::sleep_until(nextFrame);
   }
 private:
-  std::chrono::system_clock::time_point nextFrame;
-  const std::chrono::milliseconds delta;
+  system_clock::time_point nextFrame;
+  const milliseconds delta;
 };
 
 class GameInstance {
@@ -26,10 +28,10 @@ private:
   ConnectionHandler* clients;
   void initiate();
   EvenWaiter sleep;
-  virtual bool test();
 public:
   GameInstance();
   void run();
+  bool test();
 };
 
 #endif

@@ -1,11 +1,11 @@
 #include "GameInstance.h"
 #include <iostream>
+#include <functional>
 
 int main(int argc, char ** argv){
-  GameInstance game;
+  GameInstance letsGetThisShowOnTheRoad;
 
-  game.run();
-
+  letsGetThisShowOnTheRoad.run();
 }
 
 GameInstance::GameInstance() : sleep(1000){
@@ -24,14 +24,11 @@ void GameInstance::run(){
 }
 
 bool GameInstance::test(){
-  std::cout << "Tick" << std::endl;  
+  std::cout << "This is the test function" << std::endl;  
 }
 
 void GameInstance::initiate() {
   //clients->run();
-  timedEvents.add(&test);
+  timedEvents.add(std::bind((&GameInstance::test), this));
 }
-
-
-
 
