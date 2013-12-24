@@ -1,6 +1,6 @@
 #include "GameInstance.h"
 #include <iostream>
-#include <functional>
+#include <boost/foreach.hpp>
 
 int main(int argc, char ** argv){
   GameInstance letsGetThisShowOnTheRoad;
@@ -11,14 +11,14 @@ int main(int argc, char ** argv){
 GameInstance::GameInstance() : sleep(1000){
   ::unlink(SOCKET_FILE); // Remove previous binding.
   stream_protocol::endpoint ep(SOCKET_FILE);
-  clients = new ConnectionHandler(ep);
+  clientConnections = new ConnectionHandler(ep);
 }
-
 void GameInstance::run(){
   initiate();
 
   while(true) {
     timedEvents.tick();
+    doRecurringEvents();
     sleep();
   }
 }
@@ -28,7 +28,12 @@ bool GameInstance::test(){
 }
 
 void GameInstance::initiate() {
-  //clients->run();
-  timedEvents.add(std::bind((&GameInstance::test), this));
+  clientConnections->start();
 }
 
+void GameInstance::doRecurringEvents(){
+  std::vector<int> a = clientConnections->pollClientActions();
+  BOOST_FOREACH(int i, a){
+    std::cout << "recieved " << i << std::endl;
+  }
+}

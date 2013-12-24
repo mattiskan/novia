@@ -1,36 +1,46 @@
-#include <cstdio>
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include <boost/array.hpp>
-#include <boost/bind.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/asio.hpp>
-using boost::asio::local::stream_protocol;
+#include "ConnectionHandler.h"
+//using boost::asio::local::stream_protocol in include
 
-#define SOCKET_FILE "bin/socket"
-
-
-class ConnectionHandler {
-private:
-  boost::asio::io_service io_service;
-  stream_protocol::socket socket;
-  stream_protocol::acceptor acceptor;
-public:
-  ConnectionHandler(stream_protocol::endpoint ep) : socket(io_service),  acceptor(io_service, ep)
-    { }
+ConnectionHandler::ConnectionHandler(stream_protocol::endpoint ep)
+  :acceptor_(ioService_, ep) {
+  prepareForNewClient();
+}
   
-  void run() {
-    std::cout << "Server started" << std::endl;
-    acceptor.accept(socket);
-    std::cout << "Client connected" << std::endl;
+void ConnectionHandler::start() {
+  ioServiceThread_ = new std::thread(&ConnectionHandler::run, this);
+}
 
-    boost::system::error_code ignored_error;
-    for( ; ; ){
-      boost::asio::write(socket, boost::asio::buffer("Welcome!"), ignored_error);
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
-  }
+void ConnectionHandler::run(){
+  while(true)
+    ioService_.run();
+}
 
-};
+std::vector<int> ConnectionHandler::pollClientActions(){
+  std::vector<int> allMsg;
+
+   for(auto it=clients_.begin(); it!=clients_.end(); ++it){
+     std::vector<int> clientActions = (*it)->getClientActions();
+     allMsg.insert(allMsg.end(), clientActions.begin(), clientActions.end());
+   }
+
+  return allMsg;
+}
+
+
+void ConnectionHandler::prepareForNewClient(){
+  ClientCommunicator* newClient = new ClientCommunicator(ioService_);
+  acceptor_.async_accept(newClient->socket_,
+			 boost::bind(&ConnectionHandler::acceptClient,
+				     this,
+				     newClient,
+				     boost::asio::placeholders::error)
+			 );
+}
+
+void ConnectionHandler::acceptClient(ClientCommunicator* newClient, const boost::system::error_code& error){
+  std::cout << "A new client has connected." << std::endl;
+   newClient->start();
+   clients_.push_back( newClient );
+
+  prepareForNewClient();
+}

@@ -24,6 +24,7 @@ private:
 public:
   Map();
   iterator getMapObjects();
+  std::vector<MapObject*> temporarySolution;
 };
 
 #endif

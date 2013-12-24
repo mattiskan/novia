@@ -3,7 +3,7 @@
 
 #include "Map.h"
 #include "Timer.h"
-#include "ConnectionHandler.cpp"
+#include "ConnectionHandler.h"
 
 using std::chrono::system_clock;
 using std::chrono::milliseconds;
@@ -25,13 +25,13 @@ class GameInstance {
 private:
   Map map;
   Timer timedEvents;
-  ConnectionHandler* clients;
+  ConnectionHandler* clientConnections;
   void initiate();
   EvenWaiter sleep;
+  void doRecurringEvents();
 public:
   GameInstance();
   void run();
   bool test();
 };
-
 #endif
