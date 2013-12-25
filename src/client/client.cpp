@@ -9,7 +9,7 @@
 
 using boost::asio::local::stream_protocol;
 
-int main() {
+int main(int argc, char** argv) {
   std::cout << "=== Client ===" << std::endl;
 
 
@@ -18,13 +18,17 @@ int main() {
   stream_protocol::socket socket(io_service);
   socket.connect(ep);
   
-  for (int i=1;;i++) {
+  for (;;) {
     boost::system::error_code error;
-    boost::array<int, 2> buf1;
-    buf1[0] = i;
-    boost::asio::write(socket, boost::asio::buffer(buf1)); 
+    boost::array<int, 1> buf1;
+    buf1[0] = argv[1][0]-48;
     std::cout << "Wrote "<< buf1[0] << " to stream" << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    boost::asio::write(socket, boost::asio::buffer(buf1), error);
+    if(error){
+      std::cout << "Ajfan " << error.message() << std::endl;
+      std::exit(1);
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     continue;
 
     boost::array<char, 128> buf;

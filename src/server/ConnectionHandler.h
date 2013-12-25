@@ -20,6 +20,7 @@ public:
   std::vector<int> pollClientActions();
 
 private:
+  std::mutex safeAdd_;
   std::thread* ioServiceThread_;
   boost::asio::io_service ioService_;
   stream_protocol::acceptor acceptor_;

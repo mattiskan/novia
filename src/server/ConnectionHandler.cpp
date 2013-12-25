@@ -1,4 +1,5 @@
 #include "ConnectionHandler.h"
+#include <boost/foreach.hpp>
 //using boost::asio::local::stream_protocol in include
 
 ConnectionHandler::ConnectionHandler(stream_protocol::endpoint ep)
@@ -17,11 +18,13 @@ void ConnectionHandler::run(){
 
 std::vector<int> ConnectionHandler::pollClientActions(){
   std::vector<int> allMsg;
-
-   for(auto it=clients_.begin(); it!=clients_.end(); ++it){
-     std::vector<int> clientActions = (*it)->getClientActions();
-     allMsg.insert(allMsg.end(), clientActions.begin(), clientActions.end());
-   }
+  
+  safeAdd_.lock();
+  BOOST_FOREACH(ClientCommunicator* client, clients_){
+    std::vector<int> clientActions = client->getClientActions();
+    allMsg.insert(allMsg.end(), clientActions.begin(), clientActions.end());
+  }
+  safeAdd_.unlock();
 
   return allMsg;
 }
@@ -40,7 +43,11 @@ void ConnectionHandler::prepareForNewClient(){
 void ConnectionHandler::acceptClient(ClientCommunicator* newClient, const boost::system::error_code& error){
   std::cout << "A new client has connected." << std::endl;
    newClient->start();
+
+
+   safeAdd_.lock();
    clients_.push_back( newClient );
+   safeAdd_.unlock();
 
   prepareForNewClient();
 }

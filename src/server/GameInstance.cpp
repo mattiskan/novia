@@ -33,7 +33,17 @@ void GameInstance::initiate() {
 
 void GameInstance::doRecurringEvents(){
   std::vector<int> a = clientConnections->pollClientActions();
+  int count=0;
+  int last =-1;
   BOOST_FOREACH(int i, a){
-    std::cout << "recieved " << i << std::endl;
+    if(last != i){
+      if(last != -1)
+	std::cout << "recieved " << count <<" of " << last<< std::endl;
+      count=0;
+      last=i;
+    }
+    count++;
   }
+  if(count != 0)
+    std::cout << "recieved " << count <<" of " << last<< std::endl;
 }
