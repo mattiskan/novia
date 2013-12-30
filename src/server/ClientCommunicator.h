@@ -23,7 +23,7 @@ class ClientCommunicator {
 
  private:
   std::mutex readLock_;
-  std::array<int, 2> readBuffer_;
+  std::array<char, 128> readBuffer_;
   std::vector<int> actionQueue_;
   std::thread readThread_;
 

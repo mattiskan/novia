@@ -7,42 +7,49 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
 
-using boost::asio::local::stream_protocol;
+void flushBuffer();
+void writeRepeatedly(char);
+void forwardInput();
+
+std::array<char, 128> buf;
+boost::asio::io_service myIoService;
+boost::asio::local::stream_protocol::endpoint ep("bin/socket");
+boost::asio::local::stream_protocol::socket mySocket(myIoService);
 
 int main(int argc, char** argv) {
-  std::cout << "=== Client ===" << std::endl;
+  mySocket.connect(ep);
 
+  if(argc == 2)
+    writeRepeatedly(argv[1][0]);
+  else
+    forwardInput();
+}
 
-  boost::asio::io_service io_service;
-  stream_protocol::endpoint ep("bin/socket");
-  stream_protocol::socket socket(io_service);
-  socket.connect(ep);
-  
-  for (;;) {
-    boost::system::error_code error;
-    boost::array<int, 1> buf1;
-    buf1[0] = argv[1][0]-48;
-    std::cout << "Wrote "<< buf1[0] << " to stream" << std::endl;
-    boost::asio::write(socket, boost::asio::buffer(buf1), error);
-    if(error){
-      std::cout << "Ajfan " << error.message() << std::endl;
-      std::exit(1);
-    }
+void writeRepeatedly(char c){
+  buf[0] = 1; // length 1 char
+  buf[1] = c;
+  while(true) {    
+    flushBuffer();
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    continue;
-
-    boost::array<char, 128> buf;
-
-    size_t len = socket.read_some(boost::asio::buffer(buf), error);
-    buf[len] = '\0';
-
-    if (error == boost::asio::error::eof)
-      break; // Connection closed cleanly by peer.
-    else if (error)
-      throw boost::system::system_error(error); // Some other error.
-
-    std::cout << buf.data() << std::endl;
   }
+}
 
-  std::cout << "Client terminated" << std::endl;
+void forwardInput(){
+  char* input = new char[256];
+  while(true) {
+    std::cin >> input;
+    buf[0] = std::strlen( input );
+    strcpy( &buf[1], input);
+
+    flushBuffer();
+  }
+}
+
+void flushBuffer(){
+  boost::system::error_code error;
+  boost::asio::write(mySocket, boost::asio::buffer(buf), error);
+  if(error){
+    std::cout << "Ajfan " << std::endl <<"\t"<< error.message() << std::endl;
+    std::exit(1);
+  }
 }

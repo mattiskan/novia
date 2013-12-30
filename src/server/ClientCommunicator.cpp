@@ -23,7 +23,10 @@ void ClientCommunicator::read(const boost::system::error_code& err,
 			      std::size_t readCount) {
   if(readCount > 0){
     readLock_.lock();
-    actionQueue_.push_back(readBuffer_[0]);
+
+    for(int i=1; i<=readBuffer_[0]; ++i){
+      actionQueue_.push_back(readBuffer_[i]);
+    }
     readLock_.unlock();
   }
 
