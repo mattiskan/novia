@@ -6,6 +6,8 @@
 #include <mutex>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include "../Common.h"
+#include "../Protocol/Message.h"
 
 
 using boost::asio::local::stream_protocol;
@@ -19,12 +21,12 @@ class ClientCommunicator {
   ClientCommunicator(ClientCommunicator&&) = delete;
 
   void start();
-  std::vector<int> getClientActions();
+  std::vector<Message> getClientActions();
 
  private:
   std::mutex readLock_;
-  std::array<char, 128> readBuffer_;
-  std::vector<int> actionQueue_;
+  IO_BUFFER readBuffer_;
+  std::vector<Message> actionQueue_;
   std::thread readThread_;
 
   void startRead();

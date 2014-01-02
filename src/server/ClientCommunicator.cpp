@@ -11,9 +11,9 @@ void ClientCommunicator::start(){
 
 }
 
-std::vector<int> ClientCommunicator::getClientActions(){
+std::vector<Message> ClientCommunicator::getClientActions(){
   readLock_.lock();
-  std::vector<int> copy(actionQueue_);
+  std::vector<Message> copy(actionQueue_);
   actionQueue_.clear();
   readLock_.unlock();
   return copy;
@@ -24,9 +24,8 @@ void ClientCommunicator::read(const boost::system::error_code& err,
   if(readCount > 0){
     readLock_.lock();
 
-    for(int i=1; i<=readBuffer_[0]; ++i){
-      actionQueue_.push_back(readBuffer_[i]);
-    }
+    actionQueue_.emplace_back(readBuffer_);
+
     readLock_.unlock();
   }
 

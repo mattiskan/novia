@@ -10,7 +10,8 @@ class Building : public MapObject {
  private:
   Player owner;
   BuildingType type;
-  int a;
+ public:
+  Building();
 };
 
 #endif

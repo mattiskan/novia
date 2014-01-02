@@ -32,8 +32,10 @@ void GameInstance::initiate() {
 }
 
 void GameInstance::doRecurringEvents(){
-  std::vector<int> a = clientConnections->pollClientActions();
+#include "../Protocol/Message.h"
+  std::vector<Message> a = clientConnections->pollClientActions();
   for(int i=0; i<a.size(); ++i){
-    std::cout << "recieved " << a[i]-48 << std::endl;
+    //std::cout << "recieved " << a[i]-48 << std::endl;
+    a[i].doAction();
   }
 }

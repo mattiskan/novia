@@ -6,12 +6,13 @@
 #include <boost/bind.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
+#include "../Common.h"
 
 void flushBuffer();
 void writeRepeatedly(char);
 void forwardInput();
 
-std::array<char, 128> buf;
+IO_BUFFER buf;
 boost::asio::io_service myIoService;
 boost::asio::local::stream_protocol::endpoint ep("bin/socket");
 boost::asio::local::stream_protocol::socket mySocket(myIoService);
@@ -20,7 +21,7 @@ int main(int argc, char** argv) {
   mySocket.connect(ep);
 
   if(argc == 2)
-    writeRepeatedly(argv[1][0]);
+    writeRepeatedly(argv[1][0]-48);
   else
     forwardInput();
 }

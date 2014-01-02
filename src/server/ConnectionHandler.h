@@ -7,6 +7,7 @@
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include "ClientCommunicator.h"
+#include "../Protocol/Message.h"
 
 using boost::asio::local::stream_protocol;
 
@@ -17,7 +18,7 @@ public:
   ConnectionHandler(stream_protocol::endpoint ep);
 
   void start();
-  std::vector<int> pollClientActions();
+  std::vector<Message> pollClientActions();
 
 private:
   std::mutex safeAdd_;

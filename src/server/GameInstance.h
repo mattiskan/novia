@@ -1,7 +1,7 @@
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
 
-#include "Map.h"
+#include "MapModel.h"
 #include "Timer.h"
 #include "ConnectionHandler.h"
 
@@ -23,7 +23,7 @@ private:
 
 class GameInstance {
 private:
-  Map map;
+  MapModel map;
   Timer timedEvents;
   ConnectionHandler* clientConnections;
   void initiate();
