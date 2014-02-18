@@ -6,11 +6,11 @@
 class Player {
  private:
   int money;
-  const int ID;
+  const int ID_;
   std::string name;
 
  public:
-  Player();
+ Player():ID_(0){}
 
 };
 

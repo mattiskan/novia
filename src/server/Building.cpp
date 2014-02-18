@@ -1,7 +1,6 @@
-#include "MapObject.h"
-#include "Player.h"
+#include "Building.h"
 
-class Building : public MapObject {
-
-
-};
+Building::Building(BuildingType type):
+  MapObject(0,0),
+  type_(type){
+}

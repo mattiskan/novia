@@ -4,14 +4,15 @@
 #include "MapObject.h"
 #include "Player.h"
 
-enum BuildingType { plant, refinery, warehouse, house, facility };
+
+enum BuildingType { plant, refinery, warehouse, house, factory };
 
 class Building : public MapObject {
  private:
-  Player owner;
-  BuildingType type;
+  Player owner_;
+  BuildingType type_;
  public:
-  Building();
+  Building(BuildingType);
 };
 
 #endif

@@ -8,10 +8,10 @@ OBJ_FILES=$(patsubst src/%.cpp,bin/%.o,$(call CPP_FILES,$(1)))
 
 all: client.exe server.exe
 
-server.exe: $(call OBJ_FILES,server)
+server.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,server)
 	g++ $(LD_FLAGS) -o $@ $^
 
-client.exe: $(call OBJ_FILES,client)
+client.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,client) 
 	g++ $(LD_FLAGS) -o $@ $^
 
 bin/%.o: src/%.cpp

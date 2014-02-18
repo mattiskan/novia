@@ -7,7 +7,7 @@
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include "ClientCommunicator.h"
-#include "../Protocol/Message.h"
+#include "../protocol/Message.h"
 
 using boost::asio::local::stream_protocol;
 
