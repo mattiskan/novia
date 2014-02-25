@@ -6,7 +6,7 @@
 #include <thread>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
-#include "ClientCommunicator.h"
+#include "ClientConnection.h"
 #include "../protocol/Message.h"
 
 using boost::asio::local::stream_protocol;
@@ -25,11 +25,11 @@ private:
   std::thread* ioServiceThread_;
   boost::asio::io_service ioService_;
   stream_protocol::acceptor acceptor_;
-  std::vector<ClientCommunicator*> clients_;
+  std::vector<ClientConnection*> clients_;
   
   void run();
   void prepareForNewClient();
-  void acceptClient(ClientCommunicator*, const boost::system::error_code&);
+  void acceptClient(ClientConnection*, const boost::system::error_code&);
 
 };
 

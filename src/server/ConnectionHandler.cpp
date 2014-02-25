@@ -19,7 +19,7 @@ std::vector<Message> ConnectionHandler::pollClientActions(){
   std::vector<Message> allMsg;
   
   safeAdd_.lock();
-  BOOST_FOREACH(ClientCommunicator* client, clients_){
+  BOOST_FOREACH(ClientConnection* client, clients_){
     std::vector<Message> clientActions = client->getClientActions();
     allMsg.insert(allMsg.end(), clientActions.begin(), clientActions.end());
   }
@@ -30,7 +30,7 @@ std::vector<Message> ConnectionHandler::pollClientActions(){
 
 
 void ConnectionHandler::prepareForNewClient(){
-  ClientCommunicator* newClient = new ClientCommunicator(ioService_);
+  ClientConnection* newClient = new ClientConnection(ioService_);
   acceptor_.async_accept(newClient->socket_,
 			 boost::bind(&ConnectionHandler::acceptClient,
 				     this,
@@ -39,7 +39,7 @@ void ConnectionHandler::prepareForNewClient(){
 			 );
 }
 
-void ConnectionHandler::acceptClient(ClientCommunicator* newClient, const boost::system::error_code& error){
+void ConnectionHandler::acceptClient(ClientConnection* newClient, const boost::system::error_code& error){
   std::cout << "A new client has connected." << std::endl;
    newClient->start();
 
