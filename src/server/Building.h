@@ -1,5 +1,5 @@
-#ifndef BUILDING_H
-#define BUILDING_H
+#ifndef MY_BUILDING_H
+#define MY_BUILDING_H
 
 #include "MapObject.h"
 #include "Player.h"

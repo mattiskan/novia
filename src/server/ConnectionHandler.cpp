@@ -15,12 +15,12 @@ void ConnectionHandler::run(){
   ioService_.run();
 }
 
-std::vector<Message> ConnectionHandler::pollClientActions(){
-  std::vector<Message> allMsg;
+std::vector<Message*> ConnectionHandler::pollClientActions(){
+  std::vector<Message*> allMsg;
   
   safeAdd_.lock();
   BOOST_FOREACH(ClientConnection* client, clients_){
-    std::vector<Message> clientActions = client->getClientActions();
+    std::vector<Message*> clientActions = client->getClientActions();
     allMsg.insert(allMsg.end(), clientActions.begin(), clientActions.end());
   }
   safeAdd_.unlock();

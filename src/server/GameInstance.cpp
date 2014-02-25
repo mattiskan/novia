@@ -34,8 +34,8 @@ void GameInstance::initiate() {
 void GameInstance::doRecurringEvents(){
 #include "../protocol/Message.h" //testlösning
   MapController mc(map);
-  std::vector<Message> a = clientConnections->pollClientActions();
+  std::vector<Message*> a = clientConnections->pollClientActions();
   for(int i=0; i<a.size(); ++i){
-    a[i].doAction(mc);
+    a[i]->doAction(mc);
   }
 }

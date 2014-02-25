@@ -18,7 +18,7 @@ public:
   ConnectionHandler(stream_protocol::endpoint ep);
 
   void start();
-  std::vector<Message> pollClientActions();
+  std::vector<Message*> pollClientActions();
 
 private:
   std::mutex safeAdd_;
