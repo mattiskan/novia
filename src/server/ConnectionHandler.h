@@ -11,8 +11,6 @@
 
 using boost::asio::local::stream_protocol;
 
-#define SOCKET_FILE "bin/socket"
-
 class ConnectionHandler {
 public:
   ConnectionHandler(stream_protocol::endpoint ep);

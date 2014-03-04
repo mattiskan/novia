@@ -1,15 +1,10 @@
 #ifndef CLIENT_CONNECTION_H
 #define CLIENT_CONNECTION_H
 #include <vector>
-#include <thread>
-#include <array>
 #include <mutex>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
 #include "SocketCommunicator.h"
 #include "../Common.h"
 #include "../protocol/MessageFactory.h"
-
 
 using boost::asio::local::stream_protocol;
 

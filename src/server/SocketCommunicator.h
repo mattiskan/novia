@@ -1,9 +1,6 @@
 #ifndef SOCKET_COMMUNICATOR_H
 #define SOCKET_COMMUNICATOR_H
-#include <vector>
 #include <thread>
-#include <array>
-#include <mutex>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include "../Common.h"

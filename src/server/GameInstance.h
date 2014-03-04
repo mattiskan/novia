@@ -24,8 +24,7 @@ private:
 class GameInstance {
 private:
   MapModel map;
-  Timer timedEvents;
-  ConnectionHandler* clientConnections;
+  Timer timedEvents;  ConnectionHandler* clientConnections;
   void initiate();
   EvenWaiter sleep;
   void doRecurringEvents();
