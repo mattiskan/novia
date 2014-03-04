@@ -14,7 +14,7 @@ class MessageFactory {
   MessageFactory(){};
   MessageFactory(Player& communicatee);
 
-  void* createMessage(IO_BUFFER messageContent);
+  Message* createMessage(IO_BUFFER& messageContent);
 
  private:
 

@@ -3,6 +3,6 @@
 
 #include <array>
 
-#define IO_BUFFER std::array<char,128>
+#define IO_BUFFER std::array<char,256>
 
 #endif

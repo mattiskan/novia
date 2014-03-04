@@ -28,7 +28,7 @@ class SocketCommunicator {
 
   void handleRead(const boost::system::error_code&, std::size_t);
 
-  virtual void onReadEvent(IO_BUFFER readBuffer) = 0; //abstract definition
+  virtual void onReadEvent(IO_BUFFER& readBuffer) = 0; //abstract definition
 };
 
 

@@ -22,7 +22,6 @@ bin/%.o: src/%.cpp
 #	cxxtestgen --error-printer -o $@ $<
 
 
-
 .PHONY: clean
 clean:
 	rm -rf bin

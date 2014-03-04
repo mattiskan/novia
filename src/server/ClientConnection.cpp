@@ -18,10 +18,10 @@ std::vector<Message*> ClientConnection::getClientActions(){
 }
 
 
-void ClientConnection::onReadEvent(IO_BUFFER readBuffer){
+void ClientConnection::onReadEvent(IO_BUFFER& readBuffer){
   readLock_.lock();
 
-  //actionQueue_.emplace_back(readBuffer);
+  actionQueue_.emplace_back(msgFactory_.createMessage(readBuffer));
 
   readLock_.unlock();
 }

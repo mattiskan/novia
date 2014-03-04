@@ -25,9 +25,7 @@ class ClientConnection : public SocketCommunicator {
   std::mutex readLock_;
   std::vector<Message*> actionQueue_;
   MessageFactory msgFactory_;
-
-  virtual void onReadEvent(IO_BUFFER readBuffer);
+  virtual void onReadEvent(IO_BUFFER& readBuffer);
 };
-
 
 #endif

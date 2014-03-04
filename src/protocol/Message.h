@@ -6,8 +6,11 @@
 #include "../server/MapController.h"
 #include "../server/Building.h"
 
+enum MESSAGE_TYPE { TEST };
+
+
 class Message {
-private:
+protected:
   int msgLength_;
   int msgType_;
 public:
@@ -24,7 +27,6 @@ public:
   }
 
   virtual void send()=0;
-  virtual void recieve()=0; 
   virtual void doAction(MapController& mc) =0;
 
 };
