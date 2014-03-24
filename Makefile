@@ -16,7 +16,7 @@ server.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,server)
 client.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,client) 
 	g++ $(LD_FLAGS) -o $@ $^
 
-test.exe: $(TST_FILES)
+run_tests.exe: $(TST_FILES)
 	g++ $(CC_FLAGS) $(LD_FLAGS) -o $@ $^
 
 bin/%.o: src/%.cpp
@@ -36,5 +36,5 @@ clean:
 	rm -rf bin
 	rm -f *.exe
 
-rebuild-lib:
-	lib/boost_1_55_0/b2 -a	#tar låååång tid
+#rebuild-lib:
+#	lib/boost_1_55_0/b2 -a	#tar låååång tid
