@@ -18,19 +18,15 @@ class CommunicatorTester: public SocketCommunicator {
   }
 
  public:
-
  CommunicatorTester(boost::asio::io_service& ios, IO_BUFFER* transferedDataPtr)
-   : SocketCommunicator(ios), eventOccured(false)
-  {
+   :SocketCommunicator(ios), eventOccured(false)
+    { }
 
-  }
 };
 
 void run(boost::asio::io_service* ios){
   ios->run();
 }
-
-#define PRINT std::cout
 
 class SocketCommunicatorClass : public CxxTest::TestSuite
 {
@@ -56,7 +52,7 @@ class SocketCommunicatorClass : public CxxTest::TestSuite
   void testRecieve1(){
     IO_BUFFER* buf = new IO_BUFFER;
     
-  
+    
   }
 
   void tearDown(){
