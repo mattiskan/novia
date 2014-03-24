@@ -2,8 +2,8 @@ CC_FLAGS=-std=c++11 -g
 LD_FLAGS=-lboost_system
 CXX=-I/usr/include/cxxtest
 
-TST_SRC=$(wildcard src/tests/*.h)
-TST_FILES=$(patsubst src/tests/%.h,bin/tests/%.cpp,$(TST_SRC))
+TST_SRC=$(wildcard tests/*.h)
+TST_FILES=$(patsubst tests/%.h,bin/tests/%.cpp,$(TST_SRC))
 
 CPP_FILES=$(wildcard src/$(1)/*.cpp)
 OBJ_FILES=$(patsubst src/%.cpp,bin/%.o,$(call CPP_FILES,$(1)))
@@ -24,10 +24,10 @@ bin/%.o: src/%.cpp
 	g++ $(CC_FLAGS) -c -o $@ $<
 
 
-bin/tests/%.o: src/tests/%.cpp
+bin/tests/%.o: bin/tests/%.cpp
 	g++ $(CC_FLAGS) $(CXX) -c -o $@ $<
 
-bin/tests/%.cpp: src/tests/%.h
+bin/tests/%.cpp: tests/%.h
 	mkdir -p bin/tests
 	cxxtestgen --error-printer -o $@  $<
 

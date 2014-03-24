@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cxxtest/TestSuite.h>
-#include "../server/SocketCommunicator.h"
+#include "../src/server/SocketCommunicator.h"
 using boost::asio::local::stream_protocol;
 
 
