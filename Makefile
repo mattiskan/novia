@@ -16,8 +16,9 @@ server.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,server)
 client.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,client) 
 	g++ $(LD_FLAGS) -o $@ $^
 
-run_tests.exe: $(TST_FILES)
-	g++ $(CC_FLAGS) $(LD_FLAGS) -o $@ $^
+run_tests.exe: $(TST_FILES) bin/server/IntervalSleeper.o
+	cxxtestgen --root --error-printer -o bin/tests/runner.cpp
+	g++ $(CC_FLAGS) $(LD_FLAGS) -o $@ bin/tests/runner.cpp $^
 
 bin/%.o: src/%.cpp
 	mkdir -p $(dir $@)
@@ -29,7 +30,7 @@ bin/tests/%.o: bin/tests/%.cpp
 
 bin/tests/%.cpp: tests/%.h
 	mkdir -p bin/tests
-	cxxtestgen --error-printer -o $@  $<
+	cxxtestgen --part --error-printer -o $@  $<
 
 .PHONY: clean
 clean:
