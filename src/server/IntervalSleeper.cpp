@@ -10,5 +10,5 @@ IntervalSleeper::IntervalSleeper(int interval)
 
 void IntervalSleeper::operator()(){
   nextTick_ += delta_;
-  //
+  std::this_thread::sleep_until(nextTick_);
 }

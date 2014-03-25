@@ -1,7 +1,7 @@
 #ifndef INTERVAL_SLEEPER_H
 #define INTERVAL_SLEEPER_H
 #include <chrono>
-
+#include <thread>
 
 class IntervalSleeper {
  private:
