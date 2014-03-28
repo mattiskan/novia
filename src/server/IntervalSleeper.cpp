@@ -1,7 +1,7 @@
 #include "IntervalSleeper.h"
 
 IntervalSleeper::IntervalSleeper(int interval)
-  : nextTick_(std::chrono::system_clock::now())
+  : nextTick_(std::chrono::steady_clock::now())
   , delta_(interval) 
 {
 
@@ -9,6 +9,11 @@ IntervalSleeper::IntervalSleeper(int interval)
 
 
 void IntervalSleeper::operator()(){
+  sleep();
+}
+
+void IntervalSleeper::sleep(){
   nextTick_ += delta_;
-  std::this_thread::sleep_until(nextTick_);
+  if(std::chrono::steady_clock::now() < nextTick_)
+    std::this_thread::sleep_until(nextTick_);
 }

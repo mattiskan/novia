@@ -5,13 +5,14 @@
 
 class IntervalSleeper {
  private:
-  std::chrono::system_clock::time_point nextTick_;
+  std::chrono::steady_clock::time_point nextTick_;
   const std::chrono::milliseconds delta_;
 
  public:
   //constructors
   IntervalSleeper(int);
   void operator()();
+  void sleep();
 };
 
 
