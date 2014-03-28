@@ -4,7 +4,6 @@
 
 class GameInstanceTest : public CxxTest::TestSuite
 {
-
  public:
 
   void setUp(){
@@ -19,3 +18,4 @@ class GameInstanceTest : public CxxTest::TestSuite
 
   }
 };
+
