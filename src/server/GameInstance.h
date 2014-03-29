@@ -1,6 +1,5 @@
-#ifndef GAMEINSTANCE_H
-#define GAMEINSTANCE_H
-
+#ifndef GAME_INSTANCE_H
+#define GAME_INSTANCE_H
 #include "IntervalSleeper.h"
 
 class GameInstance {
