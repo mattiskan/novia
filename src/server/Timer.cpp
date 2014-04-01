@@ -15,23 +15,19 @@ void Timer::tick() {
   for(auto it=queuedEvents.begin(); it != queuedEvents.end(); ){
     TimerEvent* event = *it;
 
-    --event->ticksLeft;
+    event->tick();
 
-    if( shouldTrigger(event) )
+    if( event->shouldTrigger() )
       it = doEvent(event, it);
     else
       ++it;
   }
 }
 
-bool Timer::shouldTrigger(TimerEvent* eventPtr){
-  return eventPtr->ticksLeft == 0;
-}
-
 std::list<TimerEvent*>::iterator Timer::doEvent(TimerEvent* eventPtr, std::list<TimerEvent*>::iterator& it){
-    bool requeue = eventPtr->fn();
+    bool requeue = eventPtr->eventFunction();
     if(requeue) {
-      reset(eventPtr);
+      eventPtr->reset();
       return ++it;
     }
      
@@ -40,6 +36,3 @@ std::list<TimerEvent*>::iterator Timer::doEvent(TimerEvent* eventPtr, std::list<
     return it;
 }
 
-void Timer::reset(TimerEvent* eventPtr){
-  eventPtr->ticksLeft = eventPtr->interval;
-}
