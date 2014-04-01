@@ -18,9 +18,10 @@ class ResourceContainer{
   ResourceContainer(int capacity, std::set<ResourceType> storedTypes);
   
   int getAmount(ResourceType) const;
-  void add(int, ResourceType);
+  int add(int, ResourceType);
   int availableStorage() const;
   int totalStorage() const;
+  bool isFull() const;
   bool canStore(ResourceType) const;
 
   void moveTo(ResourceContainer& dest);

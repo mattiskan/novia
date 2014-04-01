@@ -6,15 +6,10 @@ class ResourceContainerTest : public CxxTest::TestSuite
 {
  public:
 
-  void setUp(){
-    
-  }
-
   void testStoreOneResource(){
     const int CAP = 20;
     
-    std::set<ResourceType> storedTypes = { WOOD };
-    ResourceContainer resourceContainer(CAP,  storedTypes);
+    ResourceContainer resourceContainer(CAP, { WOOD });
 
     for(int i=1; i<= CAP; ++i){
       resourceContainer.add(1, WOOD);
@@ -25,8 +20,7 @@ class ResourceContainerTest : public CxxTest::TestSuite
   void testStoreTwoResources(){
     const int CAP = 20;
 
-    std::set<ResourceType> storedTypes = { WOOD, FOOD };
-    ResourceContainer resourceContainer(CAP,  storedTypes);
+    ResourceContainer resourceContainer(CAP,  { WOOD, FOOD });
 
 
     for(int i=1; i<= CAP/2; ++i){
@@ -38,19 +32,15 @@ class ResourceContainerTest : public CxxTest::TestSuite
   }
 
   void testCapacityOverload(){
-    std::set<ResourceType> storedTypes = { WOOD };
-    ResourceContainer resourceContainer(20, storedTypes);
+    ResourceContainer resourceContainer(20, { WOOD });
 
-    TS_ASSERT_THROWS(resourceContainer.add(30, WOOD), ResourceHandlingError);
-    
-    resourceContainer.add(20, WOOD);
+    TS_ASSERT_EQUALS(resourceContainer.add(30, WOOD), 10);
 
-    TS_ASSERT_THROWS(resourceContainer.add(1, WOOD), ResourceHandlingError);
+    TS_ASSERT_EQUALS(resourceContainer.getAmount(WOOD), 20);
   }
 
   void testTotalStorage() {
-    std::set<ResourceType> storedTypes = { WOOD, STONE, FOOD, IRON };
-    ResourceContainer resourceContainer(30, storedTypes);
+    ResourceContainer resourceContainer(30, { WOOD, STONE, FOOD, IRON } );
 
     resourceContainer.add(1, WOOD);
     resourceContainer.add(2, STONE);
@@ -61,8 +51,7 @@ class ResourceContainerTest : public CxxTest::TestSuite
   }
 
   void testAvailableStorage() {
-    std::set<ResourceType> storedTypes = { WOOD, STONE, FOOD, IRON };
-    ResourceContainer resourceContainer(15, storedTypes);
+    ResourceContainer resourceContainer(15, { WOOD, STONE, FOOD, IRON });
 
     TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 15);
     resourceContainer.add(1, WOOD);
@@ -80,8 +69,7 @@ class ResourceContainerTest : public CxxTest::TestSuite
   }
 
   void testUnsuportedStorageType(){
-    std::set<ResourceType> storedTypes = { WOOD };
-    ResourceContainer resourceContainer(20, storedTypes);
+    ResourceContainer resourceContainer(20, { WOOD });
 
     TS_ASSERT(resourceContainer.canStore(WOOD));
 
@@ -91,31 +79,32 @@ class ResourceContainerTest : public CxxTest::TestSuite
   }
   
   void testSpreadOutCapacity() {
-    std::set<ResourceType> storedTypes = { WOOD, FOOD, IRON };
-    ResourceContainer resourceContainer(30, storedTypes);
+    ResourceContainer resourceContainer(30, { WOOD, FOOD, IRON });
 
     TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 0);
     TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 30);    
 
-    resourceContainer.add(10, WOOD);
+    TS_ASSERT_EQUALS(resourceContainer.add(10, WOOD), 0);
     TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 10);
     TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 20);
 
-    resourceContainer.add(10, FOOD);
+    TS_ASSERT_EQUALS(resourceContainer.add(10, FOOD), 0);
     TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 20);
     TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 10);
 
-    resourceContainer.add(10, IRON);
+    TS_ASSERT_EQUALS(resourceContainer.add(10, IRON), 0);
     TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 30);
     TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 0);
 
-    TS_ASSERT_THROWS(resourceContainer.add(1, IRON), ResourceHandlingError);
+    TS_ASSERT_EQUALS(resourceContainer.add(1, IRON), 1);
+    //The last one shouldn't fit:
+    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 30);
+    
   }
 
   void testMoveResources() {
-    std::set<ResourceType> storedTypes = { WOOD, FOOD, IRON };
-    ResourceContainer a(30, storedTypes);
-    ResourceContainer b(10, storedTypes);
+    ResourceContainer a(30, { WOOD, FOOD, IRON });
+    ResourceContainer b(10, { WOOD, FOOD, IRON });
 
     a.add(5, WOOD);
     a.moveTo( b );
@@ -131,11 +120,9 @@ class ResourceContainerTest : public CxxTest::TestSuite
   }
 
   void testMoveWithUnstorableResource(){
-    std::set<ResourceType> storedTypesA = { WOOD, FOOD, IRON };
-    ResourceContainer a(30, storedTypesA);
+    ResourceContainer a(30, { WOOD, FOOD, IRON });
 
-    std::set<ResourceType> storedTypesB = { FOOD, IRON };
-    ResourceContainer b(30, storedTypesB);
+    ResourceContainer b(30, { FOOD, IRON });
     
     a.add(10, WOOD);
     a.add(10, FOOD);
@@ -148,10 +135,6 @@ class ResourceContainerTest : public CxxTest::TestSuite
 
     TS_ASSERT_EQUALS(b.totalStorage(), 20);
     TS_ASSERT_EQUALS(b.getAmount(WOOD), 0);
-  }
-
-  void tearDown(){
-
   }
 };
 

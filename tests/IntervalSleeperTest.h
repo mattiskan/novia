@@ -3,6 +3,7 @@
 #include <chrono>
 #include <time.h>
 #include <string>
+#include <math.h>
 #include "../src/server/IntervalSleeper.h"
 
 using std::chrono::duration_cast;
@@ -12,9 +13,9 @@ using std::chrono::milliseconds;
 class IntervalSleeperTest : public CxxTest::TestSuite
 {
  public:
-  static const int MILLIS_PER_SLEEP = 10;
-  static const int SLEEP_COUNT = 100;
-  static const int MARGIN = (int)(MILLIS_PER_SLEEP*SLEEP_COUNT)/1000.0;//0.1%
+  static const int MILLIS_PER_SLEEP = 5;
+  static const int SLEEP_COUNT = 70;
+  static const int MARGIN = 5;//0.1%
 
   void setUp(){
     testSubject = new IntervalSleeper(MILLIS_PER_SLEEP);
@@ -70,6 +71,9 @@ class IntervalSleeperTest : public CxxTest::TestSuite
 
 
   void testRealSecconds(){
+    if(expectedTestTime() < 60*1000) //only relevant for looooong tests
+      return;
+
     time_t start, stop;
     time(&start);
 
@@ -78,7 +82,7 @@ class IntervalSleeperTest : public CxxTest::TestSuite
     time(&stop);
     int actualTestTime = stop-start;
 
-    TS_ASSERT_DELTA(actualTestTime, expectedTestTime()/1000, MARGIN/1000);
+    TS_ASSERT_EQUALS(actualTestTime, round(expectedTestTime()/1000.0));
   }
 
   void testEachIndividualSleep(){

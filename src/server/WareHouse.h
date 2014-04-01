@@ -4,12 +4,11 @@
 #include "ResourceContainer.h"
 
 class WareHouse {
- private:
-  ResourceContainer* resources;
+ protected:
+  ResourceContainer resources_;
  public:
-  WareHouse();
+  WareHouse(ResourceContainer ref);
   int getResourceTotal() const;
-  void incrementResources(ResourceContainer);
 };
 
 #endif

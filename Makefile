@@ -8,15 +8,16 @@ TST_FILES=$(patsubst tests/%.h,bin/tests/%.cpp,$(TST_SRC))
 CPP_FILES=$(wildcard src/$(1)/*.cpp)
 OBJ_FILES=$(patsubst src/%.cpp,bin/%.o,$(call CPP_FILES,$(1)))
 
-all: test.exe server.exe client.exe
+all: run_tests.exe server.exe client.exe
 
-server.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,server)
+server.exe: bin/Starter.o $(call OBJ_FILES,protocol) $(call OBJ_FILES,server)
 	g++ $(LD_FLAGS) -o $@ $^
 
 client.exe: $(call OBJ_FILES,protocol) $(call OBJ_FILES,client) 
 	g++ $(LD_FLAGS) -o $@ $^
 
-run_tests.exe: $(TST_FILES) bin/server/IntervalSleeper.o
+
+run_tests.exe: $(TST_FILES) $(call OBJ_FILES,server)
 	cxxtestgen --root --error-printer -o bin/tests/runner.cpp
 	g++ $(CC_FLAGS) $(LD_FLAGS) -o $@ bin/tests/runner.cpp $^
 

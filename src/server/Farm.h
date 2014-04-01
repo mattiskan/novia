@@ -5,9 +5,12 @@
 
 
 class Farm: public WareHouse {
+ private:
+  ResourceType product_;
 
  public:
-  Farm();
+  Farm(ResourceType);
+  void grow();
 };
 
 #endif
