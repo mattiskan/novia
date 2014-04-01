@@ -15,21 +15,31 @@ void Timer::tick() {
   for(auto it=queuedEvents.begin(); it != queuedEvents.end(); ){
     TimerEvent* event = *it;
 
-    event->ticksLeft--;
+    --event->ticksLeft;
 
-    if( event->ticksLeft > 0){
+    if( shouldTrigger(event) )
+      it = doEvent(event, it);
+    else
       ++it;
-      continue;
-    }
-
-    bool requeue = event->fn();
-    if(requeue) {
-      event->ticksLeft = event->interval;
-      it++;
-    } else {
-      it = queuedEvents.erase(it);
-      delete event;
-    }
-
   }
+}
+
+bool Timer::shouldTrigger(TimerEvent* eventPtr){
+  return eventPtr->ticksLeft == 0;
+}
+
+std::list<TimerEvent*>::iterator Timer::doEvent(TimerEvent* eventPtr, std::list<TimerEvent*>::iterator& it){
+    bool requeue = eventPtr->fn();
+    if(requeue) {
+      reset(eventPtr);
+      return ++it;
+    }
+     
+    it = queuedEvents.erase(it);
+    delete eventPtr;
+    return it;
+}
+
+void Timer::reset(TimerEvent* eventPtr){
+  eventPtr->ticksLeft = eventPtr->interval;
 }
