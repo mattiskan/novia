@@ -15,7 +15,7 @@ struct TimerEvent {
 TimerEvent(TimerFn f, int t)
   : fn(f), ticksLeft(t), interval(t) { }
 
-  TimerFn fn;
+  const TimerFn fn;
   int ticksLeft;
   const int interval;
 };
@@ -23,11 +23,17 @@ TimerEvent(TimerFn f, int t)
 class Timer {
  private:
   std::list<TimerEvent*> queuedEvents;
+
  public:
   Timer() {};
   const TimerEvent* add(TimerFn, int ticksLeft);
   void remove(const TimerEvent*);
   void tick();
+
+ private: //helper functions
+  bool shouldTrigger(TimerEvent*);
+  std::list<TimerEvent*>::iterator doEvent(TimerEvent*, std::list<TimerEvent*>::iterator&);
+  void reset(TimerEvent*);
 };
 
 #endif
