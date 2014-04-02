@@ -23,7 +23,7 @@ class Timer {
   void remove(const TimerEvent*);
   void tick();
 
- private: //helper functions
+ private:
   std::list<TimerEvent*>::iterator doEvent(TimerEvent*, std::list<TimerEvent*>::iterator&);
 };
 

@@ -25,6 +25,10 @@ int ResourceContainer::add(int amount, ResourceType type){
   return amount - movedAmount; //the amount that didn't fit
 }
 
+int ResourceContainer::getCapacity() const {
+  return capacity_;
+}
+
 int ResourceContainer::availableStorage() const {
   return capacity_ - totalStorage();
 }

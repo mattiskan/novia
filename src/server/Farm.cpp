@@ -1,15 +1,21 @@
 #include "Farm.h"
 
-Farm::Farm(ResourceType type) :
-  WareHouse( ResourceContainer(30, {type}) ) 
+Farm::Farm(ResourceType type, Timer* timerPtr) :
+  WareHouse( ResourceContainer(FARM_STORAGE, {type}) ) 
   , product_(type)
+  , timerPtr_(timerPtr)
 {
-  
+  startGrowth();
 }
 
 
-
-void Farm::grow(){
+bool Farm::grow(){
   resources_.add(1, product_);
+  return (resources_.isFull()) ? NO_REQUEUE : REQUEUE;
+}
+
+
+void Farm::startGrowth(){
+  
 }
 

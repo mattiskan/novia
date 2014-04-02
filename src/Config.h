@@ -1,0 +1,8 @@
+#ifndef NOVIA_CONFIG_H
+#define NOVIA_CONFIG_H
+
+#define WARE_HOUSE_STORAGE 100
+#define FARM_STORAGE 30
+
+
+#endif

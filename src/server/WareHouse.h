@@ -2,13 +2,17 @@
 #define WAREHOUSE_H
 
 #include "ResourceContainer.h"
+#include "../Config.h"
 
 class WareHouse {
  protected:
   ResourceContainer resources_;
  public:
-  WareHouse(ResourceContainer ref);
-  int getResourceTotal() const;
+  WareHouse();
+  WareHouse(ResourceContainer resources_);
+
+  ResourceContainer getStorage() const;
+  ResourceContainer addToStorage(ResourceContainer&);
 };
 
 #endif
