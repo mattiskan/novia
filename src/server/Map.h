@@ -6,12 +6,13 @@
 
 class Map {
  private:
-  std::vector<AbstractMapObject> MapObjects;
+  std::vector<AbstractMapObject> mapObjects_;
 
 
  public:
   Map();
 
+  void add(AbstractMapObject&);
 
 };
 

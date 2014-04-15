@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_MAP_OBJECT_H
-#define ABSTRACT_MAP_OBJECT_H
+#ifndef MAP_OBJECT_H
+#define MAP_OBJECT_H
 
 class AbstractMapObject {
 

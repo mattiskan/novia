@@ -2,11 +2,12 @@
 #define FARM_H
 
 #include "../Config.h"
-#include "WareHouse.h"
+#include "StorageUnit.h"
+#include "AbstractMapObject.h"
 #include "Timer.h"
 
 
-class Farm: public StorageUnit {
+class Farm: public AbstractMapObject, public StorageUnit {
  private:
   Timer* timerPtr_;
 
