@@ -11,7 +11,9 @@ class WareHouse {
   WareHouse();
   WareHouse(ResourceContainer resources_);
 
-  ResourceContainer getStorage() const;
+  const ResourceContainer getStorage() const;
+  ResourceContainer 
+
   ResourceContainer addToStorage(ResourceContainer&);
 };
 

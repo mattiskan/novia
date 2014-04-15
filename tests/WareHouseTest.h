@@ -20,4 +20,15 @@ class WareHouseTest : public CxxTest::TestSuite
     TS_ASSERT_EQUALS(w.getStorage().totalStorage(), 10);
   }
 
+  void testRetrieveResources(){
+    WareHouse w;
+    
+    ResourceCointainer newWares(10, {FOOD, IRON});
+    newWares.fill();
+
+    w.addToStorage(newWares());
+
+    
+  }
+
 };

@@ -11,11 +11,12 @@ Farm::Farm(ResourceType type, Timer* timerPtr) :
 
 bool Farm::grow(){
   resources_.add(1, product_);
+
   return (resources_.isFull()) ? NO_REQUEUE : REQUEUE;
 }
 
 
 void Farm::startGrowth(){
-  
+  timerPtr_->add(std::bind( &Farm::grow, this), 120);
 }
 

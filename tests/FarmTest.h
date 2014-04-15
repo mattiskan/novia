@@ -10,11 +10,15 @@ class FarmTest : public CxxTest::TestSuite
   void testGrowth(){
     Timer t;
     Farm subject(WOOD, &t);
-    
-    t.tick();
-    t.tick();
+      
+    for(int i=0; i<121; ++i)
+      t.tick();
 
     TS_ASSERT_EQUALS(subject.getStorage().getAmount(WOOD), 2);
+
+  }
+
+  void tetsStopGrowthOnFull() {
     
   }
 
