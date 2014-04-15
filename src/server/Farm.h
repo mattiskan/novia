@@ -6,14 +6,17 @@
 #include "Timer.h"
 
 
-class Farm: public WareHouse {
+class Farm: public StorageUnit {
  private:
-  ResourceType product_;
   Timer* timerPtr_;
 
  public:
+  const ResourceType farmType_;
+
   Farm(ResourceType, Timer*);
   bool grow();
+
+  virtual void retrieveInto(StorageUnit& dest) override;
 
  private:
   void startGrowth();

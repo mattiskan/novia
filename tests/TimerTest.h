@@ -88,6 +88,7 @@ class TimerTest : public CxxTest::TestSuite
 
   void testRemoveWithThreeEvents(){
     Timer subject;
+
     auto one = subject.add( std::bind(&TimerTest::callA, this), 1);
     auto two = subject.add( std::bind(&TimerTest::callA, this), 1);
     auto three = subject.add( std::bind(&TimerTest::callA, this), 1);
@@ -99,4 +100,3 @@ class TimerTest : public CxxTest::TestSuite
     TS_ASSERT_EQUALS(numCallA_, 2);
   }
 };
-

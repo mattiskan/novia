@@ -1,7 +1,8 @@
-#ifndef RESOURCE_CONTAINER_H
-#define RESOURCE_CONTAINER_H
+#ifndef STORAGE_UNIT_H
+#define STORAGE_UNIT_H
 
 #include <set>
+#include <limits>
 #include "ResourceHandlingError.h"
 
 
@@ -9,28 +10,25 @@
 enum ResourceType { WOOD, STONE, FOOD, IRON, 
 		    /*Must be last:*/ RESOURCE_COUNT };
 
-class ResourceContainer{
+class StorageUnit{
  private:
   int capacity_;
   int resources_[RESOURCE_COUNT];
 
  public:
-  ResourceContainer(int capacity, std::set<ResourceType> storedTypes);
+  StorageUnit(int capacity, std::set<ResourceType> storedTypes);
   
-  int getAmount(ResourceType) const;
+  int get(ResourceType) const;
   int add(int, ResourceType);
   int getCapacity() const;
   int availableStorage() const;
   int totalStorage() const;
   bool isFull() const;
   bool canStore(ResourceType) const;
-  void moveTo(ResourceContainer& dest);
-
+  virtual void retrieveInto(StorageUnit& dest);
  private:
-  void moveResourceTo(ResourceType, ResourceContainer& dest);
+  void moveResourceTo(ResourceType, StorageUnit& dest);
 
 };
-
-
 
 #endif

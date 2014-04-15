@@ -1,18 +1,18 @@
 #include "Timer.h"
 
-const TimerEvent* Timer::add(TimerFn f, int ticksLeft){
+TimerEvent* const Timer::add(TimerFn f, int ticksLeft){
   TimerEvent* eventPtr = new TimerEvent(f, ticksLeft);
-  queuedEvents.push_back(eventPtr);
+  queuedEvents_.push_back(eventPtr);
   return eventPtr;
 }
 
-void Timer::remove(const TimerEvent* eventPtr) {
-  queuedEvents.remove(const_cast<TimerEvent*>(eventPtr));
+void Timer::remove(TimerEvent* const eventPtr) {
+  queuedEvents_.remove(eventPtr);
   delete eventPtr;
 }
 
 void Timer::tick() {
-  for(auto it=queuedEvents.begin(); it != queuedEvents.end(); ){
+  for(auto it=queuedEvents_.begin(); it != queuedEvents_.end(); ){
     TimerEvent* event = *it;
 
     event->tick();
@@ -31,7 +31,7 @@ std::list<TimerEvent*>::iterator Timer::doEvent(TimerEvent* eventPtr, std::list<
       return ++it;
     }
      
-    it = queuedEvents.erase(it);
+    it = queuedEvents_.erase(it);
     delete eventPtr;
     return it;
 }

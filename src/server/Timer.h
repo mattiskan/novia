@@ -14,13 +14,13 @@ typedef std::function<bool ()>TimerFn;
 
 
 class Timer {
- private:
-  std::list<TimerEvent*> queuedEvents;
+ protected:
+  std::list<TimerEvent*> queuedEvents_;
 
  public:
   Timer() {};
-  const TimerEvent* add(TimerFn, int ticksLeft);
-  void remove(const TimerEvent*);
+  TimerEvent* const add(TimerFn, int ticksLeft);
+  void remove(TimerEvent* const);
   void tick();
 
  private:

@@ -6,18 +6,11 @@ class MapTest : public CxxTest::TestSuite
 {
  public:
 
-  void setUp(){
-    
-  }
-
   void testGetMap(){
     Map map;
 
     
   }
 
-  void tearDown(){
-
-  }
 };
 

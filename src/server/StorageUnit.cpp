@@ -1,6 +1,6 @@
-#include "ResourceContainer.h"
+#include "StorageUnit.h"
 
-ResourceContainer::ResourceContainer(int capacity, std::set<ResourceType> storedTypes)
+StorageUnit::StorageUnit(int capacity, std::set<ResourceType> storedTypes)
   :capacity_(capacity)
 {
   std::fill_n(resources_, RESOURCE_COUNT, -1);//mark all as unsupported
@@ -11,11 +11,11 @@ ResourceContainer::ResourceContainer(int capacity, std::set<ResourceType> stored
 }
 
 
-int ResourceContainer::getAmount(ResourceType type) const {
+int StorageUnit::get(ResourceType type) const {
   return std::max(0, resources_[type]);
 }
 
-int ResourceContainer::add(int amount, ResourceType type){
+int StorageUnit::add(int amount, ResourceType type){
   if(resources_[type] == -1)
     throw ResourceHandlingError("Cannot store that resource type.");
 
@@ -25,15 +25,15 @@ int ResourceContainer::add(int amount, ResourceType type){
   return amount - movedAmount; //the amount that didn't fit
 }
 
-int ResourceContainer::getCapacity() const {
+int StorageUnit::getCapacity() const {
   return capacity_;
 }
 
-int ResourceContainer::availableStorage() const {
+int StorageUnit::availableStorage() const {
   return capacity_ - totalStorage();
 }
 
-int ResourceContainer::totalStorage() const {
+int StorageUnit::totalStorage() const {
   int tot = 0;
   for(int i=0; i<RESOURCE_COUNT; ++i){
     tot+=std::max(0, resources_[i]);
@@ -42,30 +42,31 @@ int ResourceContainer::totalStorage() const {
   return tot;
 }
 
-bool ResourceContainer::isFull() const {
+bool StorageUnit::isFull() const {
   return availableStorage() == 0;
 }
 
-bool ResourceContainer::canStore(ResourceType type) const {
+bool StorageUnit::canStore(ResourceType type) const {
   return resources_[type] != -1;
 }
 
 
-void ResourceContainer::moveTo(ResourceContainer& dest) {  
+
+void StorageUnit::retrieveInto(StorageUnit& dest) {  
   for(int i=0; i<RESOURCE_COUNT; ++i){
 
     if(dest.isFull())
       return;
 
     ResourceType resource = static_cast<ResourceType>(i);
-    if(!dest.canStore(resource) || getAmount(resource) == 0)
+    if(!dest.canStore(resource) || get(resource) == 0)
       continue;
     
     moveResourceTo( resource, dest);
   }
 }
 
-void ResourceContainer::moveResourceTo(ResourceType type, ResourceContainer& dest) {
+void StorageUnit::moveResourceTo(ResourceType type, StorageUnit& dest) {
   int leftOver = dest.add(resources_[type], type);
   resources_[type] = leftOver;
 }

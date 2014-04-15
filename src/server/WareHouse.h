@@ -1,20 +1,12 @@
 #ifndef WAREHOUSE_H
 #define WAREHOUSE_H
 
-#include "ResourceContainer.h"
+#include "StorageUnit.h"
 #include "../Config.h"
 
-class WareHouse {
- protected:
-  ResourceContainer resources_;
+class WareHouse : public StorageUnit {
  public:
   WareHouse();
-  WareHouse(ResourceContainer resources_);
-
-  const ResourceContainer getStorage() const;
-  ResourceContainer 
-
-  ResourceContainer addToStorage(ResourceContainer&);
 };
 
 #endif
