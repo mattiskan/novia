@@ -1,4 +1,4 @@
-CC_FLAGS=-std=c++11 -g
+CC_FLAGS=-std=c++11 -g -Wfatal-errors -Wall
 LD_FLAGS=-lboost_system
 CXX=-I/usr/include/cxxtest
 
