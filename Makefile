@@ -15,11 +15,11 @@ TSTOBJ=$(patsubst %.cpp,%.o,$(TSTSRC))
 test: bin/test.exe
 	$<
 bin/test.exe: bin/test_runner.o $(TSTOBJ) $(OBJ) bin/_link_mocks.o
-	g++ $(LDFLAGS) $(CXX) -o $@ $^ 
+	g++ $(LDFLAGS) -o $@ $^ 
 # ex: "make main_hello_world"
-_main_%: bin/_%.exe 
+_main_%: bin/_main_%.exe 
 	$<
-bin/%.exe: src/main_%.cpp $(OBJ) bin/_link_real.o
+bin/_main_%.exe: bin/_main_%.o $(OBJ) bin/_link_real.o
 	g++ $(LDFLAGS) -o $@ $^
 
 depend: bin/depend
