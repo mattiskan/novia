@@ -3,15 +3,17 @@
 
 #include <chrono>
 #include <thread>
+#include "mocks.h"
 
 
 class IntervalSleeper {
  private:
-  std::chrono::system_clock::time_point nextTick_;
-  const std::chrono::milliseconds delta_;
+  bool first_;
+  std::time_t last_tick_;
+  const std::time_t delta_;
 
  public:
-  IntervalSleeper(int millis);
+  IntervalSleeper(time_t interval_millis);
   void operator()();
 };
 
