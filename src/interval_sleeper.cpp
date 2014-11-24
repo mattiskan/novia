@@ -3,7 +3,7 @@
 #include <iostream>
 
 IntervalSleeper::IntervalSleeper(time_t interval_millis)
-  : next_tick_(0), delta_(interval_millis) {
+  : next_tick_(0), interval_(interval_millis) {
 
 }
 
@@ -11,7 +11,7 @@ void IntervalSleeper::operator()(){
   if (next_tick_ == 0)
     next_tick_ = Mocked::time(nullptr);
 
-  next_tick_ += delta_;
+  next_tick_ += interval_;
 
   int sleep_duration = next_tick_ - Mocked::time(nullptr);
 
