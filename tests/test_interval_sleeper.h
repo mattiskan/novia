@@ -4,7 +4,7 @@
 #include <cxxtest/TestSuite.h>
 #include <stdexcept>
 
-struct TimeMock : public T::Base_time
+struct TimeMock : public Mocked::Base_time
 {
   int time_;
 
@@ -17,7 +17,7 @@ struct TimeMock : public T::Base_time
 
 };
 
-struct SleepMock : public T::Base_usleep
+struct SleepMock : public Mocked::Base_usleep
 { 
   TimeMock& time_;
   int arg_;

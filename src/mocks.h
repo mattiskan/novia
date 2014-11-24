@@ -1,7 +1,12 @@
+#define CXXTEST_MOCK_NAMESPACE Mocked //define before Mock.h is included
+#include <cxxtest/Mock.h>
+
 #include <time.h>
 #include <unistd.h>
 #include <chrono>
-#include <cxxtest/Mock.h>
+
+
+
 
 
 CXXTEST_MOCK_GLOBAL(time_t, // return type

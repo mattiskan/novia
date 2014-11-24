@@ -9,21 +9,21 @@ IntervalSleeper::IntervalSleeper(time_t interval_millis)
 
 void IntervalSleeper::operator()(){
   if (next_tick_ == 0)
-    next_tick_ = T::time(nullptr);
+    next_tick_ = Mocked::time(nullptr);
 
   next_tick_ += delta_;
 
-  int sleep_duration = next_tick_ - T::time(nullptr);
+  int sleep_duration = next_tick_ - Mocked::time(nullptr);
 
   if (sleep_duration > 0) {
-    T::usleep(sleep_duration*1000);
-    next_tick_ = T::time(nullptr);
+    Mocked::usleep(sleep_duration*1000);
+    next_tick_ = Mocked::time(nullptr);
   }
 }
 
 
 void IntervalSleeper::start() {
-  next_tick_ = T::time(nullptr);
+  next_tick_ = Mocked::time(nullptr);
 }
 
 void IntervalSleeper::reset() {
