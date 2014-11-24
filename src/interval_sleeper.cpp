@@ -1,16 +1,31 @@
 #include "interval_sleeper.h"
 #include <unistd.h>
+#include <iostream>
 
 IntervalSleeper::IntervalSleeper(time_t interval_millis)
-  : last_tick_(T::time(nullptr)), delta_(interval_millis) {
+  : next_tick_(0), delta_(interval_millis) {
 
 }
 
 void IntervalSleeper::operator()(){
-  time_t sleep_duration = delta_ - (T::time(nullptr) - last_tick_);
+  if (next_tick_ == 0)
+    next_tick_ = T::time(nullptr);
 
-  if (sleep_duration > 0)
+  next_tick_ += delta_;
+
+  int sleep_duration = next_tick_ - T::time(nullptr);
+
+  if (sleep_duration > 0) {
     T::usleep(sleep_duration*1000);
-  last_tick_ = T::time(nullptr);
+    next_tick_ = T::time(nullptr);
+  }
 }
 
+
+void IntervalSleeper::start() {
+  next_tick_ = T::time(nullptr);
+}
+
+void IntervalSleeper::reset() {
+  next_tick_ = 0;
+}

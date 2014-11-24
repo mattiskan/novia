@@ -7,39 +7,75 @@
 struct TimeMock : public T::Base_time
 {
   int time_;
-  const int increment_;
 
-  TimeMock(int increment) : increment_(increment) {}
-  time_t time(time_t *) {
-    time_ += increment_;
+  TimeMock(int initial): time_(initial) {}
+  void operator+= (const int arg) { time_ += arg; }
+
+  time_t time(time_t *) { // this is the mocked function
     return time_; 
   }
+
 };
 
 struct SleepMock : public T::Base_usleep
 { 
-  SleepMock(int i) {
+  TimeMock& time_;
+  int arg_;
 
-  }
-  int arg;
-  int usleep(useconds_t sleep_time) {
-    arg = sleep_time;
+  SleepMock(int i, TimeMock& time): time_(time), arg_(-1) { }
+
+  int usleep(useconds_t sleep_time) { // this is the mocked function
+    sleep_time /= 1000; // micro -> milli
+    arg_ = sleep_time;
+    time_ += sleep_time; // each call increments time
     return 0;
   }
 };
 
 class TestIntervalSleeper : public CxxTest::TestSuite
 {
- public:
-  void test_late_first_call() {
-    TimeMock m_time(0);
-    SleepMock m_sleep(0);
+  TimeMock* m_time;
+  SleepMock* m_sleep;
 
+public:
+  void test_wait_before_first_sleep() {
     IntervalSleeper sleep(1000);
+    *m_time += 1100;
+
     sleep();
 
-    TS_ASSERT_EQUALS(m_sleep.arg, 1000*1000);
+    TS_ASSERT_EQUALS(m_sleep->arg_, 1000);
+
+    *m_time += 100;
+    sleep();
+
+    TS_ASSERT_EQUALS(m_sleep->arg_, 900);
+  }
+
+  void test_catch_up() {
+    IntervalSleeper sleep(1000);
+    sleep.start();
+
+    *m_time += 1500;
+
+    sleep();
+    TS_ASSERT_EQUALS(m_sleep->arg_, -1);
+
+    sleep();
+    TS_ASSERT_EQUALS(m_sleep->arg_, 500);
+
+    sleep();
+    TS_ASSERT_EQUALS(m_sleep->arg_, 1000);
   }
 
 
+
+  void setUp() {
+    m_time = new TimeMock(12345);
+    m_sleep = new SleepMock(0, *m_time);
+  }
+
+  void TearDown() {
+    delete m_time; delete m_sleep;
+  }
 };

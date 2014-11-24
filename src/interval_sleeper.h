@@ -9,12 +9,14 @@
 class IntervalSleeper {
  private:
   bool first_;
-  std::time_t last_tick_;
+  std::time_t next_tick_;
   const std::time_t delta_;
 
  public:
   IntervalSleeper(time_t interval_millis);
   void operator()();
+  void start();
+  void reset();
 };
 
 #endif
