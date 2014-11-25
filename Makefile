@@ -1,6 +1,6 @@
-CXX=
-CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors
-LDFLAGS=
+CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors -Iincludes -D_WEBSOCKETPP_CPP11_STL_
+LDFLAGS+=-Llibs/ -Wl,-rpath libs
+LDFLAGS+=-lboost_system -ljson_linux-gcc-4.9.0_libmt
 
 ALL_SRC=$(wildcard src/*.cpp)
 SRC=$(filter-out src/_%, $(ALL_SRC))

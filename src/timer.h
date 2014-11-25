@@ -8,7 +8,6 @@
 #include <iostream>
 #include "timer_event.h"
 
-
 class TimerEvent;
 
 class Timer {
