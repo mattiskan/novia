@@ -1,19 +1,28 @@
 #include "server_instance.h"
 #include <stdexcept>
 #include <iostream>
-#include "connection_reciever.h"
-#include "interval_sleeper.h"
+#include <sstream>
+
+ServerInstance::ServerInstance()
+  : sleep_(5000) {
+  
+}
 
 void ServerInstance::start() {
-  IntervalSleeper sleep(3000);
-  ConnectionReceiver cr;
+  connections_.initiate();
 
-  cr.initiate();
-
+  int i = 0;
   while(true) {
-    cr.broadcast("mayday, mayday");
-    sleep();
+    std::stringstream ss;
+    ss << "mayday mayday " << i++;
+
+    connections_.broadcast(ss.str());
+    sleep_();
   }
   
 }
 
+
+void ServerInstance::stop() {
+  connections_.terminate();
+}
