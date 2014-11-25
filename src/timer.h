@@ -6,31 +6,13 @@
 #include <vector>
 #include <functional>
 #include <iostream>
+#include "timer_event.h"
 
-class Timer;
-typedef std::function<void(Timer&)> TimerFn;
 
-class TimerEvent {
-  TimerFn callback_;
-  int when_;
-
-public:
-  TimerEvent(const TimerFn& f, const int time);
-  TimerEvent(const TimerEvent&);
-
-  void trigger(Timer& timer);
-
-  int when() const;
-
-  TimerEvent& operator=(TimerEvent&& rhs);
-  bool operator<(const TimerEvent& rhs) const;
-};
-
+class TimerEvent;
 
 class Timer {
  public:
-  Timer();
-
   void schedule(TimerFn& f, time_t ticks_left);
   void remove(TimerEvent *const);
   void tick();
@@ -38,7 +20,7 @@ class Timer {
   size_t size() const;
   
  private:
-  time_t time_;
+  time_t time_ = 0;
   std::priority_queue<TimerEvent> event_queue_;
 };
 
