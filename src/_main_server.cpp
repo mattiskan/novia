@@ -4,7 +4,7 @@
 
 int main() {
   ServerInstance server;
-  std::cout << "Starting server..." << std::endl;
+  std::cout << "Starting server on port 9002..." << std::endl;
   server.start();
   return 0;
 }

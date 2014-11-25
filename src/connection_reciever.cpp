@@ -28,7 +28,7 @@ int ConnectionReceiver::connected_client_count() const {
 
 void ConnectionReceiver::broadcast(std::string msg){
   for(auto client : clients){
-    socket_server_.send( client.first, msg, websocketpp::frame::opcode::text);
+    socket_server_.send(client.first, msg, websocketpp::frame::opcode::text);
   }
 }
 
@@ -43,6 +43,9 @@ void ConnectionReceiver::on_message(websocketpp::connection_hdl hdl, WebsocketSe
   ClientConnection* client_ptr = clients.find(hdl)->second;
 
   std::cout << "Client"<< client_ptr->session_id_ <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
+
+  if( msg->get_payload() == "exit")
+    terminate();
 
   client_ptr->interpret_msg(msg->get_payload());
 }
