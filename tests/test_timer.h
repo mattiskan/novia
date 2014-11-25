@@ -7,52 +7,100 @@
 class TestTimer : public CxxTest::TestSuite
 {
  private:
-  int a_calls_, b_calls_;
+  Timer* timer;
+  int calls_a, calls_b;
+
+  TimerFn callback_a;
+  TimerFn callback_b;
 
   void a(Timer& t) {
-    ++a_calls_;
+    ++calls_a;
   }
 
   void b(Timer& t) {
-    ++b_calls_;
+    ++calls_b;
   }
 
  public:
   void setUp(){
-    a_calls_ = 0;
-    b_calls_ = 0;
+    timer = new Timer;
+    calls_a = 0;
+    calls_b = 0;
+    callback_a = std::bind(&TestTimer::a, this, *timer);;
+    callback_b = std::bind(&TestTimer::b, this, *timer);;
+  }
+  void tearDown() {
+    delete timer;
   }
 
   void test_simple(){
-    Timer t;
+    timer->schedule(callback_a, 1);
 
-    TimerFn callback = std::bind(&TestTimer::a, this, t);
-    t.schedule(callback, 1);
+    TS_ASSERT_EQUALS(timer->size(), 1);
 
-    TS_ASSERT_EQUALS(t.size(), 1);
+    timer->tick();
 
-    t.tick();
-
-    TS_ASSERT_EQUALS(a_calls_, 1);
+    TS_ASSERT_EQUALS(calls_a, 1);
   }
 
   void test_order() {
-    Timer t;
+    timer->schedule(callback_a, 3);
+    timer->schedule(callback_a, 2);
+    timer->schedule(callback_b, 1);
+    timer->schedule(callback_a, 2);
+    timer->schedule(callback_a, 3);
 
-    TimerFn callback_a = std::bind(&TestTimer::a, this, t);
-    TimerFn callback_b = std::bind(&TestTimer::b, this, t);
+    timer->tick();
 
-    t.schedule(callback_a, 3);
-    t.schedule(callback_a, 3);
-    t.schedule(callback_b, 1);
-    t.schedule(callback_a, 3);
-    t.schedule(callback_a, 3);
-
-    t.tick();
-
-    TS_ASSERT_EQUALS(a_calls_, 0);
-    TS_ASSERT_EQUALS(b_calls_, 1);
-    TS_ASSERT_EQUALS(t.size(), 4);
+    TS_ASSERT_EQUALS(calls_a, 0);
+    TS_ASSERT_EQUALS(calls_b, 1);
+    TS_ASSERT_EQUALS(timer->size(), 4);
   }
-  
+
+  void test_removed_after_trigger() {
+    for(int i=0; i<10; ++i)
+      timer->schedule(callback_a, i+1);
+    
+    TS_ASSERT_EQUALS(timer->size(), 10);
+
+    for(int i=0; i<10; ++i){
+      timer->tick();
+      TS_ASSERT_EQUALS(timer->size(), 10-(i+1));
+    }
+
+    TS_ASSERT_EQUALS(calls_a, 10);
+  }
+
+  void test_multiple() {
+    timer->schedule(callback_a, 4);
+    timer->schedule(callback_b, 3);
+    timer->schedule(callback_a, 2);
+    timer->schedule(callback_b, 1);
+
+    timer->tick();
+    TS_ASSERT_EQUALS(calls_a, 0);
+    TS_ASSERT_EQUALS(calls_b, 1);
+
+    timer->tick();
+    TS_ASSERT_EQUALS(calls_a, 1);
+    TS_ASSERT_EQUALS(calls_b, 1);
+
+    timer->tick();
+    TS_ASSERT_EQUALS(calls_a, 1);
+    TS_ASSERT_EQUALS(calls_b, 2);
+
+    timer->tick();
+    TS_ASSERT_EQUALS(calls_a, 2);
+    TS_ASSERT_EQUALS(calls_b, 2);
+  }
+
+  void test_one_callback() {
+    timer->schedule(callback_a, 5);
+    
+    for(int i=0; i<10; ++i)
+      timer->tick();
+
+    TS_ASSERT_EQUALS(calls_a, 1);
+  }
+
 };

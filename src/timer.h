@@ -10,24 +10,28 @@
 class Timer;
 typedef std::function<void(Timer&)> TimerFn;
 
-struct TimerEvent {
-  const TimerFn callback;
-  const int when;
+class TimerEvent {
+  TimerFn callback_;
+  int when_;
 
-  TimerEvent(TimerFn& f, int time);
+public:
+  TimerEvent(const TimerFn& f, const int time);
+  TimerEvent(const TimerEvent&);
+
+  void trigger(Timer& timer);
+
+  int when() const;
+
+  TimerEvent& operator=(TimerEvent&& rhs);
+  bool operator<(const TimerEvent& rhs) const;
 };
 
-struct p_cmp {
-  bool operator()(const TimerEvent* a, const TimerEvent* b) {
-    return a->when > b-> when;
-  }
-};
 
 class Timer {
  public:
   Timer();
 
-  TimerEvent* schedule(TimerFn& f, time_t ticks_left);
+  void schedule(TimerFn& f, time_t ticks_left);
   void remove(TimerEvent *const);
   void tick();
 
@@ -35,7 +39,7 @@ class Timer {
   
  private:
   time_t time_;
-  std::priority_queue<TimerEvent*,std::vector<TimerEvent*>,p_cmp> event_queue_;
+  std::priority_queue<TimerEvent> event_queue_;
 };
 
 #endif
