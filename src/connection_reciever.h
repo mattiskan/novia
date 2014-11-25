@@ -1,12 +1,12 @@
 #ifndef NOVIA_CONNECTION_RECEIVER_H
 #define NOVIA_CONNECTION_RECEIVER_H
 
-#include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 #include <map>
 #include <thread>
 #include <utility>
 
+#include "websocket_config.hpp"
 #include "client_connection.h"
 
 
@@ -14,8 +14,7 @@ using websocketpp::lib::bind;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 
-
-typedef websocketpp::server<websocketpp::config::asio> WebsocketServer;
+typedef websocketpp::server<WebsocketConfig> WebsocketServer;
 
 
 class ConnectionReceiver {
@@ -39,6 +38,8 @@ private:
   int next_unassigned_id_;
 
   void on_connect(websocketpp::connection_hdl);
+  void on_fail(websocketpp::connection_hdl);
+  void on_close(websocketpp::connection_hdl);
   void on_message(websocketpp::connection_hdl, WebsocketServer::message_ptr msg);
 };
 
