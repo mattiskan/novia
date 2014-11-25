@@ -1,1 +1,3 @@
-
+max eller min först?
+testa returvärdet på schedule
+sortering på timer_events
