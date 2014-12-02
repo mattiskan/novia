@@ -30,6 +30,10 @@ namespace Novia {
     return Point(x_ + rhs.x_, y_ + rhs.y_);
   }
 
+  Point Point::operator-(const Point& rhs) const {
+    return Point(x_ - rhs.x_, y_ - rhs.y_);
+  }
+
   bool Point::operator==(const Point& rhs) const {
     return x_ == rhs.x_ && y_ == rhs.y_;
   }

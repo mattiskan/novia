@@ -19,7 +19,7 @@ namespace Novia {
     double distance_squared(const Point& other) const;
 
     Point operator+(const Point& rhs) const;
-    Point& operator-(const Point& rhs) const;
+    Point operator-(const Point& rhs) const;
 
     bool operator==(const Point& rhs) const;
     bool operator!=(const Point& rhs) const;
