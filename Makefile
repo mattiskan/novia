@@ -1,4 +1,5 @@
-CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors -Iincludes -D_WEBSOCKETPP_CPP11_STL_
+CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors -fexceptions
+INCLUDES=-Iincludes/
 LDFLAGS+=-Llibs/ -Wl,-rpath libs
 LDFLAGS+=-lboost_system -ljson_linux-gcc-4.9.0_libmt
 
@@ -32,11 +33,10 @@ bin/test_runner.cpp:
 bin/test_%.cpp: tests/test_%.h
 	cxxtestgen --part --error-printer -o $@ $^
 bin/test_%.o: bin/test_%.cpp
-	g++ $(CPPFLAGS) -c -o $@ $<
-
+	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 
 bin/%.o: src/%.cpp $(wildcard src/%.h)
-	g++ $(CPPFLAGS) -c -o $@ $<
+	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 clean:
 	rm -rf bin/
 	rm -f *.exe

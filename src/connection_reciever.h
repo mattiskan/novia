@@ -1,13 +1,12 @@
 #ifndef NOVIA_CONNECTION_RECEIVER_H
 #define NOVIA_CONNECTION_RECEIVER_H
 
-#include <websocketpp/server.hpp>
+
 #include <map>
 #include <thread>
 #include <utility>
-
-#include "websocket_config.hpp"
 #include "client_connection.h"
+#include "websocket_config.hpp"
 
 
 using websocketpp::lib::bind;
