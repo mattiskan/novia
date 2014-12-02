@@ -44,8 +44,8 @@ class TestPoint : public CxxTest::TestSuite
 
     TS_ASSERT_EQUALS(p1 - p2, Point(-1, -1));
     TS_ASSERT_EQUALS(p2 - p1, Point( 1,  1));
+    TS_ASSERT_EQUALS(p1 - p1, Point( 0,  0));
   }
-
 
   void test_equals() {
     Point p1(0,0);
@@ -59,6 +59,15 @@ class TestPoint : public CxxTest::TestSuite
     
     TS_ASSERT(!(p1 == p3));
     TS_ASSERT(!(p1 == p4));
+  }
+
+  void test_unequal() {
+    Point p1(0, 0);
+    Point p2(0, 1);
+
+    TS_ASSERT( p1 != p2 );
+    TS_ASSERT( p2 != p1 );
+    TS_ASSERT(!(p1 != p1));
   }
 
 };

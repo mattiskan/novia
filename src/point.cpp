@@ -38,6 +38,10 @@ namespace Novia {
     return x_ == rhs.x_ && y_ == rhs.y_;
   }
 
+  bool Point::operator!=(const Point& rhs) const {
+    return !(*this == rhs);
+  }
+
   std::ostream& operator<<(std::ostream& out, const Point& p){
     out << "not implemented";
     return out;
