@@ -1,12 +1,14 @@
 CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors -fexceptions
 INCLUDES=-Iincludes/
-LDFLAGS+=-Llibs/ -Wl,-rpath libs
-LDFLAGS+=-lboost_system -ljson_linux-gcc-4.9.0_libmt
+LDFLAGS+=-lboost_system
+
+LIB_OBJS+=bin/json.o
 
 ALL_SRC=$(wildcard src/*.cpp)
 SRC=$(filter-out src/_%, $(ALL_SRC))
 MAINS=$(filter     src/main_%, $(ALL_SRC))
 OBJ=$(patsubst src/%.cpp,bin/%.o,$(SRC))
+OBJ+=$(LIB_OBJS)
 
 
 TST=$(wildcard tests/*.h)
@@ -37,6 +39,11 @@ bin/test_%.o: bin/test_%.cpp
 
 bin/%.o: src/%.cpp $(wildcard src/%.h)
 	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
+# make jsoncpp:
+bin/json.o: includes/jsoncpp/json.cpp
+	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
 clean:
 	rm -rf bin/
 	rm -f *.exe
