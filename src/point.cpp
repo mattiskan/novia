@@ -43,7 +43,7 @@ namespace Novia {
   }
 
   std::ostream& operator<<(std::ostream& out, const Point& p){
-    out << "not implemented";
+    out << "(" << p.x_ << "," << p.y_ << ")";
     return out;
   }
 

@@ -24,10 +24,7 @@ namespace Novia {
     bool operator==(const Point& rhs) const;
     bool operator!=(const Point& rhs) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const Point& p);    
+    friend std::ostream& operator<<(std::ostream& out, const Point& p);
   };
-
-  std::ostream& operator<<(std::ostream& out, const Point& p);
-
 }
 #endif

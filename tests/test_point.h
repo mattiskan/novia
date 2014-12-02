@@ -1,9 +1,7 @@
 // -*-c++-*-
 #include <cxxtest/TestSuite.h>
 #include <string>
-#include <iostream>
-#include <regex>
-#include <jsoncpp/json.h>
+#include <sstream>
 
 #include "../src/point.h"
 
@@ -68,6 +66,15 @@ class TestPoint : public CxxTest::TestSuite
     TS_ASSERT( p1 != p2 );
     TS_ASSERT( p2 != p1 );
     TS_ASSERT(!(p1 != p1));
+  }
+
+  void test_ostream() {
+    Point p(12, 32);
+
+    std::stringstream out;
+    out << p;
+    
+    TS_ASSERT_EQUALS(out.str(), "(12,32)");
   }
 
 };
