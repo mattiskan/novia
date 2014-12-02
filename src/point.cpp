@@ -16,7 +16,6 @@ namespace Novia {
     return y_;
   }
 
-
   double Point::distance_to(const Point& other) const {
     return sqrt(distance_squared(other));
   }
@@ -25,6 +24,10 @@ namespace Novia {
     double dx = x_ - other.x_;
     double dy = y_ - other.y_;
     return dx*dx + dy*dy;
+  }
+
+  Point Point::operator+(const Point& rhs) const {
+    return Point(x_ + rhs.x_, y_ + rhs.y_);
   }
 
   bool Point::operator==(const Point& rhs) const {

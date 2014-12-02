@@ -29,6 +29,22 @@ class TestPoint : public CxxTest::TestSuite
     TS_ASSERT_EQUALS(p2.distance_to(p3), 1);
   }
 
+  void test_add() {
+    Point p1(1, 3);
+    Point p2(2, 4);
+    
+    const Point result = p1 + p2;
+
+    Point answer(3, 7);
+    TS_ASSERT_EQUALS(result, answer);
+
+    TS_ASSERT_EQUALS(p1.x(), 1);
+    TS_ASSERT_EQUALS(p1.y(), 3);
+
+    TS_ASSERT_EQUALS(p2.x(), 2);
+    TS_ASSERT_EQUALS(p2.y(), 4);
+  }
+
   void test_equals() {
     Point p1(0,0);
     Point p2(0,0);
