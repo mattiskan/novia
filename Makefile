@@ -17,6 +17,9 @@ TSTOBJ=$(patsubst %.cpp,%.o,$(TSTSRC))
 
 test: bin/test.exe
 	$<
+
+start: _main_server
+
 bin/test.exe: bin/test_runner.o $(TSTOBJ) $(OBJ) bin/_link_mocks.o
 	g++ $(LDFLAGS) -o $@ $^ 
 # ex: "make main_hello_world"
