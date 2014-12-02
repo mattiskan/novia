@@ -7,9 +7,9 @@ using namespace Novia;
 ServerInstance* server;
 
 void on_signal(int s){
-  std::cout<<std::endl<<"Stopping server..."<<std::endl;
-  
+  std::cout << std::endl << "Stopping server...";
   server->stop();
+  std::cout << "done";
   exit(0);
 }
 
