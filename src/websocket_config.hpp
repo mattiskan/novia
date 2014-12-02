@@ -11,7 +11,7 @@ struct WebsocketConfig : public websocketpp::config::asio {
     websocketpp::log::elevel::all ^ websocketpp::log::elevel::devel;
 
    static const websocketpp::log::level alog_level =
-     websocketpp::log::alevel::all ^ websocketpp::log::alevel::devel;
+     websocketpp::log::alevel::none;
 };
 
 #endif
