@@ -8,21 +8,24 @@
 #include <iostream>
 #include "timer_event.h"
 
-class TimerEvent;
+namespace Novia {
 
-class Timer {
- public:
-  void schedule(TimerFn& f, time_t ticks_left);
-  void remove(TimerEvent *const);
-  void tick();
+  class TimerEvent;
 
-  size_t size() const;
+  class Timer {
+  public:
+    void schedule(TimerFn& f, time_t ticks_left);
+    void remove(TimerEvent *const);
+    void tick();
+
+    size_t size() const;
   
- private:
-  time_t time_ = 0;
-  std::priority_queue<TimerEvent> event_queue_;
-};
+  private:
+    time_t time_ = 0;
+    std::priority_queue<TimerEvent> event_queue_;
+  };
 
+}
 #endif
 
 

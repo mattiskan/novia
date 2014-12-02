@@ -3,15 +3,18 @@
 
 #include <string>
 
+namespace Novia {
 
-class ClientConnection {
- public:
-  const int session_id_;
+  class ClientConnection {
+  public:
+    const int session_id_;
 
-  ClientConnection(int assigned_id);
+    ClientConnection(int assigned_id);
 
-  void interpret_msg(std::string payload);
-};
+    void interpret_msg(std::string payload);
+  };
+
+}
 
 #endif
  

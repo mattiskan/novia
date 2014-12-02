@@ -4,18 +4,22 @@
 #include "connection_reciever.h"
 #include "interval_sleeper.h"
 
-/**
- * Class used to start and control a server instance for a single game.
- */
-class ServerInstance {
-  ConnectionReceiver connections_;
-  IntervalSleeper sleep_;
+namespace Novia {
 
- public:
-  ServerInstance();
+  /**
+   * Class used to start and control a server instance for a single game.
+   */
+  class ServerInstance {
+    ConnectionReceiver connections_;
+    IntervalSleeper sleep_;
 
-  void start();
-  void stop();
-};
+  public:
+    ServerInstance();
+
+    void start();
+    void stop();
+  };
+
+}
 
 #endif

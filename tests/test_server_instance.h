@@ -3,12 +3,13 @@
 #include <stdexcept>
 #include "../src/server_instance.h"
 
+using namespace Novia;
 
 class TestServerInstance : public CxxTest::TestSuite
 {
  public:
   void test_creation() {
-    //ServerInstance instance;
+    ServerInstance instance;
   }
 
 };

@@ -2,32 +2,34 @@
 #include <signal.h>
 #include "server_instance.h"
 
+namespace Novia {
 
-ServerInstance* server;
+  ServerInstance* server;
 
-void on_signal(int s){
-  std::cout<<std::endl<<"Stopping server..."<<std::endl;
+  void on_signal(int s){
+    std::cout<<std::endl<<"Stopping server..."<<std::endl;
   
-  server->stop();
-  exit(0);
-}
+    server->stop();
+    exit(0);
+  }
 
-void catch_signals() {
-   struct sigaction sigIntHandler;
+  void catch_signals() {
+    struct sigaction sigIntHandler;
    
-   sigIntHandler.sa_handler = on_signal;
-   sigemptyset(&sigIntHandler.sa_mask);
-   sigIntHandler.sa_flags = 0;
-   sigaction(SIGINT, &sigIntHandler, NULL);
-}
+    sigIntHandler.sa_handler = on_signal;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+    sigaction(SIGINT, &sigIntHandler, NULL);
+  }
 
 
-int main() {
-  catch_signals();
+  int main() {
+    catch_signals();
 
-  server = new ServerInstance;
+    server = new ServerInstance;
 
-  std::cout << "Starting server on port 9002..." << std::endl;
-  server->start();
-  return 0;
+    std::cout << "Starting server on port 9002..." << std::endl;
+    server->start();
+    return 0;
+  }
 }

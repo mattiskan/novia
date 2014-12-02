@@ -4,26 +4,26 @@
 
 #include <functional>
 
-class Timer;
-typedef std::function<void(Timer&)> TimerFn;
+namespace Novia {
 
-class TimerEvent {
-  TimerFn callback_;
-  int when_;
+  class Timer;
+  typedef std::function<void(Timer&)> TimerFn;
 
-public:
-  TimerEvent(const TimerFn& f, const int time);
-  TimerEvent(const TimerEvent&);
+  class TimerEvent {
+    TimerFn callback_;
+    int when_;
 
-  void trigger(Timer& timer);
+  public:
+    TimerEvent(const TimerFn& f, const int time);
+    TimerEvent(const TimerEvent&);
 
-  int when() const;
+    void trigger(Timer& timer);
 
-  TimerEvent& operator=(TimerEvent&& rhs);
-  bool operator<(const TimerEvent& rhs) const;
-};
+    int when() const;
 
+    TimerEvent& operator=(TimerEvent&& rhs);
+    bool operator<(const TimerEvent& rhs) const;
+  };
 
-
-
+}
 #endif
