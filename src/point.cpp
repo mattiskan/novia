@@ -27,6 +27,9 @@ namespace Novia {
     return dx*dx + dy*dy;
   }
 
+  bool Point::operator==(const Point& rhs) const {
+    return x_ == rhs.x_ && y_ == rhs.y_;
+  }
 
   std::ostream& operator<<(std::ostream& out, const Point& p){
     out << "not implemented";
