@@ -11,13 +11,12 @@ namespace Novia {
     
   public:
     Point(int x, int y);
-    Point(const Point& rhs);
-    Point(const Point&& rhs);
     
     int x() const;
     int y() const;
 
-    double distanceTo(const Point& other) const;
+    double distance_to(const Point& other) const;
+    double distance_squared(const Point& other) const;
 
     Point& operator+(const Point& rhs) const;
     Point& operator+=(const Point& rhs) const;

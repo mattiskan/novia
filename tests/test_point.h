@@ -19,4 +19,14 @@ class TestPoint : public CxxTest::TestSuite
     TS_ASSERT_EQUALS(p1.y(), 3);
   }
 
+  void test_distance() {
+    Point p1(1, 1);
+    Point p2(1, 2);
+    Point p3(2, 2);
+
+    TS_ASSERT_EQUALS(p1.distance_to(p2), 1);
+    TS_ASSERT_EQUALS(p1.distance_to(p3), sqrt(2));
+    TS_ASSERT_EQUALS(p2.distance_to(p3), 1);
+  }
+
 };
