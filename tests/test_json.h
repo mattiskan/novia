@@ -2,7 +2,9 @@
 #include <cxxtest/TestSuite.h>
 #include <string>
 #include <iostream>
+#include <regex>
 #include <jsoncpp/json.h>
+
 
 class TestJSON : public CxxTest::TestSuite
 {
@@ -14,7 +16,7 @@ class TestJSON : public CxxTest::TestSuite
     Json::Reader reader;
 
     std::string json =
-      "{ \"key\": \"found\" }";    
+      "{ \"key\": \"found\" }";
     
     bool successful = reader.parse(json, root, keep_comments);
     TS_ASSERT(successful);
@@ -25,6 +27,7 @@ class TestJSON : public CxxTest::TestSuite
 
   void test_write() {
     Json::Value root;
+    Json::FastWriter writer;
 
     root["key"] = "value";
 
@@ -32,11 +35,14 @@ class TestJSON : public CxxTest::TestSuite
     root["letters"]["b"] = 2;
     root["letters"]["c"] = 3;
     
-    /*root["array"] = Json::Value(Json::arrayValue);
+    root["array"] = Json::Value(Json::arrayValue);
     root["array"][0] = "first";
     root["array"][1] = "seccond";
-    root["array"][2] = "third";*/
-    std::cout << root << std::endl;
+    root["array"][2] = "third";
+
+    std::string output = writer.write(root);
+
+    TS_ASSERT_EQUALS(output, "{\"array\":[\"first\",\"seccond\",\"third\"],\"key\":\"value\",\"letters\":{\"a\":1,\"b\":2,\"c\":3}}\n");
   }
 
 };
