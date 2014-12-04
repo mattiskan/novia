@@ -5,6 +5,7 @@
 #include <jsoncpp/json.h>
 
 #include "../src/map.h"
+#include "../src/point.h"
 #include "../src/farm.h"
 
 using namespace Novia;
@@ -15,8 +16,10 @@ class TestMap : public CxxTest::TestSuite
 
   void test_add() {
     Map map;
-    Farm f;
-    map.add(f);
+
+    Point p(1,2);
+    Farm farm(p);
+    map.add(farm);
 
     TS_ASSERT_EQUALS(map.object_count(), 1);
   }

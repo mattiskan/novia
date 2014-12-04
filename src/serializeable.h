@@ -8,8 +8,9 @@ namespace Novia {
 
   class Serializeable {
   public:
+
     virtual Json::Value serialize() const = 0;
-    virtual void deserialize(const Json::Value& data) = 0;
+    
   };
 }
 
