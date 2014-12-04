@@ -2,10 +2,12 @@
 #include <cxxtest/TestSuite.h>
 #include <string>
 #include <iostream>
-#include <regex>
 #include <jsoncpp/json.h>
 
-
+/**
+ * If theese tests fail, fundamental assumptions of the json library used in
+ * this project may fail.
+ */
 class TestJSON : public CxxTest::TestSuite
 {
  public:
