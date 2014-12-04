@@ -5,12 +5,21 @@
 #include <jsoncpp/json.h>
 
 #include "../src/map.h"
+#include "../src/farm.h"
 
 using namespace Novia;
 
 class TestMap : public CxxTest::TestSuite
 {
  public:
+
+  void test_add() {
+    Map map;
+    Farm f;
+    map.add(f);
+
+    TS_ASSERT_EQUALS(map.object_count(), 1);
+  }
 
   void test_serialize() {
     Map map;
@@ -23,9 +32,7 @@ class TestMap : public CxxTest::TestSuite
     Json::FastWriter writer;
 
     std::string output = writer.write(map.serialize());
-    std::cout << output;
     TS_ASSERT_EQUALS(output, expected);
-
   }
 
 
