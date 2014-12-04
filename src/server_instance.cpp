@@ -1,7 +1,9 @@
-#include "server_instance.h"
+//-*-c++-*-
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
+
+#include "server_instance.h"
 
 namespace novia {
 
