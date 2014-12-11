@@ -18,6 +18,10 @@ namespace novia {
     int i = 0;
     while(true) {
 
+      std::stringstream out;
+      out << "mayday mayday" << i++;
+      
+      connections_.broadcast(out.str());
 
       sleep_();
     }
