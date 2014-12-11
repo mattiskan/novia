@@ -4,7 +4,7 @@
 namespace Novia {
 
   Farm::Farm(const Point& location)
-    : location_(location){
+    : MapObject(location){
     
   }
 

@@ -4,12 +4,10 @@
 
 #include "map_object.h"
 #include "serializeable.h"
-#include "point.h"
 
 namespace Novia {
 
   class Farm : public MapObject, public Serializeable {
-    const Point location_;
 
   public:
     Farm(const Point& location);
