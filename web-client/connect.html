@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8" /> 
+<title>
+Novia - democlient
+</title>
+</head>
+
+<body>
+
+
+  Enter ip: <input id="ip_input" type="text" name="ip"/><br/>
+  <button onclick="connect()">Connect</button>
+
+
+  <script>
+    function connect() {
+      var ip = document.getElementById('ip_input').value;
+
+      var ws = new WebSocket('ws://'+ip+':9002');
+      ws.onmessage = function(msg) {
+        console.log("from server: " + msg.data);
+      }
+      
+      ws.onclose = function() {
+        console.log("connection closed");
+      }
+      
+      console.log("connected to server");
+    }
+  </script>
+
+</body>
+</html>
