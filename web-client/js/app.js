@@ -19,13 +19,17 @@ app.factory('socketFactory', ['$rootScope', function($rootScope) {
     return {
 	connect: function(ip) {
 	    ws = new WebSocket("ws://"+ ip +":9002");
-
+	   
+ 	    var has_connected = false;
+	    
 	    ws.onopen = function() {
+		has_connected = true;
 		console.log("Connection successful");
 	    }
 
 	    ws.onclose = function() {
-		console.log("Socket closed");
+		if(has_connected)
+		    console.log("Socket closed");
 	    }
 	},
 
