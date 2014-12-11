@@ -5,7 +5,7 @@
 #include "map_object.h"
 #include "serializeable.h"
 
-namespace Novia {
+namespace novia {
 
   class Farm : public MapObject, public Serializeable {
 

@@ -1,7 +1,7 @@
 #include "map.h"
 #include <stdexcept>
 
-namespace Novia {
+namespace novia {
 
   void Map::add(const MapObject& obj) {
     objects.push_back(obj);

@@ -4,7 +4,7 @@
 
 #include <jsoncpp/json.h>
 
-namespace Novia {
+namespace novia {
 
   class Serializeable {
   public:

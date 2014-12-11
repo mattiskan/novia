@@ -1,6 +1,6 @@
 #include "map_object.h"
 
-namespace Novia {
+namespace novia {
 
   MapObject::MapObject(const Point& location)
     : location_(location) {

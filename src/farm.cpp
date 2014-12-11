@@ -1,7 +1,7 @@
 //-*-c++-*-
 #include "farm.h"
 
-namespace Novia {
+namespace novia {
 
   Farm::Farm(const Point& location)
     : MapObject(location){

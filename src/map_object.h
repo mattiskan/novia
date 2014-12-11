@@ -3,7 +3,7 @@
 #define NOVIA_MAP_OBJECT_H
 #include "point.h"
 
-namespace Novia {
+namespace novia {
 
   class MapObject {
   protected:

@@ -2,7 +2,7 @@
 #ifndef NOVIA_IN_MESSAGE_H
 #define NOVIA_IN_MESSAGE_H
 
-namespace Novia {
+namespace novia {
 
   class InMessage {
 

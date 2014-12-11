@@ -8,7 +8,7 @@
 #include "../src/point.h"
 #include "../src/farm.h"
 
-using namespace Novia;
+using namespace novia;
 
 class TestMap : public CxxTest::TestSuite
 {

@@ -6,7 +6,7 @@
 #include "serializeable.h"
 #include "map_object.h"
 
-namespace Novia {
+namespace novia {
 
   class Map : public Serializeable {
     std::vector<MapObject> objects;
