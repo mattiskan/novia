@@ -12,26 +12,23 @@ app.config(['$routeProvider', function($routeProvider) {
 }
 	   ]);
 
+app.factory('socketFactory', ['$rootScope', function($rootScope) {
 
-
-
-
-
-
-
-app.factory('socket', ['$rootScope', function($rootScope) {
-
-    var ws = new WebSocket("ws://127.0.0.1:9002");
-
-    ws.onopen = function() {
-	console.log("Connection successful");
-    }
-
-    ws.onclose = function() {
-	console.log("Socket closed");
-    }
+    var ws;
     
     return {
+	connect: function(ip) {
+	    ws = new WebSocket("ws://"+ ip +":9002");
+
+	    ws.onopen = function() {
+		console.log("Connection successful");
+	    }
+
+	    ws.onclose = function() {
+		console.log("Socket closed");
+	    }
+	},
+
 	onMessage : function(callback) {
 	    ws.onmessage = function(msg) {
 		$rootScope.$apply(function() {
@@ -41,6 +38,4 @@ app.factory('socket', ['$rootScope', function($rootScope) {
 	}
     };
 
-}]); 
-
-
+}]);

@@ -1,16 +1,24 @@
-var controller = function($scope, socket) {
+var controller = function($scope, socketFactory) {
 
     $scope.categories = ['building', 'characters', 'din mamma'];
 
     $scope.messages = [];
 
-    socket.onMessage(function (msg) {
-	console.log("recieved message");
-	$scope.messages.push(msg.data);
-    });
+    $scope.ip = "127.0.0.1";
 
+
+
+    $scope.connect = function() {
+	socketFactory.connect($scope.ip);
+
+	socketFactory.onMessage(function (msg) {
+	    console.log("recieved message");
+	    $scope.messages.push(msg.data);
+	});
+
+	$scope.messages = [];
+    };
     
-
 };
 
 app.controller('LoginController', controller);
