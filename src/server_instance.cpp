@@ -17,10 +17,8 @@ namespace novia {
 
     int i = 0;
     while(true) {
-      std::stringstream ss;
-      ss << "mayday mayday " << i++;
 
-      connections_.broadcast(ss.str());
+
       sleep_();
     }
   
