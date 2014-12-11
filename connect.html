@@ -1,0 +1,27 @@
+<doctype html!>
+
+<html>
+
+
+
+
+<body>
+
+
+  <script>
+    var ws = new WebSocket('ws://localhost:9002');
+    ws.onmessage = function(msg) {
+        console.log("from server: " + msg.data);
+    }
+
+    ws.onclose = function() {
+        console.log("connection closed");
+    }
+
+    console.log("connected to server");
+  </script>
+
+</body>
+
+
+</html>
