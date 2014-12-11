@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Novia {
+namespace novia {
 
   class ClientConnection {
   public:

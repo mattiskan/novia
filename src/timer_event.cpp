@@ -1,7 +1,7 @@
 #include "timer_event.h"
 #include <iostream>
 
-namespace Novia {
+namespace novia {
 
   TimerEvent::TimerEvent(const TimerFn& f, const int time)
     :callback_(f), when_(time) { 

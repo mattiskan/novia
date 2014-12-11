@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace Novia {
+namespace novia {
 
   ServerInstance::ServerInstance()
     : sleep_(5000) {

@@ -8,7 +8,7 @@
 #include <iostream>
 #include "timer_event.h"
 
-namespace Novia {
+namespace novia {
 
   class TimerEvent;
 

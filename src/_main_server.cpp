@@ -2,7 +2,7 @@
 #include <signal.h>
 #include "server_instance.h"
 
-using namespace Novia;
+using namespace novia;
 
 ServerInstance* server;
 

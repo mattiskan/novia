@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "../src/server_instance.h"
 
-using namespace Novia;
+using namespace novia;
 
 class TestServerInstance : public CxxTest::TestSuite
 {

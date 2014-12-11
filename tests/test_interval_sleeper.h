@@ -4,7 +4,7 @@
 #include <cxxtest/TestSuite.h>
 #include <stdexcept>
 
-using namespace Novia;
+using namespace novia;
 
 struct TimeMock : public Mocked::Base_time
 {

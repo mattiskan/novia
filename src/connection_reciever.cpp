@@ -1,6 +1,6 @@
 #include "connection_reciever.h"
 
-namespace Novia {
+namespace novia {
 
   ConnectionReceiver::ConnectionReceiver()
     : next_unassigned_id_(0) {

@@ -4,7 +4,7 @@
 
 #include <functional>
 
-namespace Novia {
+namespace novia {
 
   class Timer;
   typedef std::function<void(Timer&)> TimerFn;

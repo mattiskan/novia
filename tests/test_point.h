@@ -5,7 +5,7 @@
 
 #include "../src/point.h"
 
-using namespace Novia;
+using namespace novia;
 
 class TestPoint : public CxxTest::TestSuite
 {

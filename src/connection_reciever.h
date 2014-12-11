@@ -14,7 +14,7 @@ using websocketpp::lib::placeholders::_2;
 
 typedef websocketpp::server<WebsocketConfig> WebsocketServer;
 
-namespace Novia {
+namespace novia {
 
   class ConnectionReceiver {
   public:

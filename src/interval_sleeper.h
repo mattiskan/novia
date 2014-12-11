@@ -5,7 +5,7 @@
 #include <thread>
 #include "mocks.h"
 
-namespace Novia {
+namespace novia {
 
 
   /**

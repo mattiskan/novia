@@ -4,7 +4,7 @@
 
 #include <ostream>
 
-namespace Novia {
+namespace novia {
 
   class Point {
     const int x_, y_;

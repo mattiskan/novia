@@ -4,7 +4,7 @@
 #include <vector>
 #include "../src/timer.h"
 
-using namespace Novia;
+using namespace novia;
 
 class TestTimer : public CxxTest::TestSuite
 {

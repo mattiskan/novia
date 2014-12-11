@@ -1,7 +1,7 @@
 #include "point.h"
 #include <cmath>
 
-namespace Novia {
+namespace novia {
 
   Point::Point(int x, int y)
     : x_(x), y_(y){

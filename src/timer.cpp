@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-namespace Novia {
+namespace novia {
 
   void Timer::schedule(TimerFn& f, time_t ticks_left) {
     event_queue_.emplace(f, ticks_left);

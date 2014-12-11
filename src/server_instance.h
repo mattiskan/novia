@@ -4,7 +4,7 @@
 #include "connection_reciever.h"
 #include "interval_sleeper.h"
 
-namespace Novia {
+namespace novia {
 
   /**
    * Class used to start and control a server instance for a single game.

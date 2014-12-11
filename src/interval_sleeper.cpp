@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <iostream>
 
-namespace Novia { 
+namespace novia { 
   IntervalSleeper::IntervalSleeper(time_t interval_millis)
     : next_tick_(0), interval_(interval_millis) {
 
