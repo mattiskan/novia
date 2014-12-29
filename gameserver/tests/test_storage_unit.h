@@ -12,10 +12,14 @@ class StorageUnitTest : public CxxTest::TestSuite
     const int CAP = 20;
     
     StorageUnit resourceContainer(CAP, { WOOD });
+    StorageUnit resourceContainer2(CAP, { WOOD });
 
     for(int i=1; i<= CAP; ++i){
       resourceContainer.add(1, WOOD);
       TS_ASSERT_EQUALS( resourceContainer.get(WOOD), i);//invariant
+      resourceContainer2.add(1, WOOD);
+      TS_ASSERT_EQUALS( resourceContainer2.get(WOOD), i);//invariant
+
     }
   }
 
@@ -36,9 +40,9 @@ class StorageUnitTest : public CxxTest::TestSuite
   void testCapacityOverload(){
     StorageUnit resourceContainer(20, { WOOD });
 
-    TS_ASSERT_EQUALS(resourceContainer.add(30, WOOD), 10);
+    TS_ASSERT_THROWS(resourceContainer.add(30, WOOD), ResourceHandlingError);
 
-    TS_ASSERT_EQUALS(resourceContainer.get(WOOD), 20);
+    TS_ASSERT_EQUALS(resourceContainer.get(WOOD), 0);
   }
 
   void testTotalStorage() {
@@ -49,33 +53,33 @@ class StorageUnitTest : public CxxTest::TestSuite
     resourceContainer.add(4, FOOD);
     resourceContainer.add(8, IRON);
 
-    TS_ASSERT_EQUALS( resourceContainer.totalStorage(), 15);
+    TS_ASSERT_EQUALS( resourceContainer.total_storage(), 15);
   }
 
   void testAvailableStorage() {
     StorageUnit resourceContainer(15, { WOOD, STONE, FOOD, IRON });
 
-    TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 15);
+    TS_ASSERT_EQUALS( resourceContainer.available_storage(), 15);
     resourceContainer.add(1, WOOD);
 
-    TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 14);
+    TS_ASSERT_EQUALS( resourceContainer.available_storage(), 14);
     resourceContainer.add(2, STONE);
 
-    TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 12);
+    TS_ASSERT_EQUALS( resourceContainer.available_storage(), 12);
     resourceContainer.add(4, FOOD);
 
-    TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 8);
+    TS_ASSERT_EQUALS( resourceContainer.available_storage(), 8);
     resourceContainer.add(8, IRON);
 
-    TS_ASSERT_EQUALS( resourceContainer.availableStorage(), 0);
+    TS_ASSERT_EQUALS( resourceContainer.available_storage(), 0);
   }
 
   void testUnsuportedStorageType(){
     StorageUnit resourceContainer(20, { WOOD });
 
-    TS_ASSERT(resourceContainer.canStore(WOOD));
+    TS_ASSERT(resourceContainer.can_store(WOOD));
 
-    TS_ASSERT(!resourceContainer.canStore(STONE));
+    TS_ASSERT(!resourceContainer.can_store(STONE));
 
     TS_ASSERT_THROWS(resourceContainer.add(1, STONE), ResourceHandlingError);
   }
@@ -83,61 +87,75 @@ class StorageUnitTest : public CxxTest::TestSuite
   void testSpreadOutCapacity() {
     StorageUnit resourceContainer(30, { WOOD, FOOD, IRON });
 
-    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 0);
-    TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 30);    
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 0);
+    TS_ASSERT_EQUALS(resourceContainer.available_storage(), 30);    
 
-    TS_ASSERT_EQUALS(resourceContainer.add(10, WOOD), 0);
-    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 10);
-    TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 20);
+    resourceContainer.add(10, WOOD);
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 10);
+    TS_ASSERT_EQUALS(resourceContainer.available_storage(), 20);
 
-    TS_ASSERT_EQUALS(resourceContainer.add(10, FOOD), 0);
-    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 20);
-    TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 10);
+    resourceContainer.add(10, FOOD);
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 20);
+    TS_ASSERT_EQUALS(resourceContainer.available_storage(), 10);
 
-    TS_ASSERT_EQUALS(resourceContainer.add(10, IRON), 0);
-    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 30);
-    TS_ASSERT_EQUALS(resourceContainer.availableStorage(), 0);
+    resourceContainer.add(10, IRON);
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 30);
+    TS_ASSERT_EQUALS(resourceContainer.available_storage(), 0);
 
-    TS_ASSERT_EQUALS(resourceContainer.add(1, IRON), 1);
+    TS_ASSERT_THROWS(resourceContainer.add(1, IRON), ResourceHandlingError);
+
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 30);
+
+
     //The last one shouldn't fit:
-    TS_ASSERT_EQUALS(resourceContainer.totalStorage(), 30);
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 30);
+
+    resourceContainer.add(-10, IRON);
+    TS_ASSERT_EQUALS(resourceContainer.total_storage(), 20);
+    TS_ASSERT_EQUALS(resourceContainer.available_storage(), 10);
     
   }
 
-  void testMoveResources() {
+   void testTakeResources() {
     StorageUnit a(30, { WOOD, FOOD, IRON });
     StorageUnit b(10, { WOOD, FOOD, IRON });
 
-    a.add(5, WOOD);
-    a.retrieveInto( b );
+    TS_ASSERT_THROWS(a.take(10, WOOD, b), ResourceHandlingError);
+    TS_ASSERT_EQUALS(a.get(WOOD), 0);
+    TS_ASSERT_EQUALS(b.get(WOOD), 0);
+
+    a.add(10, WOOD);
+    b.take(10, WOOD, a);
 
     TS_ASSERT_EQUALS(a.get(WOOD), 0);
-    TS_ASSERT_EQUALS(b.get(WOOD), 5);
+    TS_ASSERT_EQUALS(b.get(WOOD), 10);
 
-    a.add(10, FOOD);
-    a.retrieveInto( b );
 
-    TS_ASSERT_EQUALS(a.get(FOOD), 5);
-    TS_ASSERT_EQUALS(b.get(FOOD), 5);
-  }
+    a.add(20, FOOD);
+    TS_ASSERT_THROWS(b.take(20, FOOD, a), ResourceHandlingError);
 
-  void testMoveWithUnstorableResource(){
-    StorageUnit a(30, { WOOD, FOOD, IRON });
+    TS_ASSERT_EQUALS(a.get(FOOD), 20);
+    TS_ASSERT_EQUALS(b.get(FOOD), 0);
+   }
 
-    StorageUnit b(30, { FOOD, IRON });
+   //  void testMoveWithUnstorableResource(){
+   //  StorageUnit a(30, { WOOD, FOOD, IRON });
+
+   //  StorageUnit b(30, { FOOD, IRON });
     
-    a.add(10, WOOD);
-    a.add(10, FOOD);
-    a.add(10, IRON);
+   //  a.add(10, WOOD);
+   //  a.add(10, FOOD);
+   //  a.add(10, IRON);
 
-    a.retrieveInto(b);
+   //  a.retrieveInto(b);
 
-    TS_ASSERT_EQUALS(a.totalStorage(), 10);
-    TS_ASSERT_EQUALS(a.get(WOOD), 10);
+   //  TS_ASSERT_EQUALS(a.total_storage(), 10);
+   //  TS_ASSERT_EQUALS(a.get(WOOD), 10);
 
-    TS_ASSERT_EQUALS(b.totalStorage(), 20);
-    TS_ASSERT_EQUALS(b.get(WOOD), 0);
-  }
+   //  TS_ASSERT_EQUALS(b.total_storage(), 20);
+   //  TS_ASSERT_EQUALS(b.get(WOOD), 0);
+   //  }
 
 };
+
 

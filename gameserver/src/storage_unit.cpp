@@ -2,75 +2,114 @@
 #include "storage_unit.h"
 
 namespace novia {
-  StorageUnit::StorageUnit(int capacity, std::set<ResourceType> storedTypes)
-    :capacity_(capacity)
-  {
-    std::fill_n(resources_, RESOURCE_COUNT, -1);//mark all as unsupported
+  const int StorageUnit::UNAVAILABLE_RESOURCE = -1;
 
-    for(auto resource=storedTypes.begin(); resource!= storedTypes.end(); ++resource){
-      resources_[*resource] = 0;
-    }
+  StorageUnit::StorageUnit(int capacity)
+    : capacity_(capacity),
+      total_storage_(0),
+      resources_((int)ResourceType::RESOURCE_COUNT, 0)
+  {
   }
+
+  StorageUnit::StorageUnit(int capacity, const std::set<ResourceType>& stored_types)
+    : capacity_(capacity),
+      total_storage_(0),
+      resources_(ResourceType::RESOURCE_COUNT, UNAVAILABLE_RESOURCE) //mark all as unsupported
+  {
+    for(auto resource : stored_types)
+      resources_[resource] = 0;
+  }
+
+  StorageUnit::StorageUnit(int capacity, ResourceType type)
+    : StorageUnit(capacity, std::set<ResourceType> {type})
+  {
+
+  }
+
+
+  StorageUnit::StorageUnit(const StorageUnit& other) 
+    : capacity_(other.capacity_),
+      total_storage_(other.total_storage_),
+      resources_(other.resources_)
+  {
+    
+  }
+  StorageUnit::StorageUnit(StorageUnit&& other)
+    : capacity_(other.capacity_),
+      total_storage_(other.total_storage_),
+      resources_(std::move(other.resources_))
+  {
+    capacity_ = 0;
+    total_storage_ = 0;
+  }
+  StorageUnit::~StorageUnit() {
+
+  }
+  StorageUnit& StorageUnit::operator=(const StorageUnit& other) {
+    if (this == &other) return *this;
+    capacity_ = other.capacity_;
+    total_storage_ = other.total_storage_;
+    resources_ = other.resources_;
+    return *this;
+  }
+  StorageUnit& StorageUnit::operator=(StorageUnit&& other) {
+    if (this == &other) return *this;
+    capacity_ = other.capacity_;
+    total_storage_ = other.total_storage_;
+    resources_ = std::move(other.resources_);
+    other.capacity_ = 0;
+    other.total_storage_ = 0;
+    return *this;
+  }
+
 
 
   int StorageUnit::get(ResourceType type) const {
+    if(!can_store(type))
+      throw ResourceHandlingError("Cannot store that resource type.");
     return std::max(0, resources_[type]);
   }
 
-  int StorageUnit::add(int amount, ResourceType type){
-    if(resources_[type] == -1)
+  void StorageUnit::add(int amount, ResourceType type){
+    if(!can_store(type))
       throw ResourceHandlingError("Cannot store that resource type.");
-
-    int movedAmount = std::min(amount, availableStorage());
-    resources_[type] += movedAmount;
-  
-    return amount - movedAmount; //the amount that didn't fit
+    int new_total_storage = total_storage_ + amount;
+    if (new_total_storage > capacity() || new_total_storage < 0)
+      throw ResourceHandlingError("The capacity is excided or less than zero.");
+    total_storage_ = new_total_storage;
+    resources_[type] += amount;
   }
 
-  int StorageUnit::getCapacity() const {
+  void StorageUnit::take(int amount, ResourceType type, StorageUnit& other){
+    if (!can_store(type) || !other.can_store(type))
+      throw ResourceHandlingError("One of the containers can't handle the resource type.");
+    if (available_storage() < amount)
+      throw ResourceHandlingError("Not enough avaiable capacity.");
+    if (other.get(type) < amount)
+      throw ResourceHandlingError("Not enough resources in container.");
+    add(amount, type);
+    other.add(-amount, type);
+  }
+
+
+  int StorageUnit::capacity() const {
     return capacity_;
   }
 
-  int StorageUnit::availableStorage() const {
-    return capacity_ - totalStorage();
+  int StorageUnit::available_storage() const {
+    return capacity_ - total_storage();
   }
 
-  int StorageUnit::totalStorage() const {
-    int tot = 0;
-    for(int i=0; i<RESOURCE_COUNT; ++i){
-      tot+=std::max(0, resources_[i]);
-    }
-
-    return tot;
+  int StorageUnit::total_storage() const {
+    return total_storage_;
   }
 
-  bool StorageUnit::isFull() const {
-    return availableStorage() == 0;
+  bool StorageUnit::is_full() const {
+    return available_storage() == 0;
   }
 
-  bool StorageUnit::canStore(ResourceType type) const {
-    return resources_[type] != -1;
+  bool StorageUnit::can_store(ResourceType type) const {
+    return resources_[type] != UNAVAILABLE_RESOURCE;
   }
 
-
-
-  void StorageUnit::retrieveInto(StorageUnit& dest) {  
-    for(int i=0; i<RESOURCE_COUNT; ++i){
-
-      if(dest.isFull())
-	return;
-
-      ResourceType resource = static_cast<ResourceType>(i);
-      if(!dest.canStore(resource) || get(resource) == 0)
-	continue;
-    
-      moveResourceTo( resource, dest);
-    }
-  }
-
-  void StorageUnit::moveResourceTo(ResourceType type, StorageUnit& dest) {
-    int leftOver = dest.add(resources_[type], type);
-    resources_[type] = leftOver;
-  }
-  
 }
