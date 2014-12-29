@@ -1,18 +1,22 @@
 var controller = function($scope, socketFactory) {
 
-    $scope.categories = ['building', 'characters', 'din mamma'];
-
     $scope.messages = [];
-
     $scope.ip = "127.0.0.1";
-
+    $scope.username = "";
+    $scope.password = "";    
 
 
     $scope.connect = function() {
-	socketFactory.connect($scope.ip);
+	var login = {
+	    'msg_type': 'authenticate',
+	    'username': $scope.username,
+	    'password': $scope.password
+	};
+	
+	socketFactory.connect($scope.ip, JSON.stringify(login));
 
 	socketFactory.onMessage(function (msg) {
-	    console.log("recieved message");
+	    console.log("recieved message");3
 	    $scope.messages.push(msg.data);
 	});
 
