@@ -30,7 +30,7 @@ bin/_main_%.exe: bin/_main_%.o $(OBJ) bin/_link_real.o
 
 depend: bin/depend
 bin/depend: $(ALL_SRC) $(TST)
-	mkdir -p bin
+	mkdir -p bin/protocol
 	g++ $(CPPFLAGS) src/*.cpp tests/*.h -MM | sed 's%^.*:%bin/&%'>bin/depend
 
 bin/test_runner.cpp:
@@ -41,9 +41,6 @@ bin/test_%.o: bin/test_%.cpp
 	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 
 bin/%.o: src/%.cpp $(wildcard src/%.h)
-	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
-
-bin/%.o: src/protocol/%.cpp $(wildcard src/%.h)
 	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 
 
