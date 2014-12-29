@@ -5,6 +5,7 @@ LDFLAGS+=-lboost_system -pthread
 LIB_OBJS+=bin/json.o
 
 ALL_SRC=$(wildcard src/*.cpp)
+ALL_SRC+=$(wildcard src/protocol/*.cpp)
 SRC=$(filter-out src/_%, $(ALL_SRC))
 MAINS=$(filter     src/main_%, $(ALL_SRC))
 OBJ=$(patsubst src/%.cpp,bin/%.o,$(SRC))
@@ -41,6 +42,10 @@ bin/test_%.o: bin/test_%.cpp
 
 bin/%.o: src/%.cpp $(wildcard src/%.h)
 	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
+bin/%.o: src/protocol/%.cpp $(wildcard src/%.h)
+	g++ $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
 
 # make jsoncpp:
 bin/json.o: includes/jsoncpp/json.cpp
