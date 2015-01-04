@@ -25,5 +25,8 @@ namespace novia {
   bool AuthentificationMessage::does_modification() const {
     return false;
   }
-  
+
+  MessageType AuthentificationMessage::type() const {
+    return AUTHENTICATE;
+  }
 }

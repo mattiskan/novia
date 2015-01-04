@@ -6,6 +6,8 @@
 
 namespace novia {
 
+  using namespace message_type;
+  
   class AuthentificationMessage : public Message {
     std::string username_;
     std::string password_;
@@ -16,12 +18,13 @@ namespace novia {
     const std::string& password() const;
 
     
-    // inherited from InMessage:
+    // inherited from Message:
     virtual void read(const Json::Value& data) override;
 
     virtual Json::Value write() const override;
     
     virtual bool does_modification() const override;
+    virtual MessageType type() const override;
   };
 }
 
