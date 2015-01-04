@@ -7,6 +7,7 @@
 
 #include "message.h"
 #include "authentification_message.h"
+#include "../user_controller.h"
 
 #include <iostream>
 namespace novia {
@@ -30,8 +31,9 @@ namespace novia {
     static void invoke_now(Message* msg, ClientConnection& message_owner) {
       switch(msg->type()) {
       case AUTHENTICATE:
-	std::cout << "route to auth" << std::endl; // TODO: call controller
-	break;
+	  UserController::authenticate(*((AuthentificationMessage*) msg),
+				       message_owner);
+	  break;
 
       default:
 	throw std::runtime_error("no route for message type");
