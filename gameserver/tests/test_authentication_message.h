@@ -1,7 +1,10 @@
 // -*-c++-*-
 #include <cxxtest/TestSuite.h>
-//#include <jsoncpp/json.h>
+#define UNIT_TEST
+
+#include "../src/websocket_config.hpp"
 #include "../src/protocol/authentification_message.h"
+#include "../src/connection_receiver.h"
 
 using namespace novia;
 
@@ -28,4 +31,13 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
     
   }
 
+
+  void test_login() {
+    ConnectionReceiver cr;
+
+    websocketpp::connection_hdl hdl;
+    cr.on_connect(hdl);
+    // TODO: mock message...
+    //cr.on_message(hdl, msg);
+  }
 };

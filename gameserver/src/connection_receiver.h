@@ -1,6 +1,10 @@
 #ifndef NOVIA_CONNECTION_RECEIVER_H
 #define NOVIA_CONNECTION_RECEIVER_H
 
+#ifdef UNIT_TEST
+#define private public
+#endif
+
 #include <map>
 #include <thread>
 #include <utility>
