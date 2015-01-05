@@ -15,7 +15,7 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
     const char* txt =
       "{"
        "\"username\": \"bob\","
-       "\"password\": \"banana\""
+       "\"password\": \"bobs_password\""
       "}";
 
     reader.parse(txt, auth, false);
@@ -24,7 +24,7 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
     msg.read(auth);
 
     TS_ASSERT_EQUALS(msg.username(), "bob");
-    TS_ASSERT_EQUALS(msg.password(), "banana");
+    TS_ASSERT_EQUALS(msg.password(), "bobs_password");
     
   }
 
