@@ -35,8 +35,8 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
   void test_login() {
     ConnectionReceiver cr;
 
-    websocketpp::connection_hdl hdl;
-    cr.on_connect(hdl);
+    //websocketpp::connection_hdl hdl;
+    //cr.on_connect(hdl);
     // TODO: mock message...
     //cr.on_message(hdl, msg);
   }
