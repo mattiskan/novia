@@ -2,15 +2,15 @@
 #ifndef NOVIA_IN_MESSAGE_H
 #define NOVIA_IN_MESSAGE_H
 
+#include "out_message.h"
+#include "../controllers.h"
+#include <jsoncpp/json.h>
+
 namespace novia {
 
   class InMessage {
 
   public:
-    InMessage(const Json::Value& data) {
-      read(data);
-    }
-
     /*
      * Used to copy contents of messages into fields.
      *
@@ -24,13 +24,13 @@ namespace novia {
      * Called right after read(), giving some messages the ability to
      * reply without getting executed on the server thread.
      */
-    virtual const OutMessage instant_reply(const Map& map) const = 0;
+    virtual const OutMessage* instant_reply(const Controllers& c) const = 0;
 
     /**
-     * Called by the server thread, this is where messages that change the
-     * game are expected do do so, using map-controller.
+     * This is where messages that change the game are expected to do so.
+     * returned replies are sent immediately? 
      */
-    virtual void modify_map(Map& map) const = 0;
+    virtual const OutMessage* invoke_on_server_thread(Controllers& c) const = 0;
 
   };
 }
