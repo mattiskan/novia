@@ -1,7 +1,7 @@
 #ifndef NOVIA_SERVER_INSTANCE_H
 #define NOVIA_SERVER_INSTANCE_H
 
-#include "connection_reciever.h"
+#include "connection_receiver.h"
 #include "interval_sleeper.h"
 
 namespace novia {

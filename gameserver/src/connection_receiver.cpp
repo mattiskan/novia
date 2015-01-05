@@ -1,4 +1,4 @@
-#include "connection_reciever.h"
+#include "connection_receiver.h"
 
 namespace novia {
 
