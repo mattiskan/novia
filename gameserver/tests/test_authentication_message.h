@@ -1,4 +1,4 @@
-// -*-c++-*-
+//-*-c++-*-
 #include <cxxtest/TestSuite.h>
 //#include <jsoncpp/json.h>
 #include "../src/protocol/authentification_message.h"

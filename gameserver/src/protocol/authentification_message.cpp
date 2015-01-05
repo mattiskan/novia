@@ -19,15 +19,15 @@ namespace novia {
     password_ = data["password"].asString();
   }
 
-  const OutMessage* AuthentificationMessage::instant_reply(const Controllers& c) const {
+  void AuthentificationMessage::instant_reply(const Controllers& c,
+					      ClientConnection& owner) const {
     
-    std::cout << "recieved login from "
-	      << username_ << ":" << password_
-	      << std::endl;
-    
+    bool successful =
+      c.user_controller.authenticate(username(), password(), owner);
+
   }
 
-  const OutMessage* AuthentificationMessage::invoke_on_server_thread(Controllers& c) const {
+  void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
     
   }
 }

@@ -19,9 +19,11 @@ namespace novia {
     virtual void read(const Json::Value& data) override;
     
 
-    virtual const OutMessage* instant_reply(const Controllers& c) const override;
+    virtual void instant_reply(const Controllers& c,
+					    ClientConnection& owner) const override;
 
-    virtual const OutMessage* invoke_on_server_thread(Controllers& c) const override;
+    virtual void on_invoke(Controllers& c,
+						      ClientConnection& owner) const override;
   };
 }
 

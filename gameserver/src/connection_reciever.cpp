@@ -40,6 +40,11 @@ namespace novia {
   }
 
 
+  TaskQueue& ConnectionReceiver::task_queue_ref() {
+    return controllers_.task_queue;
+  }
+
+  
   /*
    * Note: The below event mathods will be executed on acceptor_thread.
    * This means that all methods called from these methods must be

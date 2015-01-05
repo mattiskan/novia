@@ -1,8 +1,11 @@
+//-*-c++-*-
 #ifndef NOVIA_SERVER_INSTANCE_H
 #define NOVIA_SERVER_INSTANCE_H
 
 #include "connection_reciever.h"
 #include "interval_sleeper.h"
+#include "task_queue.h"
+
 
 namespace novia {
 
@@ -12,6 +15,7 @@ namespace novia {
   class ServerInstance {
     ConnectionReceiver connections_;
     IntervalSleeper sleep_;
+    TaskQueue& task_queue_ref_;
 
   public:
     ServerInstance();

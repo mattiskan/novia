@@ -24,13 +24,13 @@ namespace novia {
      * Called right after read(), giving some messages the ability to
      * reply without getting executed on the server thread.
      */
-    virtual const OutMessage* instant_reply(const Controllers& c) const = 0;
+    virtual void instant_reply(const Controllers& c, ClientConnection& owner) const = 0;
 
     /**
-     * This is where messages that change the game are expected to do so.
-     * returned replies are sent immediately? 
+     * Called on server thread, this is where messages that change the game are
+     * expected to do so.
      */
-    virtual const OutMessage* invoke_on_server_thread(Controllers& c) const = 0;
+    virtual void on_invoke(Controllers& c, ClientConnection& owner) const = 0;
 
   };
 }
