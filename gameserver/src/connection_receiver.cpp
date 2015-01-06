@@ -83,6 +83,7 @@ namespace novia {
     ClientConnection* client = clients.find(hdl)->second;
     std::cout << "closed: " << client->session_id() << std::endl;
     clients.erase(hdl);
+    sessions_.erase(client->session_id());
     delete client;
   }
 
