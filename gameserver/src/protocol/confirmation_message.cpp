@@ -21,9 +21,7 @@ namespace novia {
     
     Json::Value msg;
     msg["msg_type"] = "confirmation";
-
-    
-    msg["message"]["status"] = status_str[status_];
+    msg["status"] = status_str[status_];
     return msg;
   }
 }

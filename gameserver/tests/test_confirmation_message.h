@@ -19,7 +19,7 @@ class TestConfirmationMessage : public CxxTest::TestSuite
     Json::Value result = msg->get_message();
 
     TS_ASSERT_EQUALS(result["msg_type"], "confirmation");
-    TS_ASSERT_EQUALS(result["message"]["status"], "accepted");
+    TS_ASSERT_EQUALS(result["status"], "accepted");
   }
 
 };
