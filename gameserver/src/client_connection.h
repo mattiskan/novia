@@ -3,6 +3,7 @@
 
 #include <string>
 #include <functional>
+#include <jsoncpp/json.h>
 
 namespace novia {
 
@@ -18,7 +19,8 @@ namespace novia {
 
     void authenticate(int user_id);
     void interpret_msg(std::string payload);
-    void send(std::string msg);
+    void send(const Json::Value& msg) const;
+    void send(std::string msg) const;
 
   private:
     const int session_id_;

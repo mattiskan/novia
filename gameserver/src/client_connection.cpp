@@ -34,7 +34,14 @@ namespace novia {
     msg->instant_reply(c, *this);
   }
 
-  void ClientConnection::send(std::string msg) {
+  void ClientConnection::send(const Json::Value& msg) const {
+    Json::FastWriter writer;
+
+    std::string payload = writer.write(msg);
+    send(payload);
+  }
+  
+  void ClientConnection::send(std::string msg) const {
     send_(session_id_, msg);
   }
 }

@@ -32,8 +32,7 @@ namespace novia {
     else
       response.set_status(ConfirmationMessage::REJECTED);
 
-    Json::FastWriter writer;
-    owner.send(writer.write(response.get_message()));
+    owner.send(response.get_message());
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
