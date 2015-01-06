@@ -36,7 +36,7 @@ namespace novia {
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
-    
+    // maybe broadcast new user to other players?
   }
 }
 
