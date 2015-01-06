@@ -12,7 +12,7 @@ namespace novia {
   public:
     bool authenticate(const std::string& username,
 		      const std::string& password,
-		      ClientConnection& message_owner);
+		      ClientConnection& message_owner) const;
   }; 
 }
 

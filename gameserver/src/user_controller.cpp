@@ -14,7 +14,7 @@ namespace novia {
 
   bool UserController::authenticate(const std::string& username,
 				    const std::string& password,
-				    ClientConnection& message_owner) {
+				    ClientConnection& message_owner) const {
     
     if (valid_users.count(username) == 1) {
       std::cout << "authenticated user " << username << std::endl;
