@@ -1,3 +1,4 @@
+//-*-c++-*-
 #ifndef NOVIA_CONNECTION_RECEIVER_H
 #define NOVIA_CONNECTION_RECEIVER_H
 
@@ -27,6 +28,8 @@ namespace novia {
     int connected_client_count() const;
     
     void broadcast(std::string msg);
+    void send_to(int session_id, const std::string& msg);
+    
     TaskQueue& task_queue_ref();
     
   private:
@@ -34,6 +37,9 @@ namespace novia {
       std::owner_less<websocketpp::connection_hdl>> con_list;
 
     con_list clients;
+
+    std::map<int, websocketpp::connection_hdl> sessions_;
+    
 
     std::thread* acceptor_thread_ptr_;
     WebsocketServer socket_server_;

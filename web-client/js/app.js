@@ -1,19 +1,16 @@
 var app = angular.module('novia', ['ngRoute']);
 
 app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/login',
-			{
-			    templateUrl: 'login/login.html',
-			    controller: 'LoginController'
-			})
-	.otherwise({
-	    redirectTo: '/login'
-	});
-}
-	   ]);
+    $routeProvider.when('/login', {
+        templateUrl: 'login/login.html',
+	controller: 'LoginController'
+    })
+    .otherwise({
+        redirectTo: '/login'
+    });
+}]);
 
 app.factory('socketFactory', ['$rootScope', function($rootScope) {
-
     var ws;
     var has_connected = false;
     
@@ -24,23 +21,22 @@ app.factory('socketFactory', ['$rootScope', function($rootScope) {
 	    ws.onopen = function() {
 		has_connected = true;
 		console.log("Connection successful");
-		ws.send(auth_msg)
+		ws.send(JSON.stringify(auth_msg))
 	    }
-
 	    ws.onclose = function() {
 		if(has_connected)
 		    console.log("Socket closed");
 	    }
-	    
 	},
-
 	onMessage : function(callback) {
 	    ws.onmessage = function(msg) {
 		$rootScope.$apply(function() {
 		    callback(msg);
 		});
 	    };
+	},
+	send: function(message) {
+	    ws.send(JSON.stringify(message));
 	}
     };
-
 }]);

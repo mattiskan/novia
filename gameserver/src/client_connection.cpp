@@ -1,10 +1,13 @@
 #include "client_connection.h"
 
 #include "protocol/messages.h"
+#include <stdexcept>
+#include <jsoncpp/json.h>
 
 namespace novia {
-  ClientConnection::ClientConnection(int assigned_id) 
-    : session_id_(assigned_id) {
+
+  ClientConnection::ClientConnection(int assigned_id, SendFn& send_fn)
+    : session_id_(assigned_id), send_(send_fn) {
   
   }
 
@@ -32,4 +35,14 @@ namespace novia {
     msg->instant_reply(c, *this);
   }
 
+  void ClientConnection::send(const OutMessage* msg) const {
+    Json::FastWriter writer;
+
+    std::string payload = writer.write(msg->get_message());
+    send(payload);
+  }
+  
+  void ClientConnection::send(std::string msg) const {
+    send_(session_id_, msg);
+  }
 }
