@@ -12,7 +12,7 @@ namespace novia {
     /**
      * Returns a Json::Value containing a message to be sent.
      */
-    virtual const Json::Value get_message() = 0;
+    virtual const Json::Value get_message() const = 0;
   };
 }
 
