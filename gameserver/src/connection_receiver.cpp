@@ -40,8 +40,8 @@ namespace novia {
   }
 
   void ConnectionReceiver::send_to(int session_id, const std::string& msg){
-    auto hdl_ptr = sessions_[session_id];
-    socket_server_.send(*hdl_ptr, msg, websocketpp::frame::opcode::text);
+    auto hdl = sessions_[session_id];
+    socket_server_.send(hdl, msg, websocketpp::frame::opcode::text);
   }
   
 
@@ -56,13 +56,12 @@ namespace novia {
    * independent of acceptor_thread to avoid deadlocks.
    */
   void ConnectionReceiver::on_connect(websocketpp::connection_hdl hdl){
-    std::cout << "Client connected." << std::endl;
-
     int id = next_unassigned_id_++;
+    std::cout << "Client "<< id << " connected." << std::endl;
 
     ClientConnection::SendFn send_fn = std::bind(&ConnectionReceiver::send_to, this, ::_1, ::_2);
     clients[hdl] = new ClientConnection(id, send_fn);
-    sessions_[id] = &hdl;
+    sessions_[id] = hdl;
   }
 
   void ConnectionReceiver::on_message(websocketpp::connection_hdl hdl, WebsocketServer::message_ptr msg){

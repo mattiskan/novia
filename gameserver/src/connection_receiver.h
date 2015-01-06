@@ -38,7 +38,7 @@ namespace novia {
 
     con_list clients;
 
-    std::map<int, websocketpp::connection_hdl*> sessions_;
+    std::map<int, websocketpp::connection_hdl> sessions_;
     
 
     std::thread* acceptor_thread_ptr_;

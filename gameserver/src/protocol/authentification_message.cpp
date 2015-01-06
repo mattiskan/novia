@@ -1,5 +1,6 @@
 //-*-c++-*-
 #include "authentification_message.h"
+#include "confirmation_message.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -21,10 +22,18 @@ namespace novia {
 
   void AuthentificationMessage::instant_reply(const Controllers& c,
 					      ClientConnection& owner) const {
-    
+
     bool successful =
       c.user_controller.authenticate(username(), password(), owner);
 
+    ConfirmationMessage response;
+    if(successful)
+      response.set_status(ConfirmationMessage::ACCEPTED);
+    else
+      response.set_status(ConfirmationMessage::REJECTED);
+
+    Json::FastWriter writer;
+    owner.send(writer.write(response.get_message()));
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
