@@ -47,4 +47,11 @@ namespace novia {
     return out;
   }
 
+  Json::Value Point::serialize() const {
+    Json::Value serialized(Json::objectValue);
+    serialized["x"] = Json::Value(x());
+    serialized["y"] = Json::Value(y());
+    return serialized;
+  }
+
 }

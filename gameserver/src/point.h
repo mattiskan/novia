@@ -4,9 +4,11 @@
 
 #include <ostream>
 
+#include "serializable.h"
+
 namespace novia {
 
-  class Point {
+  class Point : Serializable {
     const int x_, y_;
     
   public:
@@ -25,6 +27,9 @@ namespace novia {
     bool operator!=(const Point& rhs) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Point& p);
+
+    Json::Value serialize() const;
+
   };
 }
 #endif

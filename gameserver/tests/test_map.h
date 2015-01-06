@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cxxtest/TestSuite.h>
 #include <jsoncpp/json.h>
+#include <memory>
 
 #include "../src/map.h"
 #include "../src/point.h"
@@ -18,7 +19,7 @@ class TestMap : public CxxTest::TestSuite
     Map map;
 
     Point p(1,2);
-    Farm farm(p);
+    std::shared_ptr<Farm> farm(new Farm(p));
     map.add(farm);
 
     TS_ASSERT_EQUALS(map.object_count(), 1);

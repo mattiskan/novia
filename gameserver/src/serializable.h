@@ -6,7 +6,7 @@
 
 namespace novia {
 
-  class Serializeable {
+  class Serializable {
   public:
 
     virtual Json::Value serialize() const = 0;

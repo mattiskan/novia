@@ -3,7 +3,7 @@
 
 namespace novia {
 
-  void Map::add(const MapObject& obj) {
+  void Map::add(const std::shared_ptr<MapObject>& obj) {
     objects.push_back(obj);
   }
 
