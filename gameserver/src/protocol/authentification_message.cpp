@@ -32,7 +32,7 @@ namespace novia {
     else
       response.set_status(ConfirmationMessage::REJECTED);
 
-    owner.send(response.get_message());
+    owner.send(&response);
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {

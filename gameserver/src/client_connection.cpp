@@ -2,6 +2,7 @@
 
 #include "protocol/messages.h"
 #include <stdexcept>
+#include <jsoncpp/json.h>
 
 namespace novia {
 
@@ -34,10 +35,10 @@ namespace novia {
     msg->instant_reply(c, *this);
   }
 
-  void ClientConnection::send(const Json::Value& msg) const {
+  void ClientConnection::send(const OutMessage* msg) const {
     Json::FastWriter writer;
 
-    std::string payload = writer.write(msg);
+    std::string payload = writer.write(msg->get_message());
     send(payload);
   }
   
