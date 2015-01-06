@@ -4,6 +4,7 @@
 
 #include "user_controller.h"
 #include "task_queue.h"
+#include "map_controller.h"
 
 namespace novia {
 
@@ -13,7 +14,7 @@ namespace novia {
   struct Controllers {
     UserController user_controller;
     TaskQueue task_queue;
-    //MapController map_controller;
+    MapController map_controller;
 
     
   };
