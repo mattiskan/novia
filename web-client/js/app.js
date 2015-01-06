@@ -24,7 +24,7 @@ app.factory('socketFactory', ['$rootScope', function($rootScope) {
 	    ws.onopen = function() {
 		has_connected = true;
 		console.log("Connection successful");
-		ws.send(auth_msg)
+		ws.send(JSON.stringify(auth_msg))
 	    }
 
 	    ws.onclose = function() {
@@ -40,6 +40,10 @@ app.factory('socketFactory', ['$rootScope', function($rootScope) {
 		    callback(msg);
 		});
 	    };
+	},
+	
+	send: function(message) {
+	    ws.send(JSON.stringify(message));
 	}
     };
 

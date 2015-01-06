@@ -7,16 +7,12 @@ var controller = function($scope, socketFactory) {
 
 
     $scope.connect = function() {
-	var login = {
-	    'msg_type': 'authenticate',
-	    'username': $scope.username,
-	    'password': $scope.password
-	};
-	
-	socketFactory.connect($scope.ip, JSON.stringify(login));
+	var msg = new AuthentificationMessage($scope.username, $scope.password);
+		
+	socketFactory.connect($scope.ip, msg);
 
 	socketFactory.onMessage(function (msg) {
-	    console.log("recieved message");3
+	    console.log("recieved message");
 	    $scope.messages.push(msg.data);
 	});
 

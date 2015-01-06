@@ -1,17 +1,11 @@
 
 function AuthentificationMessage(username, password) {
-    return {
-	'msg_type': 'authenticate',
-	'message' : {
-	    'username': username,
-	    'password': password
-	}
-    };
+    this.msg_type = 'authenticate';
+    this.username = username;
+    this.password = password;
 }
 
 function RequestMapMessage() {
-    return {
-	'msg_type': 'request_map'
-    };
+    this.msg_type = 'request_map';
 }
 
