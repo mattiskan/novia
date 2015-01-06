@@ -1,10 +1,12 @@
 #include "client_connection.h"
 
 #include "protocol/messages.h"
+#include <stdexcept>
 
 namespace novia {
-  ClientConnection::ClientConnection(int assigned_id) 
-    : session_id_(assigned_id) {
+
+  ClientConnection::ClientConnection(int assigned_id, SendFn& send_fn)
+    : session_id_(assigned_id), send_(send_fn) {
   
   }
 
@@ -32,4 +34,7 @@ namespace novia {
     msg->instant_reply(c, *this);
   }
 
+  void ClientConnection::send(std::string msg) {
+    send_(session_id_, msg);
+  }
 }
