@@ -1,10 +1,7 @@
-// -*-c++-*-
+//-*-c++-*-
 #include <cxxtest/TestSuite.h>
-#define UNIT_TEST
-
-#include "../src/websocket_config.hpp"
+//#include <jsoncpp/json.h>
 #include "../src/protocol/authentification_message.h"
-#include "../src/connection_receiver.h"
 
 using namespace novia;
 
@@ -18,7 +15,7 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
     const char* txt =
       "{"
        "\"username\": \"bob\","
-       "\"password\": \"banana\""
+       "\"password\": \"bobs_password\""
       "}";
 
     reader.parse(txt, auth, false);
@@ -27,17 +24,8 @@ class TestAuthenticationMessage : public CxxTest::TestSuite
     msg.read(auth);
 
     TS_ASSERT_EQUALS(msg.username(), "bob");
-    TS_ASSERT_EQUALS(msg.password(), "banana");
+    TS_ASSERT_EQUALS(msg.password(), "bobs_password");
     
   }
 
-
-  void test_login() {
-    ConnectionReceiver cr;
-
-    //websocketpp::connection_hdl hdl;
-    //cr.on_connect(hdl);
-    // TODO: mock message...
-    //cr.on_message(hdl, msg);
-  }
 };

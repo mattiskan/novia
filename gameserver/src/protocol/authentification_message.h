@@ -2,29 +2,28 @@
 #ifndef NOVIA_AUTHENTIFICATION_MESSAGE_H
 #define NOVIA_AUTHENTIFICATION_MESSAGE_H
 
-#include "message.h"
+#include "in_message.h"
 
 namespace novia {
 
-  using namespace message_type;
-  
-  class AuthentificationMessage : public Message {
+  class AuthentificationMessage : public InMessage {
     std::string username_;
     std::string password_;
     
   public:
-
     const std::string& username() const;
     const std::string& password() const;
 
     
-    // inherited from Message:
+    // inherited from InMessage:
     virtual void read(const Json::Value& data) override;
-
-    virtual Json::Value write() const override;
     
-    virtual bool does_modification() const override;
-    virtual MessageType type() const override;
+
+    virtual void instant_reply(const Controllers& c,
+					    ClientConnection& owner) const override;
+
+    virtual void on_invoke(Controllers& c,
+						      ClientConnection& owner) const override;
   };
 }
 

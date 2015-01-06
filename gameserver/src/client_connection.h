@@ -3,27 +3,25 @@
 
 #include <string>
 #include <functional>
-#include "protocol/authentification_message.h"
 
 namespace novia {
 
-  typedef std::function<void (const std::string& msg)> SendFn;
-  
   class ClientConnection {
-    const int session_id_;
-    int user_id_ = -1;
+    typedef std::function<void (const std::string& msg)> SendFn;
     
-  public:    
-    ClientConnection(int assigned_id, SendFn& send_fn);
+  public:
+    const int session_id_;
+    int user_id_ = -1;    
+
+    ClientConnection(int assigned_id);
 
     int user_id() const;
     int session_id() const;
     bool authenticated() const;
-    
-    bool authenticate(const std::string& username, const std::string& password);
-    void interpret_msg(std::string payload);
 
-    SendFn send;
+    void authenticate(int user_id);
+    
+    void interpret_msg(std::string payload);
   };
 
 }

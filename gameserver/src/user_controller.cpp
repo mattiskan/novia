@@ -1,20 +1,27 @@
 //-*-c++-*-
 #include "user_controller.h"
 
+#include <unordered_map>
+#include <iostream>
+
+std::unordered_map<std::string, int> valid_users = {
+  { "mattis", 1337},
+  { "axel", 4711},
+  { "test", 123}
+};
+
 namespace novia {
 
-  void UserController::authenticate(const AuthentificationMessage& auth,
-			     ClientConnection& message_owner) {
+  bool UserController::authenticate(const std::string& username,
+				    const std::string& password,
+				    ClientConnection& message_owner) const {
     
-      bool successful =
-	message_owner.authenticate(auth.username(), auth.password());
-
-
-      if (successful){
-	message_owner.send("welcome:");
-	message_owner.send(auth.username().c_str());
-      }
+    if (valid_users.count(username) == 1) {
+      std::cout << "authenticated user " << username << std::endl;
+      return true;
     }
 
+    return false;
+  }
   
 }

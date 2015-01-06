@@ -1,21 +1,10 @@
 #include "client_connection.h"
 
-#include "protocol/message_router.h"
-
-#include <unordered_map>
-#include <string>
-
-std::unordered_map<std::string, int> valid_users = {
-  { "mattis", 1337},
-  { "axel", 4711},
-  { "test", 123}
-};
+#include "protocol/messages.h"
 
 namespace novia {
-  
-  ClientConnection::ClientConnection(int assigned_id, SendFn& send_fn) 
-    : session_id_(assigned_id),
-      send(send_fn){
+  ClientConnection::ClientConnection(int assigned_id) 
+    : session_id_(assigned_id) {
   
   }
 
@@ -30,24 +19,17 @@ namespace novia {
   bool ClientConnection::authenticated() const {
     return user_id_ != -1;
   }
-    
-  bool ClientConnection::authenticate(const std::string& username,
-				      const std::string& password) {
-    if (valid_users.count(username) == 1) {
-      user_id_ = valid_users.at(username);
-    }
 
-    return authenticated();
+  void ClientConnection::authenticate(int user_id) {
+    user_id_ = user_id;
   }
+  
+  void ClientConnection::interpret_msg(std::string payload){
+    InMessage* msg  = messages::in_message(payload);
 
-  void ClientConnection::interpret_msg(std::string payload){    
-    Message* msg = message_router::read_message(payload);
+    Controllers c;
     
-    if (!msg->does_modification())
-      message_router::invoke_now(msg, *this);
-    else
-      message_router::invoke_later(msg, *this);
+    msg->instant_reply(c, *this);
   }
-
 
 }

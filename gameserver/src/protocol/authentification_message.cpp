@@ -1,6 +1,7 @@
 //-*-c++-*-
 #include "authentification_message.h"
 
+#include <iostream>
 #include <stdexcept>
 
 namespace novia {
@@ -18,15 +19,16 @@ namespace novia {
     password_ = data["password"].asString();
   }
 
-  Json::Value AuthentificationMessage::write() const {
-    throw std::runtime_error("not implemented");
-  }
-  
-  bool AuthentificationMessage::does_modification() const {
-    return false;
+  void AuthentificationMessage::instant_reply(const Controllers& c,
+					      ClientConnection& owner) const {
+    
+    bool successful =
+      c.user_controller.authenticate(username(), password(), owner);
+
   }
 
-  MessageType AuthentificationMessage::type() const {
-    return AUTHENTICATE;
+  void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
+    
   }
 }
+

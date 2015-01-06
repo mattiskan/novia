@@ -2,19 +2,17 @@
 #ifndef NOVIA_USER_CONTROLLER
 #define NOVIA_USER_CONTROLLER
 
+#include <string>
 #include "client_connection.h"
-#include "protocol/authentification_message.h"
 
 namespace novia {
+
   class UserController {
     
-
-    
   public:
-
-    static void authenticate(const AuthentificationMessage& auth,
-			     ClientConnection& message_owner);
-    
+    bool authenticate(const std::string& username,
+		      const std::string& password,
+		      ClientConnection& message_owner) const;
   }; 
 }
 

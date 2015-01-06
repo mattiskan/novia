@@ -39,10 +39,11 @@ namespace novia {
     }
   }
 
-  void ConnectionReceiver::send(int session_id, const std::string& msg) {
-     auto con = handles_[session_id];
-     socket_server_.send(con, msg, websocketpp::frame::opcode::text);
+
+  TaskQueue& ConnectionReceiver::task_queue_ref() {
+    return controllers_.task_queue;
   }
+
   
   /*
    * Note: The below event mathods will be executed on acceptor_thread.
@@ -52,21 +53,14 @@ namespace novia {
   void ConnectionReceiver::on_connect(websocketpp::connection_hdl hdl){
     std::cout << "Client connected." << std::endl;
 
-    int id = next_unassigned_id_;
-    SendFn send_fn = std::bind(&ConnectionReceiver::send, this, id, ::_1 );
-    ClientConnection* client_ptr = new ClientConnection(id, send_fn);
-    
-    clients[hdl] = client_ptr;
-    handles_[client_ptr->session_id()] = hdl;
-    
-    next_unassigned_id_++;
+    clients[hdl] = new ClientConnection(next_unassigned_id_++);
   }
 
   void ConnectionReceiver::on_message(websocketpp::connection_hdl hdl, WebsocketServer::message_ptr msg){
 
     ClientConnection& client = *clients.find(hdl)->second;
 
-    std::cout << "Client"<< client.session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
+    std::cout << "Client"<< client.session_id_ <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
 
     client.interpret_msg(msg->get_payload());
   }
@@ -79,7 +73,7 @@ namespace novia {
 
   void ConnectionReceiver::on_close(websocketpp::connection_hdl hdl){
     ClientConnection* client = clients.find(hdl)->second;
-    std::cout << "closed: " << client->session_id() << std::endl;
+    std::cout << "closed: " << client->session_id_ << std::endl;
     clients.erase(hdl);
     delete client;
   }

@@ -31,7 +31,7 @@ bin/_main_%.exe: bin/_main_%.o $(OBJ) bin/_link_real.o
 depend: bin/depend
 bin/depend: $(ALL_SRC) $(TST)
 	mkdir -p bin/protocol
-	g++ $(CPPFLAGS) src/*.cpp tests/*.h -MM | sed 's%^.*:%bin/&%'>bin/depend
+	g++ $(CPPFLAGS) src/*.cpp src/*/*.cpp tests/*.h -MM | sed 's%^.*:%bin/&%'>bin/depend
 
 bin/test_runner.cpp:
 	cxxtestgen --root --error-printer -o bin/test_runner.cpp
