@@ -17,10 +17,9 @@ namespace novia {
 				    ClientConnection& message_owner) const {
     
     if (valid_users.count(username) == 1) {
-      std::cout << "authenticated user " << username << std::endl;
       return true;
     }
-
+    
     return false;
   }
   
