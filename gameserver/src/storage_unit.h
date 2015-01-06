@@ -5,14 +5,16 @@
 #include <set>
 #include <limits>
 #include <vector>
+
 #include "resource_handling_error.h"
+#include "serializable.h"
 
 namespace novia {
 #define ALL_RESOURCES { WOOD, STONE, FOOD, IRON }
   enum ResourceType { WOOD=0, STONE, FOOD, IRON, 
 		      /*Must be last:*/ RESOURCE_COUNT };
 
-  class StorageUnit{
+  class StorageUnit : public Serializable {
   private:
     int capacity_;
     int total_storage_;
@@ -36,6 +38,8 @@ namespace novia {
     int total_storage() const;
     bool is_full() const;
     bool can_store(ResourceType type) const;
+
+    virtual Json::Value serialize() const;
   private:
   };
 }

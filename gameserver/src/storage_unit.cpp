@@ -112,4 +112,20 @@ namespace novia {
     return resources_[type] != UNAVAILABLE_RESOURCE;
   }
 
+  Json::Value StorageUnit::serialize() const {
+    using namespace Json;
+    Value serialized(objectValue);
+    serialized["capacity"] = capacity();
+    Value& resources_serialized(serialized["resources"] = Value(arrayValue));
+    for (const int resource : resources_) {
+      if (!can_store((ResourceType)resource))
+	continue;
+      Value resource_serialized(objectValue);
+      resource_serialized["type"] = Value(resource);
+      resource_serialized["quantity"] = Value(get((ResourceType)resource));
+      resources_serialized.append(resource_serialized);
+    }
+    return serialized;
+  };
+
 }

@@ -29,7 +29,7 @@ class TestMap : public CxxTest::TestSuite
     Map map;
 
     const char* expected ="{"
-        "\"map\":" "{}"
+        "\"mapObjects\":" "[]"
       "}" "\n";
     
 

@@ -12,8 +12,12 @@ namespace novia {
   }
 
   Json::Value Map::serialize() const {
-    Json::Value serialized;
-    serialized["map"] = Json::Value(Json::objectValue);
+    using namespace Json;
+    Value serialized(objectValue);
+    Value map_objects_serialized(serialized["mapObjects"] = Value(arrayValue));
+    for (const std::shared_ptr<MapObject>& mapObject : objects) {
+      map_objects_serialized.append(mapObject->serialize());
+    }
 
     return serialized;
   }

@@ -13,12 +13,16 @@ namespace novia {
   StorageUnit& Cart::storage() {
     return storage_;
   }
+
+  const StorageUnit& Cart::storage() const {
+    return storage_;
+  }
   
   Json::Value Cart::serialize() const {
     using namespace Json;
-    Value serialized(MapObject::Serialize);
+    Value serialized(MapObject::serialize());
     serialized["storage"] = storage().serialize();
-    return serialize;
+    return serialized;
   };
 
 }

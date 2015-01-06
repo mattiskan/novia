@@ -16,6 +16,7 @@ namespace novia {
 
     virtual Json::Value serialize() const override;
     StorageUnit& storage();
+    const StorageUnit& storage() const;
   private:
     std::weak_ptr<MapObject> targetObject;
     StorageUnit storage_;
