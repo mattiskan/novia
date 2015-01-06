@@ -10,7 +10,9 @@ class TestConfirmationMessage : public CxxTest::TestSuite
  public:
   void test_message() {
     ConfirmationMessage* c_msg =
-      new ConfirmationMessage(ConfirmationMessage::ACCEPTED);
+      new ConfirmationMessage();
+
+    c_msg->set_status(ConfirmationMessage::ACCEPTED);
     
     const OutMessage* msg = (const OutMessage*) c_msg;
 

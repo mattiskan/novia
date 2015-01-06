@@ -14,17 +14,19 @@ namespace novia {
       ACCEPTED = 0,
       REJECTED,
       INVALID_REQUEST,
-      DENIED
+      DENIED,
+      NOT_SET = -1,
     };
     
-    ConfirmationMessage(Status status);
+    ConfirmationMessage();
 
     Status status() const;
+    void set_status(Status status);
     
     virtual const Json::Value get_message() const override;
 
   private:
-    const Status status_;
+    Status status_;
     
     const std::string status_str[4] = {
       "accepted",
