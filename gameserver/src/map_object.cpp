@@ -1,3 +1,4 @@
+//-*-c++-*-
 #include "map_object.h"
 
 namespace novia {

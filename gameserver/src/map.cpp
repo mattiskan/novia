@@ -3,6 +3,22 @@
 
 namespace novia {
 
+  Map::Map(std::size_t width, std::size_t height)
+    : width_(width),
+      height_(height),
+      terrain(height, std::vector<MapSquare>(width, MapSquare(MapSquare::GRASS)));
+  {
+
+  }
+
+  std::size_t width() const {
+    return width_;
+  }
+
+  std::size_t height() const {
+    return height_;
+  }
+
   void Map::add(const std::shared_ptr<MapObject>& obj) {
     objects.push_back(obj);
   }

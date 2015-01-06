@@ -16,7 +16,7 @@ class TestMap : public CxxTest::TestSuite
  public:
 
   void test_add() {
-    Map map;
+    Map map(1, 1);
 
     Point p(1,2);
     std::shared_ptr<Farm> farm(new Farm(p));
@@ -26,7 +26,7 @@ class TestMap : public CxxTest::TestSuite
   }
 
   void test_serialize() {
-    Map map;
+    Map map(1, 1);
 
     const char* expected ="{"
         "\"mapObjects\":" "[]"

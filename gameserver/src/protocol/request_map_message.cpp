@@ -10,7 +10,7 @@ namespace novia {
   void RequestMapMessage::instant_reply(const Controllers& c,
 					ClientConnection& owner) const {
 
-    Json::Value serialized_map = c.map_controller.get_serialized();
+    Json::Value serialized_map(c.map_controller.get_serialized());
     RequestMapResponse response(serialized_map);
     owner.send(&response);
   }
