@@ -15,7 +15,10 @@ namespace novia {
   }
   
   Json::Value Cart::serialize() const {
-    return Json::Value(Json::nullValue);
+    using namespace Json;
+    Value serialized(MapObject::Serialize);
+    serialized["storage"] = storage().serialize();
+    return serialize;
   };
 
 }
