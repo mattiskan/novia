@@ -4,18 +4,18 @@
 namespace novia {
 
   Map::Map(std::size_t width, std::size_t height)
-    : width_(width),
-      height_(height),
-      terrain(height, std::vector<MapSquare>(width, MapSquare(MapSquare::GRASS)));
+    : terrain(height, std::vector<MapSquare>(width, MapSquare(MapSquare::TerrainType::GRASS))),
+      width_(width),
+      height_(height)
   {
 
   }
 
-  std::size_t width() const {
+  std::size_t Map::width() const {
     return width_;
   }
 
-  std::size_t height() const {
+  std::size_t Map::height() const {
     return height_;
   }
 

@@ -18,7 +18,6 @@ namespace novia {
     bool authenticated() const;
 
     void authenticate(int user_id);
-    void interpret_msg(std::string payload);
     void send(const OutMessage* msg) const;
     void send(std::string msg) const;
 

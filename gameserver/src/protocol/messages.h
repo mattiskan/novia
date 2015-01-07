@@ -8,7 +8,7 @@
 namespace novia {
   namespace messages {
 
-    InMessage* in_message(std::string payload);
+    std::shared_ptr<InMessage> in_message(const std::string& payload);
   }
 }
 #endif

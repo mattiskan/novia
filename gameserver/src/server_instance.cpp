@@ -9,8 +9,7 @@
 namespace novia {
 
   ServerInstance::ServerInstance()
-    : sleep_(5000),
-      task_queue_ref_(connections_.task_queue_ref()) {
+    : sleep_(5000) {
 
     
   }
@@ -29,6 +28,10 @@ namespace novia {
       sleep_();
     }
     
+  }
+
+  void ServerInstance::message_handler(const std::shared_ptr<InMessage>& msg) {
+    std::cout << "message retrieved!" << std::endl;
   }
 
 

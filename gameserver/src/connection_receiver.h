@@ -5,9 +5,13 @@
 #include <map>
 #include <thread>
 #include <utility>
+#include <functional>
+#include <memory>
+
 #include "client_connection.h"
 #include "controllers.h"
 #include "websocket_config.hpp"
+#include "protocol/in_message.h"
 
 
 using websocketpp::lib::bind;
@@ -30,7 +34,7 @@ namespace novia {
     void broadcast(std::string msg);
     void send_to(int session_id, const std::string& msg);
     
-    TaskQueue& task_queue_ref();
+    void set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&) >& handler);
     
   private:
     typedef std::map<websocketpp::connection_hdl, ClientConnection*,
@@ -40,11 +44,11 @@ namespace novia {
 
     std::map<int, websocketpp::connection_hdl> sessions_;
     
+    std::function< void(const std::shared_ptr<InMessage>&) > message_handler_;
 
     std::thread* acceptor_thread_ptr_;
     WebsocketServer socket_server_;
     int next_unassigned_id_;
-    Controllers controllers_;
 
     void on_connect(websocketpp::connection_hdl);
     void on_fail(websocketpp::connection_hdl);

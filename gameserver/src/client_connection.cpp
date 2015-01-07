@@ -27,14 +27,6 @@ namespace novia {
     user_id_ = user_id;
   }
   
-  void ClientConnection::interpret_msg(std::string payload){
-    InMessage* msg  = messages::in_message(payload);
-
-    Controllers c;
-    
-    msg->instant_reply(c, *this);
-  }
-
   void ClientConnection::send(const OutMessage* msg) const {
     Json::FastWriter writer;
 

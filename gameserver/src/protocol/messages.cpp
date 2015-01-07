@@ -1,22 +1,25 @@
 #include "messages.h"
 
 #include <unordered_map>
+#include <memory>
+
 #include "authentification_message.h"
 #include "request_map_message.h"
+
 
 namespace novia{
   namespace messages {
 
-    InMessage* from_type(std::string messgage_type);
+    InMessage* from_type(const std::string& messgage_type);
     
     Json::Reader reader;
     
-    InMessage* in_message(std::string payload) {
+    std::shared_ptr<InMessage> in_message(const std::string& payload) {
       Json::Value data;
       reader.parse(payload, data, false);
       
-      std::string message_type = data["msg_type"].asString();
-      InMessage* msg = from_type(message_type);
+      std::string message_type(data["msg_type"].asString());
+      std::shared_ptr<InMessage> msg(from_type(message_type));
       msg->read(data);
       
       return msg;
@@ -32,7 +35,7 @@ namespace novia{
       {"request_map", REQUEST_MAP}
     };
     
-    InMessage* from_type(std::string message_type) {
+    InMessage* from_type(const std::string& message_type) {
       MessageType type = from_name_.at(message_type);
       
       switch(type) {	

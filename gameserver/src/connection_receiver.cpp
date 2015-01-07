@@ -1,4 +1,5 @@
 #include "connection_receiver.h"
+#include "protocol/messages.h"
 
 namespace novia {
 
@@ -45,10 +46,11 @@ namespace novia {
   }
   
 
-  TaskQueue& ConnectionReceiver::task_queue_ref() {
-    return controllers_.task_queue;
-  }
 
+  void ConnectionReceiver::set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&) >& handler) {
+    message_handler_ = handler;
+  }
+										    
   
   /*
    * Note: The below event mathods will be executed on acceptor_thread.
@@ -68,9 +70,10 @@ namespace novia {
 
     ClientConnection& client = *clients.find(hdl)->second;
 
-    std::cout << "Client"<< client.session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
 
-    client.interpret_msg(msg->get_payload());
+    std::cout << "Client"<< client.session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
+    std::shared_ptr<InMessage> in_msg(messages::in_message(msg->get_payload()));
+    message_handler_(in_msg);
   }
 
 
