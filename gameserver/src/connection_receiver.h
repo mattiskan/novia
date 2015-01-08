@@ -34,7 +34,8 @@ namespace novia {
     void broadcast(std::string msg);
     void send_to(int session_id, const std::string& msg);
     
-    void set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&) >& handler);
+    void set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&, 
+						       ClientConnection&) >& handler);
     
   private:
     typedef std::map<websocketpp::connection_hdl, ClientConnection*,
@@ -44,7 +45,7 @@ namespace novia {
 
     std::map<int, websocketpp::connection_hdl> sessions_;
     
-    std::function< void(const std::shared_ptr<InMessage>&) > message_handler_;
+    std::function< void(const std::shared_ptr<InMessage>&, ClientConnection&) > message_handler_;
 
     std::thread* acceptor_thread_ptr_;
     WebsocketServer socket_server_;

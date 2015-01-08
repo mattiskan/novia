@@ -47,7 +47,7 @@ namespace novia {
   
 
 
-  void ConnectionReceiver::set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&) >& handler) {
+  void ConnectionReceiver::set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&, ClientConnection&) >& handler) {
     message_handler_ = handler;
   }
 										    
@@ -73,7 +73,7 @@ namespace novia {
 
     std::cout << "Client"<< client.session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
     std::shared_ptr<InMessage> in_msg(messages::in_message(msg->get_payload()));
-    message_handler_(in_msg);
+    message_handler_(in_msg, client);
   }
 
 

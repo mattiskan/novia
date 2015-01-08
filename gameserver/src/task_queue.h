@@ -8,12 +8,9 @@
 
 
 namespace novia {
-  class TaskQueue {
+  class TaskQueue : public std::queue<std::function<void ()>> {
     typedef std::function<void ()> task;
-    std::queue<task> tasks;
-
   public:
-    void invoke_all();
   };
 }
 

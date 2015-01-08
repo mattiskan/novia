@@ -3,6 +3,8 @@
 #define NOVIA_SERVER_INSTANCE_H
 
 #include <memory>
+#include <mutex>
+
 #include "connection_receiver.h"
 #include "interval_sleeper.h"
 #include "task_queue.h"
@@ -20,11 +22,12 @@ namespace novia {
     void start();
     void stop();
   private:
+    std::mutex write_mutex;
     ConnectionReceiver connections_;
     IntervalSleeper sleep_;
     Controllers controllers_;
     TaskQueue task_queue_;
-    void message_handler(const std::shared_ptr<InMessage>& msg);
+    void message_handler(const std::shared_ptr<InMessage>& msg, ClientConnection& owner);
   };
 
 }
