@@ -8,16 +8,17 @@ var controller = function($scope, socketFactory) {
 
     $scope.connect = function() {
 	var msg = new AuthentificationMessage($scope.username, $scope.password);
-		
-	socketFactory.connect($scope.ip, msg);
+
+	socketFactory.connect($scope.ip, msg, function() {
+	    $scope.is_connected = true;
+	});
 
 	socketFactory.onMessage(function (msg) {
 	    console.log("recieved message");
 	    $scope.messages.push(msg.data);
 	});
-
+	
 	$scope.messages = [];
-	$scope.is_connected = true;
     };
 
     $scope.request_map = function() {
