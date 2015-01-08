@@ -12,7 +12,7 @@ namespace novia {
 
     Json::Value serialized_map(c.map_controller.get_serialized());
     RequestMapResponse response(serialized_map);
-    owner.send(&response);
+    owner.send(response);
   }
   
   void RequestMapMessage::on_invoke(Controllers& c,

@@ -47,7 +47,7 @@ namespace novia {
   
 
 
-  void ConnectionReceiver::set_message_handler(const std::function< void(const std::shared_ptr<InMessage>&, ClientConnection&) >& handler) {
+  void ConnectionReceiver::set_message_handler(const MessageHandlerFn& handler) {
     message_handler_ = handler;
   }
 										    
@@ -62,16 +62,16 @@ namespace novia {
     std::cout << "Client "<< id << " connected." << std::endl;
 
     ClientConnection::SendFn send_fn = std::bind(&ConnectionReceiver::send_to, this, ::_1, ::_2);
-    clients[hdl] = new ClientConnection(id, send_fn);
+    clients[hdl] = std::shared_ptr<ClientConnection>(new ClientConnection(id, send_fn));
     sessions_[id] = hdl;
   }
 
   void ConnectionReceiver::on_message(websocketpp::connection_hdl hdl, WebsocketServer::message_ptr msg){
 
-    ClientConnection& client = *clients.find(hdl)->second;
+    std::shared_ptr<ClientConnection> client = clients.find(hdl)->second;
 
 
-    std::cout << "Client"<< client.session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
+    std::cout << "Client"<< client->session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
     std::shared_ptr<InMessage> in_msg(messages::in_message(msg->get_payload()));
     message_handler_(in_msg, client);
   }
@@ -83,11 +83,10 @@ namespace novia {
   }
 
   void ConnectionReceiver::on_close(websocketpp::connection_hdl hdl){
-    ClientConnection* client = clients.find(hdl)->second;
+    std::shared_ptr<ClientConnection> client = clients.find(hdl)->second;
     std::cout << "closed: " << client->session_id() << std::endl;
     clients.erase(hdl);
     sessions_.erase(client->session_id());
-    delete client;
   }
 
 }

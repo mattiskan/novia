@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <memory>
+#include <sstream>
 
 #include "authentification_message.h"
 #include "request_map_message.h"
@@ -42,8 +43,9 @@ namespace novia{
       case AUTHENTICATE: return new AuthentificationMessage;
       case REQUEST_MAP: return new RequestMapMessage;
       }
-  
-      throw std::domain_error("unknown message type");
+      std::stringstream error_msg;
+      error_msg << "unknown message type: " << message_type;
+      throw std::domain_error(error_msg.str());
     }
 
   }

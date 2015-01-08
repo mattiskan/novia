@@ -30,11 +30,18 @@ namespace novia {
   Json::Value Map::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
-    Value map_objects_serialized(serialized["mapObjects"] = Value(arrayValue));
+    Value& map_objects_serialized = serialized["mapObjects"] = Value(arrayValue);
     for (const std::shared_ptr<MapObject>& mapObject : objects) {
       map_objects_serialized.append(mapObject->serialize());
     }
-
+    Value& terrain_serialized = serialized["terrain"] = Value(arrayValue);
+    for (std::size_t y=0; y<height(); ++y) {
+      Value t_row_serialized = Value(arrayValue);
+      for (std::size_t x=0; x<width(); ++x) {
+	t_row_serialized.append(terrain[y][x].serialize());
+      }
+      terrain_serialized.append(t_row_serialized);
+    }
     return serialized;
   }
 

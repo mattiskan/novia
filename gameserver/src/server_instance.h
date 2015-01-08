@@ -27,7 +27,8 @@ namespace novia {
     IntervalSleeper sleep_;
     Controllers controllers_;
     TaskQueue task_queue_;
-    void message_handler(const std::shared_ptr<InMessage>& msg, ClientConnection& owner);
+    void message_handler(const std::shared_ptr<InMessage>& msg, const std::shared_ptr<ClientConnection>& owner);
+    void process_tasks();
   };
 
 }
