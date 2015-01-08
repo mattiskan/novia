@@ -6,13 +6,18 @@
     Username:<input type="text" ng-model="username"/><br/>
     Password:<input type="password" ng-model="password"/><br/>
     <button ng-click="connect()">connect</button>
-    <button ng-click="request_map()" ng-disabled="!is_connected">request map</button>
+  </div>
+
+  <div class="controls" ng-show="is_connected">
+    Controls:
+    <button ng-click="request_map()">request map</button><br/>
+    Log: <br/>
+    <div class="log">
+      <div ng-repeat="msg in messages track by $index">
+	{{msg}}
+      </div>
+    </div>
   </div>
   
-  <br/>
-  
-  <div ng-repeat="msg in messages track by $index">
-    {{msg}}
-  </div>
   
 </div>
