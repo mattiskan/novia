@@ -42,7 +42,11 @@ namespace novia {
 
   void ConnectionReceiver::send_to(int session_id, const std::string& msg){
     auto hdl = sessions_[session_id];
-    socket_server_.send(hdl, msg, websocketpp::frame::opcode::text);
+    try {
+      socket_server_.send(hdl, msg, websocketpp::frame::opcode::text);
+    } catch(websocketpp::exception& e) {
+      std::cout << e.what() << std::endl;
+    }
   }
   
 

@@ -3,5 +3,8 @@
 *\#*
 *~
 *.tmp
+.emacs.desktop
+.emacs.desktop.lock
+bin
 
 gameserver/bin/*
