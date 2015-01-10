@@ -36,7 +36,7 @@ namespace novia {
     using namespace Json;
     get_rooms().clear();
     get_characters().clear();
-    for (const std::string& : roommap["rooms"].memberNames()) {
+    for (const std::string& room_name : map["rooms"].getMemberNames()) {
       
     }
     
