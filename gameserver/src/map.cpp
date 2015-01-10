@@ -1,48 +1,53 @@
 #include "map.h"
 #include <stdexcept>
+#include <fstream>
+#include <jsoncpp/json.h>
+
 
 namespace novia {
 
-  Map::Map(std::size_t width, std::size_t height)
-    : terrain(height, std::vector<MapSquare>(width, MapSquare(MapSquare::TerrainType::GRASS))),
-      width_(width),
-      height_(height)
-  {
-
-  }
-
-  std::size_t Map::width() const {
-    return width_;
-  }
-
-  std::size_t Map::height() const {
-    return height_;
-  }
-
-  void Map::add(const std::shared_ptr<MapObject>& obj) {
-    objects.push_back(obj);
-  }
-
-  size_t Map::object_count() const {
-    return objects.size();
+  Map::Map() {
+    load_map();
   }
 
   Json::Value Map::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
-    Value& map_objects_serialized = serialized["mapObjects"] = Value(arrayValue);
-    for (const std::shared_ptr<MapObject>& mapObject : objects) {
-      map_objects_serialized.append(mapObject->serialize());
-    }
-    Value& terrain_serialized = serialized["terrain"] = Value(arrayValue);
-    for (std::size_t y=0; y<height(); ++y) {
-      Value t_row_serialized = Value(arrayValue);
-      for (std::size_t x=0; x<width(); ++x) {
-	t_row_serialized.append(terrain[y][x].serialize());
-      }
-      terrain_serialized.append(t_row_serialized);
-    }
     return serialized;
+  }
+  void Map::load_map() {
+    using namespace Json;
+    Value map_json;
+    std::ifstream map_stream("maps/map.json", std::ifstream::in);
+    if (!map_stream.good()) {
+      map_stream.close();
+      throw std::invalid_argument("Map file not found");
+    }
+    Reader json_reader;
+    if (!json_reader.parse(map_stream, map_json)) {
+      throw std::invalid_argument(json_reader.getFormatedErrorMessages());
+    }
+
+    map_stream.close();
+    init_from_json(map_json);
+  }
+
+  void Map::init_from_json(const Json::Value& map) {
+    using namespace Json;
+    get_rooms().clear();
+    get_characters().clear();
+    for (const std::string& : roommap["rooms"].memberNames()) {
+      
+    }
+    
+  }
+
+  std::vector<std::shared_ptr<Room>>& Map::get_rooms() {
+    return rooms_;
+  }
+
+  std::vector<std::shared_ptr<Character>>& Map::get_characters() {
+    return characters_;
   }
 
 

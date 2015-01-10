@@ -9,6 +9,7 @@ namespace novia {
   class MapController {
     Map map_;
   public:
+    
     MapController();
     Json::Value get_serialized() const;
     

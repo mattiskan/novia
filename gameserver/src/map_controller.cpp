@@ -2,7 +2,7 @@
 
 namespace novia {
   MapController::MapController() 
-    : map_(32, 32)
+    : map_()
   {
     
   }

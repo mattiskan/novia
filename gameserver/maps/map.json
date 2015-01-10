@@ -1,0 +1,40 @@
+{
+    "rooms": {
+	"Home": {
+	    
+	},
+	"School": {
+
+	},
+	"Pub": {
+
+	}
+    },
+    "characters": {
+
+    },
+    "paths": [
+	{
+	    "exit1": {
+		"to": "Home",
+		"description": "Info"
+	    },
+	    "exit2": {
+		"to": "School",
+		"description": "Info"
+	    }
+	},
+	{
+	    "exit1": {
+		"to": "School",
+		"description": "Info"
+	    },
+	    "exit2": {
+		"to": "Pub",
+		"description": "Info"
+	    }
+	}
+
+    ]
+
+}

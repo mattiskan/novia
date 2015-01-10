@@ -4,24 +4,24 @@
 #include <vector>
 #include <memory>
 
+#include "room.h"
+#include "character.h"
 #include "serializable.h"
-#include "map_object.h"
-#include "map_square.h"
 
 namespace novia {
 
   class Map : public Serializable {
-    std::vector<std::shared_ptr<MapObject>> objects;
-    std::vector<std::vector<MapSquare>> terrain;
-    std::size_t width_;
-    std::size_t height_;
   public:
-    Map(std::size_t width, std::size_t height);
-    void add(const std::shared_ptr<MapObject>& obj);
-    std::size_t width() const;
-    std::size_t height() const;
-    size_t object_count() const;
+    Map();
     virtual Json::Value serialize() const override;
+    void load_map();
+    std::vector<std::shared_ptr<Room>>& get_rooms();
+    std::vector<std::shared_ptr<Character>>& get_characters();
+    
+  private:
+    std::vector<std::shared_ptr<Room>> rooms_;
+    std::vector<std::shared_ptr<Character>> characters_;
+    void init_from_json(const Json::Value& map);
   };
 
 }
