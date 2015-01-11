@@ -22,4 +22,11 @@ namespace novia {
     std::shared_ptr<Room> entr = (&entrance == room1_.entrance.get()) ? room1_.entrance : room2_.entrance;
     return RoomPathEntrance(*this, entr);
   }
+
+  Json::Value RoomPath::serialize() const {
+    using namespace Json;
+    Value serialized(objectValue);
+
+    return serialized;
+  }
 }

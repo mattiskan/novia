@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 
+#include "item.h"
 #include "room.h"
 #include "character.h"
 #include "serializable.h"
@@ -15,12 +16,13 @@ namespace novia {
     Map();
     virtual Json::Value serialize() const override;
     void load_map();
-    std::vector<std::shared_ptr<Room>>& get_rooms();
-    std::vector<std::shared_ptr<Character>>& get_characters();
-    
+    std::map<std::string, std::shared_ptr<Room>>& rooms();
+    std::vector<std::shared_ptr<Character>>& characters();
+    std::vector<std::shared_ptr<Item>>& items();
   private:
-    std::vector<std::shared_ptr<Room>> rooms_;
+    std::map<std::string, std::shared_ptr<Room>> rooms_;
     std::vector<std::shared_ptr<Character>> characters_;
+    std::vector<std::shared_ptr<Item>> items_;
     void init_from_json(const Json::Value& map);
   };
 

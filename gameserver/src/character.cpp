@@ -17,4 +17,8 @@ namespace novia {
   std::vector<std::shared_ptr<Item>>& Character::get_items() {
     return items_;
   }
+  
+  std::string Character::name() const {
+    return name_;
+  }
 }

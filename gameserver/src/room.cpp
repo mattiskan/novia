@@ -23,4 +23,11 @@ namespace novia {
     }
     return exits;
   }
+
+  std::shared_ptr<Room> Room::from_json(const Json::Value& json, Map& map) {
+    std::shared_ptr<Room> new_room(new Room());
+    
+
+    return new_room;
+  }
 }

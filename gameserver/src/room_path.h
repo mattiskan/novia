@@ -28,6 +28,7 @@ namespace novia {
     Entrance get_entrance(const Room& entrance);
     std::shared_ptr<Room> get_exit(const Room& entrance);
     RoomPathEntrance get_room_path_entrance(const Room& entrance);
+    Json::Value serialize() const override;
   private:
     Entrance room1_;
     Entrance room2_;

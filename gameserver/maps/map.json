@@ -1,17 +1,27 @@
 {
     "rooms": {
 	"Home": {
-	    
+	    "items": [ 0 ]
 	},
 	"School": {
-
+	    "items": [ 0 ]
 	},
 	"Pub": {
-
+	    "items": [ 0 ]
+	}
+    },
+    "items": {
+	"0": {
+	    "name": "Sword"
+	},
+	"1": {
+	    "name": "Dagger"
 	}
     },
     "characters": {
-
+	"Beggar" : {
+	    "name": "Beggar"
+	}
     },
     "paths": [
 	{
