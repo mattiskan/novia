@@ -5,9 +5,11 @@
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #FF9500;
-  font-family: FreeMono, monospace !important;
+  font-family: FreeMono, monospace;
+  font-size: 14px;
   box-sizing: border-box;
 }
+
   .terminal .content {
       overflow-y: scroll;
       height: 300px;
@@ -28,10 +30,14 @@
     display: table-cell;
     width: 100%;
     color: inherit;
-    padding-left: 5px;
+    padding-left: 10px;
     background-color: inherit;
     box-sizing: border-box;
     font-family: inherit;
     font-size: inherit;
     border: none;
+  }
+
+  .white {
+      color: white !important;
   }

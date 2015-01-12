@@ -2,9 +2,9 @@
 
   <div class="terminal">
     <div class="content" scroll="messages">
-      <div class="line" ng-repeat="command in messages track by $index">
-	<div class="prefix">cmd&gt;</div>
-	<div class="cmd"> {{command}} </div>
+      <div class="line" ng-repeat="entry in commands track by $index">
+	<div class="prefix" ng-if="entry.prompt">cmd&gt;</div>
+	<div class="cmd" ng-class="entry.class"> {{entry.str}} </div>
       </div>
       
       <div class="line">
