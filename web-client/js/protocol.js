@@ -5,7 +5,9 @@ function AuthentificationMessage(username, password) {
     this.password = password;
 }
 
-function RequestMapMessage() {
-    this.msg_type = 'request_map';
+function MoveMessage(dest) {
+    this.msg_type = 'move';
+
+    this.destination = dest;
 }
 

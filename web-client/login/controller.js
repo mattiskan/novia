@@ -1,39 +1,27 @@
-var controller = function($scope, socketFactory) {
+var controller = function($scope, socket) {
 
-    $scope.messages = [];
-    $scope.ip = "127.0.0.1";
-    $scope.username = "";
-    $scope.password = "";
-    $scope.is_connected = true;
+    $scope.commands = [];
 
-    
+    var print = function(str) {	
+	$scope.commands.push({
+	    'str': str,
+	    'prompt': false,
+	    'class' : 'white'
+	}) ;
+    }
+       
     $scope.parseCommand = function(keyEvent) {
 	if (keyEvent.which !== 13)
 	    return; // not enterkey
 
-	$scope.messages.push($scope.cmd);
+	$scope.commands.push({ str: $scope.cmd, prompt:true });
+	
+	command = interpret($scope.cmd);
+
+	command.invoke(print, socket);
+	
 	$scope.cmd = "";
     };
-
-    
-    $scope.connect = function() {
-	var msg = new AuthentificationMessage($scope.username, $scope.password);
-
-	socketFactory.connect($scope.ip, msg, function() {
-	    $scope.is_connected = true;
-	});
-
-	socketFactory.onMessage(function (msg) {
-	    console.log("recieved message");
-	    $scope.messages.push(msg.data);
-	});
-	
-	$scope.messages = [];
-    };
-
-    $scope.request_map = function() {
-	socketFactory.send(new RequestMapMessage());
-    }
 
 };
 
