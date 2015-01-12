@@ -43,7 +43,7 @@ namespace novia {
     }
 
     for (const std::string& character_name : map["characters"].getMemberNames()) {
-      characters_.push_back(CharacterFactory::create_character(map["characters"][character_name]));
+      characters_.push_back(CharacterFactory::create_character(map["characters"][character_name], *this));
     }
     
     for (const std::string& room_name : map["rooms"].getMemberNames()) {

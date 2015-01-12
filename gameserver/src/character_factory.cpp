@@ -5,13 +5,32 @@
 
 namespace novia {
   namespace CharacterFactory {
-    
-    std::shared_ptr<Character> create_character(const Json::Value& character_data) {
+    std::shared_ptr<Character> create_character(const std::string& character_name, Map& map) {
+      using namespace Json;
+      Value json(objectValue);
+      json["name"] = Value(character_name);
+      return create_character(json, map);
+    }
+    std::shared_ptr<Character> create_character(const Json::Value& character_data, Map& map) {
       std::shared_ptr<Character> character(new Character());
       std::string character_name = character_data["name"].asString();
       std::transform(character_name.begin(), character_name.end(), character_name.begin(), ::tolower);
-      if (character_name == "beggar") {
+
+      if (character_name == "player") {
+	using namespace Json;
+	character->name_ = character_data["playerName"].asString();
+	std::vector<std::string> starting_items = {
+	  "dagger",
+	  "small bag"
+	};
+	for (auto& item_name : starting_items) {
+	  std::shared_ptr<Item> item = ItemFactory::create_item(item_name);
+	  map.items().push_back(item);
+	  character->items().push_back(item);
+	}
+      } else if (character_name == "beggar") {
 	character->name_ = "Beggar1";
+
       } else {
 	std::stringstream msg;
 	Json::StyledWriter json_writer;

@@ -1,5 +1,5 @@
 #include "map_controller.h"
-
+#include <protocol/response_examine.h>
 namespace novia {
   MapController::MapController() 
     : map_()
@@ -7,45 +7,61 @@ namespace novia {
     
   }
 
-  void MapController::attack(const Character& attacker, const Character& victim) {
-    
+  std::unique_ptr<OutMessage> MapController::attack(Character& attacker, Character& victim) {
+    return std::unique_ptr<OutMessage>();
   }
 
-  void MapController::use(const Character& user, const Item& item) {
+  std::unique_ptr<OutMessage> MapController::use(Character& user, Item& item) {
     if (item.on_use) {
       item.on_use(user);
+    } else {
+      return std::unique_ptr<OutMessage>();
     }
+    return std::unique_ptr<OutMessage>();
   }
-  void MapController::use(const Character& user, const Item& item, const Character& target) {
-    if (item.on_use_character) {
-      item.on_use_character(user, target);
+  std::unique_ptr<OutMessage> MapController::use(Character& user, Item& item, Character& target) {
+    if (!item.on_use_character) {
+      return std::unique_ptr<OutMessage>();
     }
+    return item.on_use_character(user, target);
   }
-  void MapController::use(const Character& user, const Item& item, const RoomPathEntrance& target) {
-    if (item.on_use_door) {
-      item.on_use_character(user, target);
+  std::unique_ptr<OutMessage> MapController::use(Character& user, Item& item, RoomPathEntrance& target) {
+    if (!item.on_use_door) {
+      return std::unique_ptr<OutMessage>();
     }
+    return item.on_use_door(user, target);
   }
-  void MapController::use(const Character& user, const Item& item, const Item& target) {
-    if (item.on_use_item) {
-      item.on_use_item(user, target);
+
+  std::unique_ptr<OutMessage> MapController::use(Character& user, Item& item, Item& target) {
+    if (!item.on_use_item) {
+      return std::unique_ptr<OutMessage>();
     }
+    return item.on_use_item(user, target);
   }
 
-  void MapController::examine(const Character& user, const Item& item) {
-    
+  std::unique_ptr<OutMessage> MapController::examine(const Character& user, const Item& item) {
+    ResponseExamine* response = new ResponseExamine();
+    response->type = ResponseExamine::ExamineType::ITEM;
+    response->item = &item;
+    return std::unique_ptr<OutMessage>(response);
   }
 
-  void MapController::examine(const Character& user, const RoomPath& door) {
-
+  std::unique_ptr<OutMessage> MapController::examine(const Character& user, const RoomPathEntrance& door) {
+    ResponseExamine* response = new ResponseExamine();
+    response->type = ResponseExamine::ExamineType::DOOR;
+    response->door = &door;
+    return std::unique_ptr<OutMessage>(response);
   }
 
-  void MapController::examine(const Character& user, const Character& character) {
-
+  std::unique_ptr<OutMessage> MapController::examine(const Character& user, const Character& character) {
+    ResponseExamine* response = new ResponseExamine();
+    response->type = ResponseExamine::ExamineType::CHARACTER;
+    response->character = &character;
+    return std::unique_ptr<OutMessage>(response);
   }
 
-  void MapController::take(const Character& user, const Item& item) {
-
+  std::unique_ptr<OutMessage> MapController::take(Character& user, Item& item) {
+    return std::unique_ptr<OutMessage>();
   }
 
   Json::Value MapController::get_serialized() const {
@@ -53,8 +69,13 @@ namespace novia {
   }
 
 
-  void MapController::send_msg_to_character(const Character& character, const std:: string message) {
-
+  /*  void MapController::send_msg_to_character(const Character& character, const std::string message) {
+      if (!character.has_connection()) {
+	throw std::exception("No connection!");
+      }
+      TextMessageOut json;
+      json.set_message(message);
+      character.client_connection()->send(json);
   }
     
   void MapController::send_msg_to_all(const std::string& message) {
@@ -62,8 +83,8 @@ namespace novia {
       if (!character_ptr->has_connection()) {
 	continue;
       }
-      std::shared_ptr<ClientConnection>& c_conn_ptr = character_ptr->client_connection();
+      send_msg_to_character(*character_ptr, message);
     }
-  }
+    }*/
 
 }

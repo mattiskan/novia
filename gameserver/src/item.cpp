@@ -21,4 +21,12 @@ namespace novia {
     return serialized;
   }
 
+  int Item::weight() const {
+    return weight_;
+  }
+
+  int Item::store_weight() const {
+    return store_weight_;
+  }
+
 }

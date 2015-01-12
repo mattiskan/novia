@@ -2,9 +2,9 @@
 #ifndef NOVIA_IN_MESSAGE_H
 #define NOVIA_IN_MESSAGE_H
 
-#include "out_message.h"
-#include "../controllers.h"
+#include <controllers.h>
 #include <jsoncpp/json.h>
+
 
 namespace novia {
 

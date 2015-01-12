@@ -13,22 +13,22 @@ namespace novia {
     MapController();
     Json::Value get_serialized() const;
 
-    void attack(const Character& attacker, const Character& victim);
+    std::unique_ptr<OutMessage> attack(Character& attacker, Character& victim);
 
-    void use(const Character& user, const Item& item);
-    void use(const Character& user, const Item& item, const Character& target);
-    void use(const Character& user, const Item& item, const RoomPath& target);
-    void use(const Character& user, const Item& item, const Item& target);
+    std::unique_ptr<OutMessage> use(Character& user, Item& item);
+    std::unique_ptr<OutMessage> use(Character& user, Item& item, Character& target);
+    std::unique_ptr<OutMessage> use(Character& user, Item& item, RoomPathEntrance& target);
+    std::unique_ptr<OutMessage> use(Character& user, Item& item, Item& target);
 
-    void examine(const Character& user, const Item& item);
-    void examine(const Character& user, const RoomPath& door);
-    void examine(const Character& user, const Character& character);
+    std::unique_ptr<OutMessage> examine(const Character& user, const Item& item);
+    std::unique_ptr<OutMessage> examine(const Character& user, const RoomPathEntrance& door);
+    std::unique_ptr<OutMessage> examine(const Character& user, const Character& character);
  
-    void take(const Character& user, const Item& item);
+    std::unique_ptr<OutMessage> take(Character& user, Item& item);
 
-    void send_msg_to_character(const Character& character, const std:: string message);
+    /*    void send_msg_to_character(const Character& character, const std:: string message);
     
-    void send_msg_to_all(const std::string& message);
+	  void send_msg_to_all(const std::string& message);*/
   };
   
 }

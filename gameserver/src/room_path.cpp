@@ -9,12 +9,12 @@ namespace novia {
   }
 
 
-  std::shared_ptr<Room> RoomPath::get_exit(const Room& entrance) {
+  std::shared_ptr<Room> RoomPath::exit(const Room& entrance) {
     return (&entrance == room1_.entrance.get()) ? room2_.entrance : room1_.entrance;
   }
 
 
-  RoomPath::Entrance RoomPath::get_entrance(const Room& entrance) {
+  RoomPath::Entrance RoomPath::entrance(const Room& entrance) {
     return (&entrance == room1_.entrance.get()) ? room1_ : room2_;
   }
 

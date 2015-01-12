@@ -10,6 +10,7 @@
 #include "character.h"
 #include "room_path.h"
 #include "item.h"
+#include <protocol/out_message.h>
 
 class Character;
 
@@ -22,13 +23,14 @@ namespace novia {
   public:
     friend std::shared_ptr<Item> ItemFactory::create_item(const Json::Value&);
 
-    typedef std::function<void(int damage, const Character& victim, const Character& attacker)> OnHitFn;
-    typedef std::function<int(const Character& victim, const Character& attacker)> OnAttackFn;
-
-    typedef std::function<void(const Character& user, const Character& target)> OnUseCharacterFn;
-    typedef std::function<void(const Character& user)> OnUseFn;
-    typedef std::function<void(const Character& user, const Item& target)> OnUseItemFn;
-    typedef std::function<void(const Character& user, const RoorPathEntrance& door_path)> OnUseDoor;
+    typedef std::function<void(int damage, Character& victim, Character& attacker)> OnHitFn;
+    typedef std::function<int(Character& victim, Character& attacker)> OnAttackFn;
+    
+    //Use functions
+    typedef std::function<std::unique_ptr<OutMessage>(Character& user, Character& target)> OnUseCharacterFn;
+    typedef std::function<std::unique_ptr<OutMessage>(Character& user)> OnUseFn;
+    typedef std::function<std::unique_ptr<OutMessage>(Character& user, Item& target)> OnUseItemFn;
+    typedef std::function<std::unique_ptr<OutMessage>(Character& user, RoomPathEntrance& door_path)> OnUseDoor;
     
     Item();
     OnHitFn on_hit;
@@ -41,12 +43,17 @@ namespace novia {
 
     std::string name() const;
     std::string description() const;
+    //Uses this amount of weight
+    int weight() const;
+    //Can store this amount of weight
+    int store_weight() const;
     Json::Value serialize() const;
-
   private:
 
     std::string name_;
     std::string description_;
+    int weight_;
+    int store_weight_;
   };
 }
 #endif

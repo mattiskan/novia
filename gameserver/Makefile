@@ -1,5 +1,5 @@
 CPPFLAGS=-std=c++11 -g -Wall -Wfatal-errors -fexceptions
-INCLUDES=-Iincludes/
+INCLUDES=-Iincludes/ -Isrc/
 LDFLAGS+=-lboost_system -pthread
 
 LIB_OBJS+=bin/json.o

@@ -25,8 +25,8 @@ namespace novia {
     
     
     RoomPath(Entrance room1, Entrance room2);
-    Entrance get_entrance(const Room& entrance);
-    std::shared_ptr<Room> get_exit(const Room& entrance);
+    Entrance entrance(const Room& entrance);
+    std::shared_ptr<Room> exit(const Room& entrance);
     RoomPathEntrance get_room_path_entrance(const Room& entrance);
     Json::Value serialize() const override;
   private:
@@ -36,14 +36,15 @@ namespace novia {
   
   struct RoomPathEntrance {
     RoomPathEntrance(RoomPath& room_path, const std::shared_ptr<Room>& entrance)
-      : entrance(entrance),
+      : entrance_(entrance),
 	room_path(room_path)
     {};
+    RoomPath::Entrance entrance() { return room_path.entrance(*entrance_); };
+    std::shared_ptr<Room> exit() { return room_path.exit(*entrance_); };
+
   private:
-    std::shared_ptr<Room> entrance;
+    std::shared_ptr<Room> entrance_;
     RoomPath& room_path;
-    RoomPath::Entrance get_entrance() { return room_path.get_entrance(*entrance); };
-    std::shared_ptr<Room> get_exit() { return room_path.get_exit(*entrance); };
   };
 
 }

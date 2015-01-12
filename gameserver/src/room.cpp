@@ -30,4 +30,12 @@ namespace novia {
 
     return new_room;
   }
+
+  std::string Room::name() const {
+    return name_;
+  }
+
+  std::string Room::description() const {
+    return description_;
+  }
 }

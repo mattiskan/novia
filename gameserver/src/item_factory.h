@@ -11,6 +11,7 @@
 namespace novia {
   class Item;
   namespace ItemFactory {
+    std::shared_ptr<Item> create_item(const std::string& name);
     std::shared_ptr<Item> create_item(const Json::Value& item_data);
   };
 }

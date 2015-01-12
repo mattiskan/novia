@@ -10,7 +10,7 @@
 #include "serializable.h"
 
 namespace novia {
-
+  class Room;
   class Map : public Serializable {
   public:
     Map();

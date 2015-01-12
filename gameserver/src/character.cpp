@@ -14,20 +14,38 @@ namespace novia {
     return false;
   }
 
-  std::vector<std::shared_ptr<Item>>& Character::get_items() {
+  std::vector<std::shared_ptr<Item>>& Character::items() {
     return items_;
   }
   
   std::string Character::name() const {
     return name_;
   }
-
-  bool Character::has_connection() const {
-    return client_connection.expired();
-  }
-  std::weak_ptr<ClientConnection>& client_connection() const {
-    return client_connection_;
+  std::string Character::description() const {
+    return description_;
   }
 
+  int Character::items_weight() const {
+    int total_weight=0;
+    for (const std::shared_ptr<Item>& item_ptr : items_) {
+      total_weight += item_ptr->weight();
+    }
+    return total_weight;
+  }
 
+  int Character::items_max_weight() const {
+    int total_max_weight = 0;
+    for (const std::shared_ptr<Item>& item_ptr : items_) {
+      total_max_weight += item_ptr->store_weight();
+    }
+    return total_max_weight;
+  }
+  
+  void Character::set_current_room(const std::shared_ptr<Room>& new_room) {
+    current_room_ = new_room;
+  }
+
+  std::shared_ptr<Room> Character::current_room() const {
+    return current_room_;
+  }
 }
