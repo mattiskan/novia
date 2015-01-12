@@ -24,15 +24,19 @@ namespace novia {
 
     typedef std::function<void(int damage, const Character& victim, const Character& attacker)> OnHitFn;
     typedef std::function<int(const Character& victim, const Character& attacker)> OnAttackFn;
-    typedef std::function<void(int damage, const Character& victim, const Character& attacker)> OnUseCharacterFn;
-    typedef std::function<void(int damage, const Character& victim, const Character& attacker)> OnUseItemFn;
-    typedef std::function<void(int damage, const Character& victim, const Character& attacker)> OnUseDoor;
+
+    typedef std::function<void(const Character& user, const Character& target)> OnUseCharacterFn;
+    typedef std::function<void(const Character& user)> OnUseFn;
+    typedef std::function<void(const Character& user, const Item& target)> OnUseItemFn;
+    typedef std::function<void(const Character& user, const RoorPathEntrance& door_path)> OnUseDoor;
     
     Item();
     OnHitFn on_hit;
     OnAttackFn on_attack;
+
     OnUseCharacterFn on_use_character;
     OnUseItemFn on_use_item;
+    OnUseFn on_use;
     OnUseDoor on_use_door;
 
     std::string name() const;

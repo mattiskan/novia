@@ -21,4 +21,13 @@ namespace novia {
   std::string Character::name() const {
     return name_;
   }
+
+  bool Character::has_connection() const {
+    return client_connection.expired();
+  }
+  std::weak_ptr<ClientConnection>& client_connection() const {
+    return client_connection_;
+  }
+
+
 }

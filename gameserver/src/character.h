@@ -22,10 +22,13 @@ namespace novia {
     virtual bool can_be_attacked(const Character& attacker) const;
     std::vector< std::shared_ptr<Item> >& get_items();
     std::string name() const;
+    bool has_connection() const;
+    std::weak_ptr<ClientConnection> client_connection() const;
   private:
     int hp_;
     std::string name_;
     std::vector< std::shared_ptr<Item> > items_;
+    std::weak_ptr<ClientConnection> client_connection_;
   };
 }
 
