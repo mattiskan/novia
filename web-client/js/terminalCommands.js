@@ -9,6 +9,7 @@ function interpret(input) {
     switch(cmd) {
     case "help": return new HelpCommand(args); break;
     case "connect": return new ConnectCommand(args); break;
+    case "login": return new LoginCommand(args); break;
     case "move": return new MoveCommand(args); break;
 
     default: return new UnknownCommand(cmd);
@@ -27,10 +28,11 @@ function HelpCommand(args) {
     this.invoke = function(print, socket) {
 	if (args == "") {
 	    print("Commands:");
-	    print("connect");
-	    print("help");
-
-	    print("see help <command> for further help about specific commands");
+	    print("- connect");
+	    print("- help");
+	    print("- login");
+	    print("- move");
+	    print("See help <command> for help about specific commands.");
 	} else {
 	    console.log("lf help", args[0]);
 	    topic = interpret(args[0]);
@@ -56,11 +58,28 @@ function ConnectCommand(args) {
 	    else
 		print("connection failed");
 	});
+
+	socket.onMessage(function(msg) {
+	    print("From server: " + msg.data);
+	});
     }
 
     this.help = function(print) {
 	print('connect [ipstring]');
 	print('default ip="127.0.0.1:9002"');
+    }
+}
+
+function LoginCommand(args) {
+    this.username = args[0];
+    this.password = args[1];
+    
+    this.invoke = function(print, socket) {
+	socket.send(new AuthentificationMessage(this.username, this.password));
+    };
+
+    this.help = function(print) {
+	print("login <username> <password>");
     }
 }
 
