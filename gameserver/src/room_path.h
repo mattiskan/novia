@@ -39,8 +39,8 @@ namespace novia {
       : entrance_(entrance),
 	room_path(room_path)
     {};
-    RoomPath::Entrance entrance() { return room_path.entrance(*entrance_); };
-    std::shared_ptr<Room> exit() { return room_path.exit(*entrance_); };
+    RoomPath::Entrance entrance() const { return room_path.entrance(*entrance_); };
+    std::shared_ptr<Room> exit() const { return room_path.exit(*entrance_); };
 
   private:
     std::shared_ptr<Room> entrance_;
