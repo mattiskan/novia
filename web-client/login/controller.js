@@ -4,8 +4,18 @@ var controller = function($scope, socketFactory) {
     $scope.ip = "127.0.0.1";
     $scope.username = "";
     $scope.password = "";
-    $scope.is_connected = false;
+    $scope.is_connected = true;
 
+    
+    $scope.parseCommand = function(keyEvent) {
+	if (keyEvent.which !== 13)
+	    return; // not enterkey
+
+	$scope.messages.push($scope.cmd);
+	$scope.cmd = "";
+    };
+
+    
     $scope.connect = function() {
 	var msg = new AuthentificationMessage($scope.username, $scope.password);
 
@@ -24,6 +34,7 @@ var controller = function($scope, socketFactory) {
     $scope.request_map = function() {
 	socketFactory.send(new RequestMapMessage());
     }
+
 };
 
 app.controller('LoginController', controller);

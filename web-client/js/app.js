@@ -41,3 +41,35 @@ app.factory('socketFactory', ['$rootScope', function($rootScope) {
 	}
     };
 }]);
+
+app.directive('ngFocus', function($timeout) {
+    return {
+        link: function ( scope, element, attrs ) {
+            scope.$watch( attrs.ngFocus, function ( val ) {
+                if ( angular.isDefined( val ) && val ) {
+                    $timeout( function () { element[0].focus(); } );
+                }
+            }, true);
+
+            element.bind('blur', function () {
+                if ( angular.isDefined( attrs.ngFocusLost ) ) {
+                    scope.$apply( attrs.ngFocusLost );
+
+                }
+            });
+        }
+    };
+});
+
+app.directive('scroll', function($timeout) {
+    return {
+	restrict: 'A',
+	link: function(scope, element, attr) {
+	    scope.$watchCollection(attr.scroll, function(newVal) {
+		$timeout(function() {
+		    element[0].scrollTo = element[0].scrollHeight;
+		});
+	    });
+	}
+    }
+});
