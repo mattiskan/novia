@@ -12,19 +12,29 @@ app.config(['$routeProvider', function($routeProvider) {
 
 app.factory('socket', ['$rootScope', function($rootScope) {
     var ws;
-    var has_connected = false;
+    var isConnected = false;
     
     return {
-	connect: function(ipstr) {
+	connect: function(ipstr, callback) {
 	    ws = new WebSocket("ws://"+ ipstr);
 	    
 	    ws.onopen = function() {
-		has_connected = true;
+		isConnected = true;
 		console.log("Connection successful");
+		$rootScope.$apply(function() {
+		    callback();
+		});
 	    };
+	    
+	    ws.onerror = function() {
+		isConnected = false;
+		$rootScope.$apply(function() {
+		    callback();
+		});
+	    };
+	    
 	    ws.onclose = function() {
-		if(has_connected)
-		    console.log("Socket closed");
+		is_connected = false;
 	    };
 	},
 	onMessage : function(callback) {
@@ -34,8 +44,8 @@ app.factory('socket', ['$rootScope', function($rootScope) {
 		});
 	    };
 	},
-	isConnected: function() {
-	    return has_connected;
+	isConnected : function() {
+	    return isConnected;
 	},
 	send: function(message) {
 	    ws.send(JSON.stringify(message));

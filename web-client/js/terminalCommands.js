@@ -9,11 +9,11 @@ function interpret(input) {
     switch(cmd) {
     case "help": return new HelpCommand(args); break;
     case "connect": return new ConnectCommand(args); break;
+    case "move": return new MoveCommand(args); break;
 
     default: return new UnknownCommand(cmd);
     }
 }
-
 
 function UnknownCommand(cmd) {
     this.invoke = function(print, socket) {
@@ -46,16 +46,15 @@ function HelpCommand(args) {
 
 function ConnectCommand(args) {
     this.ipstr = (args.length >= 1)? args[0]: "127.0.0.1:9002";
-    this.isConnected = false;
 
     this.invoke = function(print, socket) {
 	print("connecting to " + this.ipstr);
 
-	socket.connect(this.ipstr);
-
-	socket.onMessage(function (msg) {
-	    console.log("recieved message");
-	    print("from server: " + msg.data)
+	socket.connect(this.ipstr, function() {
+	    if (socket.isConnected())
+		print("connection successful");
+	    else
+		print("connection failed");
 	});
     }
 
@@ -63,4 +62,22 @@ function ConnectCommand(args) {
 	print('connect [ipstring]');
 	print('default ip="127.0.0.1:9002"');
     }
+}
+
+function MoveCommand(args) {
+    this.dest = args[0];
+
+    this.invoke = function (print, socket) {
+	if (!socket.isConnected()){
+	    print("Requires active conneciton to server");
+	    return;
+	}
+	
+	socket.send(new MoveMessage(this.dest));
+    };
+
+    this.help = function(print) {
+	print('move <destination>');
+    };
+
 }
