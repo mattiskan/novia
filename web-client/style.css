@@ -1,10 +1,37 @@
-
-
-.controls {
-    border: 1px solid black;
-    padding: 10px;
+.terminal {
+  color: #FF9500;
+  background-color: #222;
+  width: 600px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #FF9500;
+  font-family: FreeMono, monospace !important;
+  box-sizing: border-box;
 }
+  .terminal .content {
+      overflow-y: scroll;
+      height: 300px;
+  }
 
-.log {
-    height: 200px;
-}
+  .terminal .line {
+    height: 20px;
+    display: inline-table;
+    width: 100%;
+  }
+
+  .terminal .prefix {
+    display: table-cell;
+    width: 0px;
+  }
+  
+  .terminal .cmd{
+    display: table-cell;
+    width: 100%;
+    color: inherit;
+    padding-left: 5px;
+    background-color: inherit;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+  }
