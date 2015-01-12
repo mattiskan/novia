@@ -38,6 +38,6 @@
     border: none;
   }
 
-  .white {
-      color: white !important;
+  .terminal .white {
+      color: white;
   }
