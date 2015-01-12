@@ -27,10 +27,10 @@ function HelpCommand(args) {
     this.invoke = function(print, socket) {
 	if (args == "") {
 	    print("Commands:");
-	    print("connect");
-	    print("help");
-
-	    print("see help <command> for further help about specific commands");
+	    print("- connect");
+	    print("- help");
+	    print("- move");
+	    print("See help <command> for help about specific commands.");
 	} else {
 	    console.log("lf help", args[0]);
 	    topic = interpret(args[0]);
