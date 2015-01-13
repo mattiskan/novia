@@ -1,5 +1,6 @@
 #include "map_controller.h"
 #include <protocol/response_examine.h>
+#include <protocol/response_new_player_status.h>
 namespace novia {
   MapController::MapController() 
     : map_()
@@ -80,6 +81,11 @@ namespace novia {
     character["name"] = Value("player");
     character["playerName"] = name;
     players_[conn.user_id()] = CharacterFactory::create_character(character, map_);
+
+    ResponseNewPlayerStatus status;
+    status.player = players_[conn.user_id()].get();
+    status.status = ResponseNewPlayerStatus::Status::NEW_PLAYER;
+    conn.send(status);
   }
 
   /*  void MapController::send_msg_to_character(const Character& character, const std::string message) {

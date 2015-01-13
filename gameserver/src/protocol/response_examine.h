@@ -1,6 +1,6 @@
 //-*-c++-*-
-#ifndef NOVIA_OUT_EXAMINE_H
-#define NOVIA_OUT_EXAMINE_H
+#ifndef NOVIA_RESPONSE_EXAMINE_H
+#define NOVIA_RESPONSE_EXAMINE_H
 
 #include <string>
 #include <item.h>
