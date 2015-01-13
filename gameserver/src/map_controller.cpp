@@ -68,6 +68,19 @@ namespace novia {
     return map_.serialize();
   }
 
+  bool MapController::player_exists(int user_id) const {
+    return players_.count(user_id);
+  }
+
+  void MapController::add_new_player(const ClientConnection& conn, const std::string& name) {
+    if (player_exists(conn.user_id()))
+	throw std::invalid_argument("A player with that user_id is already connected");
+    using namespace Json;
+    Value character(objectValue);
+    character["name"] = Value("player");
+    character["playerName"] = name;
+    players_[conn.user_id()] = CharacterFactory::create_character(character, map_);
+  }
 
   /*  void MapController::send_msg_to_character(const Character& character, const std::string message) {
       if (!character.has_connection()) {
