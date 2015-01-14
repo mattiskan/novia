@@ -11,3 +11,13 @@ function MoveMessage(dest) {
     this.destination = dest;
 }
 
+function ExamineMessage(type, target) {
+    this.msg_type = "examine";
+    if (type === undefined) {
+	this.type = "room";
+    } else {
+	this.type = type;
+	this.target = target;
+    }
+}
+

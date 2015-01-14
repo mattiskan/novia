@@ -5,15 +5,15 @@
 
 #include <map>
 #include <vector>
+#include <list>
 #include "serializable.h"
 #include "character.h"
-#include "room_path.h"
+#include "door.h"
 #include "item.h"
 
 namespace novia {
   class Character;
-  class RoomPathEntrance;
-  class RoomPath;
+  class Door;
   class Map;
   class Item;
 
@@ -23,15 +23,18 @@ namespace novia {
     friend class Map;
 
     Room();
-    std::vector<std::shared_ptr<Character>>& get_characters();
-    std::map<std::string, RoomPathEntrance> get_exits();
+    std::list<std::shared_ptr<Character>>& characters();
+    const std::list<std::shared_ptr<Character>>& characters() const;
+    std::map<std::string, Door>& exits();
+    const std::map<std::string, Door>& exits() const;
     std::map<std::string, std::shared_ptr<Item>>& items();
+    const std::map<std::string, std::shared_ptr<Item>>& items() const;
     static std::shared_ptr<Room> from_json(const Json::Value& json, Map& map);
     std::string name() const;
     std::string description() const;
   private:
-    std::vector<std::shared_ptr<Character>> characters_;
-    std::map<std::string, std::shared_ptr<RoomPath>> exits_;
+    std::list<std::shared_ptr<Character>> characters_;
+    std::map<std::string, Door> exits_;
     std::map<std::string, std::shared_ptr<Item>> items_;
     Json::Value serialize() const;
     std::string name_;

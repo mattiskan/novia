@@ -5,7 +5,6 @@
 #include <controllers.h>
 #include <jsoncpp/json.h>
 
-
 namespace novia {
 
   class InMessage {

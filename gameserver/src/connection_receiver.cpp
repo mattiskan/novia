@@ -35,13 +35,14 @@ namespace novia {
   }
 
 
-  void ConnectionReceiver::broadcast(std::string msg){
+  void ConnectionReceiver::broadcast(const std::string& msg){
     for(auto session : sessions_)
       send_to(session.first, msg);
   }
 
   void ConnectionReceiver::send_to(int session_id, const std::string& msg){
     auto hdl = sessions_[session_id];
+    std::cout << msg << std::endl;
     try {
       socket_server_.send(hdl, msg, websocketpp::frame::opcode::text);
     } catch(websocketpp::exception& e) {
@@ -73,8 +74,6 @@ namespace novia {
   void ConnectionReceiver::on_message(websocketpp::connection_hdl hdl, WebsocketServer::message_ptr msg){
 
     std::shared_ptr<ClientConnection> client = clients.find(hdl)->second;
-
-
     std::cout << "Client"<< client->session_id() <<" sent: \""<< msg->get_payload() <<'"'<< std::endl;
     std::shared_ptr<InMessage> in_msg(messages::in_message(msg->get_payload()));
     message_handler_(in_msg, client);

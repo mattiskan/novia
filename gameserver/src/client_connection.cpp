@@ -3,6 +3,7 @@
 #include "protocol/messages.h"
 #include <stdexcept>
 #include <jsoncpp/json.h>
+#include <iostream>
 
 namespace novia {
 
@@ -41,19 +42,23 @@ namespace novia {
   void ClientConnection::send(const OutMessage& msg) const {
     Json::FastWriter writer;
 
-    std::string payload = writer.write(msg.get_message());
+    const std::string& payload = writer.write(msg.get_message());
     send(payload);
   }
   
   void ClientConnection::send(const std::string& msg) const {
     // std::lock_guard<std::mutex> lock(conn_mutex_);
-    if (!connected())
+    if (!connected()) {
+      std::cout << " failed" << std::endl;
       return;
+    }
+    std::cout << std::endl;
     send_(session_id_, msg);
   }
 
   void ClientConnection::close_connection() {
     // std::lock_guard<std::mutex> lock(conn_mutex_);
+    std::cout << "Client " << user_id() << " disconnected"; 
     connected_ = false;
   }
 }

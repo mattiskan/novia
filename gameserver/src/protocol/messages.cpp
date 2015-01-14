@@ -5,8 +5,8 @@
 #include <sstream>
 
 #include "authentification_message.h"
-#include "request_map_message.h"
-
+#include "request_move.h"
+#include "request_examine.h"
 
 namespace novia{
   namespace messages {
@@ -28,12 +28,15 @@ namespace novia{
     
     enum MessageType {
       AUTHENTICATE = 1,
-      REQUEST_MAP
+      EXAMINE,
+      MOVE
     };
 
     std::unordered_map<std::string, MessageType> from_name_ = {
       {"authenticate", AUTHENTICATE},
-      {"request_map", REQUEST_MAP}
+      {"examine", EXAMINE},
+      {"move", MOVE},
+
     };
     
     InMessage* from_type(const std::string& message_type) {
@@ -41,7 +44,8 @@ namespace novia{
       
       switch(type) {	
       case AUTHENTICATE: return new AuthentificationMessage;
-      case REQUEST_MAP: return new RequestMapMessage;
+      case EXAMINE: return new RequestExamine;
+      case MOVE: return new RequestMove;
       }
       std::stringstream error_msg;
       error_msg << "unknown message type: " << message_type;

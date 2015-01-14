@@ -47,8 +47,10 @@ namespace novia {
     }
     
     for (const std::string& room_name : map["rooms"].getMemberNames()) {
+      const Value& room_json = map["rooms"][room_name];
       std::shared_ptr<Room> room(new Room());
-      for (const Value& item_id_json : map[room_name]["items"]) {
+      room->description_ = room_json["description"].asString();
+      for (const Value& item_id_json : room_json["items"]) {
 	std::shared_ptr<Item>& item = items().at(item_id_json.asInt());
 	room->items_[item->name()] = item;
       }
@@ -57,7 +59,21 @@ namespace novia {
     }
     
 
-    for (const Value& path : map["paths"]) {
+    for (const std::string& room_name : map["rooms"].getMemberNames()) {
+      std::shared_ptr<Room> room(rooms()[room_name]);
+      const Value& exits = map["rooms"][room_name]["exits"];
+      for (const std::string& exit_name : exits.getMemberNames()) {
+	Value exit = exits[exit_name];
+	Door d;
+	d.description_ = exit["description"].asString();
+	d.entrance_ = room;
+	d.exit_ = rooms()[exit["to"].asString()];
+	room->exits()[exit_name] = d;
+      }
+    }
+
+
+    /*for (const Value& path : map["paths"]) {
       const Value& exit1 = path["exit1"];
       const Value& exit2 = path["exit2"];
       RoomPath::Entrance entrance1(rooms_.at(exit1["to"].asString()), exit1["description"].asString());
@@ -65,7 +81,7 @@ namespace novia {
       std::shared_ptr<RoomPath> new_path(new RoomPath(entrance1, entrance2));
       entrance1.entrance->exits_[exit1["to"].asString()] = new_path;
       entrance2.entrance->exits_[exit2["to"].asString()] = new_path;
-    }
+      }*/
 
 
     

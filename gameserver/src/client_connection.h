@@ -15,6 +15,11 @@ namespace novia {
     typedef std::function<void (int session_id, const std::string& msg)> SendFn;
     
     ClientConnection(int assigned_id, SendFn& send_fn);
+    ClientConnection(const ClientConnection& other) = delete;
+    ClientConnection(ClientConnection&& other) = delete;
+
+    ClientConnection& operator= (const ClientConnection& other) = delete;
+    ClientConnection& operator= (const ClientConnection&& other) = delete;
 
     int user_id() const;
     int session_id() const;
@@ -30,7 +35,7 @@ namespace novia {
     const int session_id_;
     int user_id_ = -1;
     SendFn send_;
-    bool connected_;
+    volatile bool connected_;
     mutable std::mutex conn_mutex_;
   };
 

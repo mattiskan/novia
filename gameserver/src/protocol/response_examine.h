@@ -23,7 +23,7 @@ namespace novia {
     const Item* item;
     const Character* character;
     const Room* room;
-    const RoomPathEntrance* door;
+    const Door* door;
 
     ResponseExamine();
 

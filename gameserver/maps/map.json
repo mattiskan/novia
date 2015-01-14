@@ -1,13 +1,34 @@
 {
     "rooms": {
 	"Home": {
-	    "items": [ 0 ]
+	    "items": [ 0 ],
+	    "exits": {
+		"School" : {
+		    "description": "A long dark way",
+		    "to": "School"
+		}
+	    },
+	    "description" : "Your home!"
 	},
 	"School": {
-	    "items": [ 0 ]
+	    "items": [ 0 ],
+	    "exits": {
+		"Pub" : {
+		    "description": "A long dark way",
+		    "to": "Pub"
+		}
+	    },
+	    "description" : "The School."
 	},
 	"Pub": {
-	    "items": [ 0 ]
+	    "items": [ 0 ],
+	    "exits": {
+		"Home" : {
+		    "description": "A long dark way",
+		    "to": "Home"
+		}
+	    },
+	    "description" : "The Pub!"
 	}
     },
     "items": {
@@ -22,29 +43,5 @@
 	"Beggar" : {
 	    "name": "Beggar"
 	}
-    },
-    "paths": [
-	{
-	    "exit1": {
-		"to": "Home",
-		"description": "Info"
-	    },
-	    "exit2": {
-		"to": "School",
-		"description": "Info"
-	    }
-	},
-	{
-	    "exit1": {
-		"to": "School",
-		"description": "Info"
-	    },
-	    "exit2": {
-		"to": "Pub",
-		"description": "Info"
-	    }
-	}
-
-    ]
-
+    }
 }

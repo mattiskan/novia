@@ -11,6 +11,7 @@ function interpret(input) {
     case "connect": return new ConnectCommand(args); break;
     case "login": return new LoginCommand(args); break;
     case "move": return new MoveCommand(args); break;
+    case "examine": return new ExamineCommand(args); break;
 
     default: return new UnknownCommand(cmd);
     }
@@ -88,7 +89,7 @@ function MoveCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active conneciton to server");
+	    print("Requires active connection to server");
 	    return;
 	}
 	
@@ -97,6 +98,30 @@ function MoveCommand(args) {
 
     this.help = function(print) {
 	print('move <destination>');
+    };
+
+}
+
+function ExamineCommand(args) {
+    this.target = args[1];
+    this.type = args[0];
+
+    this.invoke = function (print, socket) {
+	if (!socket.isConnected()){
+	    print("Requires active connection to server");
+	    return;
+	}
+	if (args.length == 1) {
+	    print("You must have a target!\n");
+	    this.help(print);
+	    return;
+	}
+	
+	socket.send(new ExamineMessage(this.type, this.target));
+    };
+
+    this.help = function(print) {
+	print('examine [<item/character/backpack> <target name>]');
     };
 
 }

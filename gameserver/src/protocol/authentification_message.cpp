@@ -1,6 +1,7 @@
 //-*-c++-*-
 #include "authentification_message.h"
 #include "confirmation_message.h"
+#include "response_new_player_status.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -22,7 +23,6 @@ namespace novia {
 
   void AuthentificationMessage::instant_reply(const Controllers& c,
 					      ClientConnection& owner) const {
-
     bool successful =
       c.user_controller.authenticate(username(), password(), owner);
 
@@ -36,8 +36,14 @@ namespace novia {
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
-    c.map_controller.add_new_player(owner, username());
-    std::cout << "on_invoke!" << std::endl;
+    if (!c.map_controller.player_exists(owner.user_id())) {
+      c.map_controller.add_new_player(owner, username());
+    } else {
+      ResponseNewPlayerStatus status;
+      status.player = c.map_controller.player(owner.user_id()).get();
+      status.status = ResponseNewPlayerStatus::Status::CONNECTED;
+      owner.send(status);
+    }
     // maybe broadcast new user to other players?
   }
 }

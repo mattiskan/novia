@@ -12,17 +12,31 @@ namespace novia {
     return serialized;
   }
 
-  std::vector<std::shared_ptr<Character>>& Room::get_characters() {
+  std::list<std::shared_ptr<Character>>& Room::characters() {
     return characters_;
   }
 
-  std::map<std::string, RoomPathEntrance> Room::get_exits() {
-    std::map<std::string, RoomPathEntrance> exits;
-    for (auto& name_entrance : exits_) {
-      exits.insert(exits.begin(), std::pair<std::string, RoomPathEntrance>(name_entrance.first, name_entrance.second->get_room_path_entrance(*this)));
-    }
-    return exits;
+  const std::list<std::shared_ptr<Character>>& Room::characters() const {
+    return characters_;
   }
+
+  std::map<std::string, Door>& Room::exits() {
+    return exits_;
+  }
+
+  const std::map<std::string, Door>& Room::exits() const {
+    return exits_;
+  }
+
+  std::map<std::string, std::shared_ptr<Item>>& Room::items() {
+    return items_;
+  }
+
+  const std::map<std::string, std::shared_ptr<Item>>& Room::items() const {
+    return items_;
+  }
+
+
 
   std::shared_ptr<Room> Room::from_json(const Json::Value& json, Map& map) {
     std::shared_ptr<Room> new_room(new Room());

@@ -15,10 +15,10 @@ namespace novia {
       
     switch(status) {
     case Status::CONNECTED:
-      message["status"] = Value("DISCONNECTED");
+      message["status"] = Value("CONNECTED");
       break;
     case Status::DISCONNECTED:
-      message["status"] = Value("CONNECTED");
+      message["status"] = Value("DISCONNECTED");
       break;
     case Status::NEW_PLAYER:
       message["status"] = Value("NEW_PLAYER");

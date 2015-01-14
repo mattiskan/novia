@@ -8,29 +8,30 @@
 #include "item_factory.h"
 #include "serializable.h"
 #include "character.h"
-#include "room_path.h"
+#include "door.h"
 #include "item.h"
 #include <protocol/out_message.h>
 
 class Character;
 
 namespace novia {
-  struct RoomPathEntrance;
+  class Door;
   namespace ItemFactory {
     std::shared_ptr<Item> create_item(const Json::Value&);
   }
   class Item : Serializable {
+    typedef std::shared_ptr<Character> CharacterPtr;
   public:
     friend std::shared_ptr<Item> ItemFactory::create_item(const Json::Value&);
 
-    typedef std::function<void(int damage, Character& victim, Character& attacker)> OnHitFn;
-    typedef std::function<int(Character& victim, Character& attacker)> OnAttackFn;
+    typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
+    typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
     
     //Use functions
-    typedef std::function<std::unique_ptr<OutMessage>(Character& user, Character& target)> OnUseCharacterFn;
-    typedef std::function<std::unique_ptr<OutMessage>(Character& user)> OnUseFn;
-    typedef std::function<std::unique_ptr<OutMessage>(Character& user, Item& target)> OnUseItemFn;
-    typedef std::function<std::unique_ptr<OutMessage>(Character& user, RoomPathEntrance& door_path)> OnUseDoor;
+    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, CharacterPtr& target)> OnUseCharacterFn;
+    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user)> OnUseFn;
+    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, Item& target)> OnUseItemFn;
+    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, Door& door_path)> OnUseDoor;
     
     Item();
     OnHitFn on_hit;

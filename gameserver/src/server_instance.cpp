@@ -9,7 +9,7 @@
 namespace novia {
 
   ServerInstance::ServerInstance()
-    : sleep_(5000) {
+    : sleep_(500) {
 
     
   }
@@ -21,14 +21,14 @@ namespace novia {
       });
     connections_.initiate();
 
-    int i = 0;
+    //int i = 0;
     while(true) {
       write_mutex.lock(); //Make sure only this thread uses the data model.
       process_tasks();
-      std::stringstream out;
+      /*std::stringstream out;
       out << "mayday mayday" << i++;
       
-      connections_.broadcast(out.str());
+      connections_.broadcast(out.str());*/
       write_mutex.unlock(); 
       sleep_();
     }
@@ -46,7 +46,7 @@ namespace novia {
     write_mutex.lock();
     msg->instant_reply(controllers_, *owner);
     std::cout << "message retrieved!" << std::endl;
-    task_queue_.push([=, &owner]() {
+    task_queue_.push([=]() {
 	msg->on_invoke(this->controllers_, *owner);
       });
     write_mutex.unlock();

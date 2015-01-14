@@ -29,8 +29,8 @@ namespace novia {
       break;
     case ExamineType::DOOR:
       message["type"] = "DOOR";
-      message["door"] = Value(door->entrance().entrance->name());
-      message["description"] = Value(door->entrance().description);
+      message["door"] = Value(door->entrance()->name());
+      message["description"] = Value(door->entrance()->description());
       break;
     }
     return message;

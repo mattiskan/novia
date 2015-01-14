@@ -32,7 +32,7 @@ namespace novia {
 
     int connected_client_count() const;
     
-    void broadcast(std::string msg);
+    void broadcast(const std::string& msg);
     void send_to(int session_id, const std::string& msg);
     
     void set_message_handler(const MessageHandlerFn& handler);

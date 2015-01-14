@@ -10,25 +10,33 @@ namespace novia {
 
   class MapController {
   public:
-    
+    typedef std::shared_ptr<Character> CharacterPtr;
     MapController();
     Json::Value get_serialized() const;
 
-    std::unique_ptr<OutMessage> attack(Character& attacker, Character& victim);
+    std::unique_ptr<OutMessage> attack(CharacterPtr& attacker, CharacterPtr& victim);
 
-    std::unique_ptr<OutMessage> use(Character& user, Item& item);
-    std::unique_ptr<OutMessage> use(Character& user, Item& item, Character& target);
-    std::unique_ptr<OutMessage> use(Character& user, Item& item, RoomPathEntrance& target);
-    std::unique_ptr<OutMessage> use(Character& user, Item& item, Item& target);
+    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item);
+    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, CharacterPtr& target);
+    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, Door& target);
+    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, Item& target);
 
-    std::unique_ptr<OutMessage> examine(const Character& user, const Item& item);
-    std::unique_ptr<OutMessage> examine(const Character& user, const RoomPathEntrance& door);
-    std::unique_ptr<OutMessage> examine(const Character& user, const Character& character);
+    std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Item& item);
+    std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Door& door);
+    std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const CharacterPtr& character);
  
-    std::unique_ptr<OutMessage> take(Character& user, Item& item);
+    std::unique_ptr<OutMessage> take(CharacterPtr& user, Item& item);
+
+    std::unique_ptr<OutMessage> move(const CharacterPtr& traveler, Door& door);
+
+    std::unique_ptr<OutMessage> info(const CharacterPtr& traveler);
     
     void add_new_player(const ClientConnection& conn, const std::string& name);
     bool player_exists(int user_id) const;
+    CharacterPtr player(int user_id);
+
+
+
   private:
 
     Map map_;
