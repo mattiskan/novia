@@ -48,19 +48,30 @@ var formating = {
 	string += data.message;
 	return string;
     },
-    response_examine: function(data) {
+    examine: function(data) {
 	var string = "You examine ";
 	if (data.type=="CHARACTER") {
-	    string += "the character '" +data.character+"' and finds out: "+data.description;
+	    string += "the character '" +data.character+"' and finds out: \n"+data.description;
 	} else if (data.type == "ITEM") {
-	    string += "the item '" +data.item+"' and finds out: "+data.description;
+	    string += "the item '" +data.item+"' and finds out: \n"+data.description;
 	} else if (data.type == "DOOR") {
-	    string += "the exit '" +data.door+"' and finds out: "+data.description;	    
+	    string += "the exit '" +data.door+"' and finds out: \n"+data.description;	    
 	} else if (data.type == "BACKPACK") {
 	    string += "your backpack and finds the following items:\n";
 	    for (var i=0; i<data.items.length; i++) {
 		string += " ["+i+"] "+data.items[i]+"\n";
 	    }
+	}
+	return string;
+    },
+    event: function(data) {
+	var string ="";
+	if (data.type=="ITEM_GAINED") {
+	    string += "You gained the item: ";
+	    string += data.item;
+	} else if (data.type=="ITEM_DROPPED") {
+	    string += "You lost the item: ";
+	    string += data.item;
 	}
 	return string;
     }

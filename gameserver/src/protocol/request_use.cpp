@@ -95,7 +95,7 @@ namespace novia {
       std::unique_ptr<OutMessage> response = c.map_controller.use(char_ptr, item_ptr, item_target_ptr);
       owner.send(*response);
 
-    } else if (type() == "door") {
+    } else if (type() == "exit") {
       if (!room_ptr->exits().count(target())) {
 	std::stringstream msg;
 	msg << "There is no exit with the name: '" << target() << "'";
@@ -108,7 +108,7 @@ namespace novia {
       
     } else {
 	std::stringstream msg;
-	msg << "You can't examine: '"<<type()<<"'";
+	msg << "You can't use on: '"<<type()<<"'";
 	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
 	return;
 

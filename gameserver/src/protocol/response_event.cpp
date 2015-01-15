@@ -14,11 +14,11 @@ namespace novia {
     message["msg_type"] = Value("event");
     switch(type) {
     case Type::ITEM_GAINED:
-      message["type"] = "item_gained";
+      message["type"] = "ITEM_GAINED";
       message["item"] = item->name();
       break;
     case Type::ITEM_DROPPED:
-      message["type"] = "item_dropped";
+      message["type"] = "ITEM_DROPPED";
       message["item"] = item->name();
       break;
     default:

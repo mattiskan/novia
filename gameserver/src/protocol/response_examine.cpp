@@ -10,7 +10,7 @@ namespace novia {
   const Json::Value ResponseExamine::get_message() const {
     using namespace Json;
     Value message(objectValue);
-    message["msg_type"] = Value("response_examine");
+    message["msg_type"] = Value("examine");
     switch(type) {
     case ExamineType::ITEM:
       message["type"] = "ITEM";

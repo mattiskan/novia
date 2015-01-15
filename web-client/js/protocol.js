@@ -18,19 +18,28 @@ function ExamineMessage(type, target) {
     } else {
 	this.type = type;
 	if (target !== undefined) {
-	    this.target = target;
+	    if (type == "backpack") {
+		this.target = parseInt(target);
+	    } else {
+		this.target = target;
+	    }
 	}
     }
 }
 
 function TakeMessage(item) {
     this.msg_type = "take";
-    this.target = item;
+    this.item = item;
 }
 
 function UseMessage(item, type, target) {
     this.msg_type = "use";
-    this.item = item;
+    this.item = parseInt(item);
     this.type = type;
-    this.target = target;
+    if (type !== undefined && type == "backpack") {
+	this.target = parseInt(target);
+    } else {
+	this.target = target;
+    }
+
 }

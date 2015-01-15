@@ -159,12 +159,12 @@ function UseCommand(args) {
 	    print("Requires active connection to server");
 	    return;
 	}
-	if (type !== undefined || ["character", "backpack", "item", "exit"].indexOf(this.type)) {
+	if (this.type !== undefined && ["character", "backpack", "item", "exit"].indexOf(this.type) == -1) {
 	    print("Unknown or missing type: "+this.type);
 	    this.help(print);
 	    return;
 	}
-	socket.send(new UseMessage(this.item, this.type, this.targer));
+	socket.send(new UseMessage(this.item, this.type, this.target));
     };
 
     this.help = function(print) {
