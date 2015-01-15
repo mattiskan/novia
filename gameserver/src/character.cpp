@@ -1,8 +1,10 @@
 //-*-c++-*-
 #include "character.h"
+#include <algorithm>
 
 namespace novia {
-  Character::Character() {
+  Character::Character()
+    : hp_(10) {
 
   }
 
@@ -10,8 +12,18 @@ namespace novia {
     return hp_;
   }
 
+  int Character::damage() const {
+    int dmg = 1;
+    for(const auto& item_ptr : items()){
+      if(item_ptr->name() == "sword") // because fuck logic
+	dmg *= 2;
+    }
+    return dmg;
+  }
+
+  
   bool Character::can_be_attacked(const Character& attacker) const {
-    return false;
+    return true;
   }
 
   const std::vector<std::shared_ptr<Item>>& Character::items() const {
@@ -29,6 +41,10 @@ namespace novia {
     return description_;
   }
 
+  bool Character::is_dead() const {
+    return hp_ <= 0;
+  }
+  
   int Character::items_weight() const {
     int total_weight=0;
     for (const std::shared_ptr<Item>& item_ptr : items_) {
@@ -51,5 +67,9 @@ namespace novia {
 
   std::shared_ptr<Room> Character::current_room() const {
     return current_room_;
+  }
+
+  void Character::attack(const Character& attacker) {
+    hp_ -= std::max(0, attacker.damage());
   }
 }

@@ -4,6 +4,7 @@
 #include <protocol/response_info.h>
 #include <protocol/response_invalid_command.h>
 #include <protocol/response_event.h>
+#include <protocol/response_attack.h>
 #include <iostream>
 #include <sstream>
 
@@ -15,7 +16,21 @@ namespace novia {
   }
 
   std::unique_ptr<OutMessage> MapController::attack(const CharacterPtr& attacker, const CharacterPtr& victim) {
-    return std::unique_ptr<OutMessage>();
+    
+    if (victim->can_be_attacked(*attacker)) {
+      victim->attack(*attacker);
+
+      std::unique_ptr<OutMessage> response(
+	new ResponseAttack(attacker->damage(), victim->is_dead())
+      );
+      
+      return response;
+    }
+
+    auto not_attackable = ResponseInvalidCommand::Type::NOT_ATTACKABLE;
+    return std::unique_ptr<OutMessage>(
+	new ResponseInvalidCommand(not_attackable, "You can't attack that target")
+    );
   }
 
   std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item) {

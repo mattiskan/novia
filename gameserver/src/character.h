@@ -27,14 +27,21 @@ namespace novia {
     friend CharacterPtr CharacterFactory::create_character(const std::string&, Map&);
     Character();
     int hp() const;
-    virtual bool can_be_attacked(const Character& attacker) const;
-    std::vector< std::shared_ptr<Item> >& items();
-    const std::vector< std::shared_ptr<Item> >& items() const;
+    bool is_dead() const;
+    int damage() const;
     std::string name() const;
     std::string description() const;
     int items_weight() const;
     int items_max_weight() const;
     std::shared_ptr<Room> current_room() const;
+
+    std::vector< std::shared_ptr<Item> >& items();
+    const std::vector< std::shared_ptr<Item> >& items() const;
+
+    virtual bool can_be_attacked(const Character& attacker) const;
+    virtual void attack(const Character& attacker);
+
+    
     void set_current_room(const std::shared_ptr<Room>& new_room);
   private:
     int hp_;
