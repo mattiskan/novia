@@ -19,7 +19,21 @@ namespace novia {
   const Json::Value ResponseInvalidCommand::get_message() const {
     using namespace Json;
     Value response(objectValue);
-
+    response["msg_type"] = Value("invalid_command");
+    Value type_val;
+    switch(error_type_) {
+    case Type::UNKNOWN_TARGET:
+      type_val = Value("unknown_target");
+      break;
+    case Type::TOO_FEW_ARGUMENTS:
+      type_val = Value("too_few_arguments");
+      break;
+    case Type::INVALID_COMMAND:
+      type_val = Value("invalid_command");
+      break;
+    }
+    response["type"] = type_val;
+    response["message"] = error_message_;
     
     return response;
   }

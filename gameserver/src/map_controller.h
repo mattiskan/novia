@@ -11,21 +11,24 @@ namespace novia {
   class MapController {
   public:
     typedef std::shared_ptr<Character> CharacterPtr;
+    typedef std::shared_ptr<Item> ItemPtr;
+    typedef std::shared_ptr<Room> RoomPtr;
+
     MapController();
     Json::Value get_serialized() const;
 
-    std::unique_ptr<OutMessage> attack(CharacterPtr& attacker, CharacterPtr& victim);
+    std::unique_ptr<OutMessage> attack(const CharacterPtr& attacker, const CharacterPtr& victim);
 
-    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item);
-    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, CharacterPtr& target);
-    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, Door& target);
-    std::unique_ptr<OutMessage> use(CharacterPtr& user, Item& item, Item& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, CharacterPtr& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, Door& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, Item& target);
 
     std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Item& item);
     std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Door& door);
     std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const CharacterPtr& character);
  
-    std::unique_ptr<OutMessage> take(CharacterPtr& user, Item& item);
+    std::unique_ptr<OutMessage> take(const CharacterPtr& user, const std::string& item_name);
 
     std::unique_ptr<OutMessage> move(const CharacterPtr& traveler, Door& door);
 
@@ -34,8 +37,6 @@ namespace novia {
     void add_new_player(const ClientConnection& conn, const std::string& name);
     bool player_exists(int user_id) const;
     CharacterPtr player(int user_id);
-
-
 
   private:
 

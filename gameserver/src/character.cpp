@@ -14,6 +14,10 @@ namespace novia {
     return false;
   }
 
+  const std::vector<std::shared_ptr<Item>>& Character::items() const {
+    return items_;
+  }
+
   std::vector<std::shared_ptr<Item>>& Character::items() {
     return items_;
   }

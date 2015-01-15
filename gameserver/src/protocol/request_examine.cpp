@@ -15,13 +15,21 @@ namespace novia {
     return target_;
   }
 
+  int RequestExamine::target_int() const {
+    return target_int_;
+  }
+
     
     // inherited from InMessage:
   void RequestExamine::read(const Json::Value& data) {
     type_ = data["type"].asString();
-    if (type() == "room") {
+    if (type() == "backpack") {
+      if (!data["target"].isNull()) {
+	target_int_ = data["target"].asInt();
+      }
+    } else {
       target_ = data["target"].asString();
-    }
+    } 
   }
     
 
@@ -36,6 +44,7 @@ namespace novia {
       ResponseInfo response;
       response.room = room_ptr.get();
       owner.send(response);
+
     } else if (type() == "character") {
       ResponseExamine response;
       response.type = ResponseExamine::ExamineType::CHARACTER;
@@ -52,6 +61,7 @@ namespace novia {
 	return;
       }
       owner.send(response);
+
     } else if (type() == "item") {
       ResponseExamine response;
       response.type = ResponseExamine::ExamineType::ITEM;
@@ -63,6 +73,25 @@ namespace novia {
       }
       response.item = room_ptr->items()[target()].get();
       owner.send(response);
+
+    } else if (type() == "backpack") {
+      ResponseExamine response;
+      response.type = ResponseExamine::ExamineType::ITEM;
+      const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+      if (!target_int_<0 || (std::size_t)target_int_ >= char_ptr->items().size()) {
+	response.type = ResponseExamine::ExamineType::BACKPACK;
+	response.character = char_ptr.get();
+      } else {
+	response.item = char_ptr->items()[target_int_].get();
+      }
+      owner.send(response);
+      
+    } else {
+	std::stringstream msg;
+	msg << "You can't examine: '"<<type()<<"'";
+	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
+	return;
+
     }
   }
 

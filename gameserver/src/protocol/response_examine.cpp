@@ -32,6 +32,14 @@ namespace novia {
       message["door"] = Value(door->entrance()->name());
       message["description"] = Value(door->entrance()->description());
       break;
+    case ExamineType::BACKPACK:
+      message["type"] = "BACKPACK";
+      message["items"] = Value(arrayValue);
+      for (const std::shared_ptr<Item>& item : character->items()) {
+	message["items"].append(Value(item->name()));
+      }
+      
+      break;
     }
     return message;
   }

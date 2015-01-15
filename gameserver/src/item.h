@@ -28,14 +28,12 @@ namespace novia {
     typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
     
     //Use functions
-    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, CharacterPtr& target)> OnUseCharacterFn;
-    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user)> OnUseFn;
-    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, Item& target)> OnUseItemFn;
-    typedef std::function<std::unique_ptr<OutMessage>(CharacterPtr& user, Door& door_path)> OnUseDoor;
+    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, CharacterPtr& target)> OnUseCharacterFn;
+    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user)> OnUseFn;
+    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, Item& target)> OnUseItemFn;
+    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, Door& door_path)> OnUseDoor;
     
     Item();
-    OnHitFn on_hit;
-    OnAttackFn on_attack;
 
     OnUseCharacterFn on_use_character;
     OnUseItemFn on_use_item;

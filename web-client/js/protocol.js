@@ -17,7 +17,9 @@ function ExamineMessage(type, target) {
 	this.type = "room";
     } else {
 	this.type = type;
-	this.target = target;
+	if (target !== undefined) {
+	    this.target = target;
+	}
     }
 }
 

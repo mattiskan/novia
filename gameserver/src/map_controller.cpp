@@ -2,7 +2,9 @@
 #include <protocol/response_examine.h>
 #include <protocol/response_new_player_status.h>
 #include <protocol/response_info.h>
+#include <protocol/response_invalid_command.h>
 #include <iostream>
+#include <sstream>
 
 namespace novia {
   MapController::MapController() 
@@ -11,11 +13,11 @@ namespace novia {
     
   }
 
-  std::unique_ptr<OutMessage> MapController::attack(CharacterPtr& attacker, CharacterPtr& victim) {
+  std::unique_ptr<OutMessage> MapController::attack(const CharacterPtr& attacker, const CharacterPtr& victim) {
     return std::unique_ptr<OutMessage>();
   }
 
-  std::unique_ptr<OutMessage> MapController::use(CharacterPtr& user, Item& item) {
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item) {
     if (item.on_use) {
       item.on_use(user);
     } else {
@@ -23,20 +25,20 @@ namespace novia {
     }
     return std::unique_ptr<OutMessage>();
   }
-  std::unique_ptr<OutMessage> MapController::use(CharacterPtr& user, Item& item, CharacterPtr& target) {
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, CharacterPtr& target) {
     if (!item.on_use_character) {
       return std::unique_ptr<OutMessage>();
     }
     return item.on_use_character(user, target);
   }
-  std::unique_ptr<OutMessage> MapController::use(CharacterPtr& user, Item& item, Door& target) {
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, Door& target) {
     if (!item.on_use_door) {
       return std::unique_ptr<OutMessage>();
     }
     return item.on_use_door(user, target);
   }
 
-  std::unique_ptr<OutMessage> MapController::use(CharacterPtr& user, Item& item, Item& target) {
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, Item& target) {
     if (!item.on_use_item) {
       return std::unique_ptr<OutMessage>();
     }
@@ -64,8 +66,19 @@ namespace novia {
     return std::unique_ptr<OutMessage>(response);
   }
 
-  std::unique_ptr<OutMessage> MapController::take(CharacterPtr& user, Item& item) {
-    return std::unique_ptr<OutMessage>();
+  std::unique_ptr<OutMessage> MapController::take(const CharacterPtr& user, const std::string& item_name) {
+    OutMessage* msg;
+    const RoomPtr& room_ptr = user->current_room();
+    if (room_ptr->items().count(item_name)) {
+      user->items().push_back(room_ptr->items().at(item_name));
+      room_ptr->items().erase(room_ptr->items().find(item_name));
+      //TODO add item message
+    } else {
+      std::stringstream error_msg;
+      error_msg << "There is no item with the name '" << item_name << "'";
+      msg = new ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, error_msg.str());
+    }
+    return std::unique_ptr<OutMessage>(msg);
   }
 
   Json::Value MapController::get_serialized() const {
@@ -99,13 +112,15 @@ namespace novia {
   }
 
   std::unique_ptr<OutMessage> MapController::move(const CharacterPtr& traveler, Door& door) {
-    std::shared_ptr<Room> current_room = door.entrance();
-    std::shared_ptr<Room> target_room = door.exit();
+    RoomPtr current_room = door.entrance();
+    RoomPtr target_room = door.exit();
     current_room->characters().remove(traveler);
     target_room->characters().push_back(traveler);
     traveler->set_current_room(target_room);
+
     ResponseInfo* message = new ResponseInfo();
     message->room = target_room.get();
+    
     return std::unique_ptr<OutMessage>(message);
   }
 

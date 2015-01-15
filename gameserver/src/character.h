@@ -25,6 +25,7 @@ namespace novia {
     int hp() const;
     virtual bool can_be_attacked(const Character& attacker) const;
     std::vector< std::shared_ptr<Item> >& items();
+    const std::vector< std::shared_ptr<Item> >& items() const;
     std::string name() const;
     std::string description() const;
     int items_weight() const;

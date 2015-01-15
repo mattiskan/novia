@@ -61,7 +61,8 @@ function ConnectCommand(args) {
 	});
 
 	socket.onMessage(function(msg) {
-	    print("From server: " + msg.data);
+	    print(formatResponse(msg.data));
+	    //print("From server: " + msg.data);
 	});
     }
 
@@ -103,15 +104,16 @@ function MoveCommand(args) {
 }
 
 function ExamineCommand(args) {
-    this.target = args[1];
     this.type = args[0];
+    this.target = args[1];
+
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
 	    print("Requires active connection to server");
 	    return;
 	}
-	if (args.length == 1) {
+	if (args.length == 1 && this.type != "backpack") {
 	    print("You must have a target!\n");
 	    this.help(print);
 	    return;

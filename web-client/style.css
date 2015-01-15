@@ -36,6 +36,7 @@
     font-family: inherit;
     font-size: inherit;
     border: none;
+    white-space: pre;
   }
 
   .terminal .white {

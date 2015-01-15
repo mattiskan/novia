@@ -16,7 +16,8 @@ namespace novia {
       ITEM,
       CHARACTER,
       ROOM,
-      DOOR
+      DOOR,
+      BACKPACK
     };
     
     ExamineType type;

@@ -4,14 +4,13 @@
     <div class="content" scroll="messages">
       <div class="line" ng-repeat="entry in commands track by $index">
 	<div class="prefix" ng-if="entry.prompt">cmd&gt;</div>
-	<div class="cmd" ng-class="entry.class"> {{entry.str}} </div>
+	<div class="cmd" ng-class="entry.class">{{entry.str}}</div>
       </div>
       
       <div class="line">
 	<div class="prefix">cmd&gt;</div>
 	<input class="cmd" type="text" ng-model="cmd" ng-focus="true"
-	       ng-keypress="parseCommand($event)"/>
-      </div>
+	       ng-keypress="parseCommand($event)"/></div>
     </div>
   </div>
   
