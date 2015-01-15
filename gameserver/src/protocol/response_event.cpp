@@ -21,8 +21,12 @@ namespace novia {
       message["type"] = "ITEM_DROPPED";
       message["item"] = item->name();
       break;
-    default:
-      throw std::out_of_range("Unimplemented response event.");
+    case Type::DOOR_OPENED:
+      message["type"] = "DOOR_OPENED";
+      message["door"] = door->description();
+      break;
+      //default:
+      //throw std::out_of_range("Unimplemented response event.");
     }
     return message;
   }

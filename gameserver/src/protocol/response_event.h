@@ -14,9 +14,10 @@ namespace novia {
   
   class ResponseEvent : public OutMessage {    
   public:
-    enum class Type { ITEM_GAINED, ITEM_DROPPED };
+    enum class Type { ITEM_GAINED, ITEM_DROPPED, DOOR_OPENED };
     const Character* character;
     const Item* item;
+    const Door* door;
     Type type;
     ResponseEvent();
 
