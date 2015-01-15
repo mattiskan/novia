@@ -2,8 +2,6 @@ body {
     background-color: black;
 }
 
-
-
 h1 {
     color: #999;
     font-family: 'Fredericka the Great', cursive;
@@ -27,8 +25,9 @@ h1 {
 }
 
   .terminal .content {
-      overflow-y: scroll;
+      overflow-y: auto;
       height: 100%;
+      
   }
 
   .terminal .line {
