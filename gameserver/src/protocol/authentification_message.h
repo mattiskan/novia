@@ -9,11 +9,11 @@ namespace novia {
   class AuthentificationMessage : public InMessage {
     std::string username_;
     std::string password_;
-    
+    bool authed_;
   public:
     const std::string& username() const;
     const std::string& password() const;
-
+    bool authenticated() const;
     
     // inherited from InMessage:
     virtual void read(const Json::Value& data) override;

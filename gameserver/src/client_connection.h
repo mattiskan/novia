@@ -33,7 +33,7 @@ namespace novia {
 
   private:
     const int session_id_;
-    int user_id_ = -1;
+    int user_id_;
     SendFn send_;
     volatile bool connected_;
     mutable std::mutex conn_mutex_;

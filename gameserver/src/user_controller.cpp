@@ -17,6 +17,7 @@ namespace novia {
 				    ClientConnection& message_owner) const {
     
     if (valid_users.count(username) == 1) {
+      message_owner.authenticate(valid_users[username]);
       return true;
     }
     

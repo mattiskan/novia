@@ -9,6 +9,7 @@ namespace novia {
 
   ClientConnection::ClientConnection(int assigned_id, SendFn& send_fn)
     : session_id_(assigned_id),
+      user_id_(-1),
       send_(send_fn),
       connected_(true)
   {

@@ -36,6 +36,8 @@ namespace novia {
   }
 
   void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
+    if (!owner.authenticated())
+      return;
     if (!c.map_controller.player_exists(owner.user_id())) {
       c.map_controller.add_new_player(owner, username());
     } else {
