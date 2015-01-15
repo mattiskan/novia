@@ -1,7 +1,13 @@
+body {
+    background-color: black;
+}
+
+
 
 h1 {
+    color: #999;
     font-family: 'Fredericka the Great', cursive;
-    font-size: 40px;
+    font-size: 62px;
     font-strech: ultra-expanded;
     text-align: center;
 }
