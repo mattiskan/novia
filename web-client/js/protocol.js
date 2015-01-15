@@ -43,3 +43,8 @@ function UseMessage(item, type, target) {
     }
 
 }
+
+function AttackMessage(target) {
+    this.msg_type = "attack";
+    this.target = target;
+}
