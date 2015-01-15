@@ -19,8 +19,12 @@ namespace novia {
   }
   class Character {
   public:
-    friend std::shared_ptr<Character> CharacterFactory::create_character(const Json::Value&, Map&);
-    friend std::shared_ptr<Character> CharacterFactory::create_character(const std::string&, Map&);
+    typedef std::shared_ptr<Character> CharacterPtr;
+    typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
+    typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
+
+    friend CharacterPtr CharacterFactory::create_character(const Json::Value&, Map&);
+    friend CharacterPtr CharacterFactory::create_character(const std::string&, Map&);
     Character();
     int hp() const;
     virtual bool can_be_attacked(const Character& attacker) const;

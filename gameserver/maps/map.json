@@ -5,7 +5,8 @@
 	    "exits": {
 		"School" : {
 		    "description": "A long dark way",
-		    "to": "School"
+		    "to": "School",
+		    "lock": "small_key"
 		}
 	    },
 	    "description" : "Your home!"

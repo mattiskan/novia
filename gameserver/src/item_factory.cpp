@@ -54,7 +54,6 @@ namespace novia {
 	Json::StyledWriter json_writer;
 	msg << "Unknown item: '" << item_name << "' json: '"<<json_writer.write(item_data) <<"'";
 	throw std::runtime_error(msg.str());
-	throw std::runtime_error(msg.str());
       }
       return item;
     }

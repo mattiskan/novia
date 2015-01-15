@@ -49,7 +49,7 @@ namespace novia {
   std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item, const ItemPtr& target) {
     if (!item->on_use_item) {
       std::stringstream error_message;
-      error_message << "The item is not usable on the item: '" << target->name() << "'";
+      error_message << item->name() <<" is not usable on the item: '" << target->name() << "'";
       return std::unique_ptr<OutMessage>(new ResponseInvalidCommand(ResponseInvalidCommand::Type::NOT_USABLE, 
 								    error_message.str()));
     }

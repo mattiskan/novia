@@ -25,8 +25,6 @@ namespace novia {
   public:
     friend std::shared_ptr<Item> ItemFactory::create_item(const Json::Value&);
 
-    typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
-    typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
     
     //Use functions
     typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, CharacterPtr& target)> OnUseCharacterFn;
