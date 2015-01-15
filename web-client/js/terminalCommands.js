@@ -22,7 +22,8 @@ function interpret(input) {
 
 function UnknownCommand(cmd) {
     this.invoke = function(print, socket) {
-	print('Unknown command: "' + cmd + '"');
+	if(cmd != "")
+	    print('Unknown command: "' + cmd + '"');
     }
 }
 
