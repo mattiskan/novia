@@ -1,4 +1,4 @@
-var controller = function($scope, socket) {
+var controller = function($scope, $timeout, socket) {
     $scope.commands = [];
     $scope.cmd = "";
     
@@ -69,6 +69,12 @@ var controller = function($scope, socket) {
 	$scope.cmd = "";
     };
 
+    
+    print('Welcome to the crappy shit game. Type "help" or "connect" to get started.');
+
+    $timeout(function() {
+	print("Or don't, I don't care.");
+    }, 2000);
 };
 
 app.controller('LoginController', controller);
