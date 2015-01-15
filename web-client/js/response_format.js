@@ -74,6 +74,14 @@ var formating = {
 	    string += data.item;
 	}
 	return string;
+    },
+    attack: function(data) {
+	var response = "Your attack strikes for "+data.damage+".";
+
+	if (data.killed == true)
+	    response += " It is fatal.";
+	
+	return response;
     }
 
 };

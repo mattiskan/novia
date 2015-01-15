@@ -7,7 +7,6 @@ function AuthentificationMessage(username, password) {
 
 function MoveMessage(dest) {
     this.msg_type = 'move';
-
     this.destination = dest;
 }
 

@@ -34,6 +34,10 @@ namespace novia {
       break;
     case Type::UNAUTHORIZED:
       response["type"] = "unauthorized";
+      break;
+    case Type::NOT_ATTACKABLE:
+      response["type"] = "not_attackable";
+      break;
     }
 
     response["msg_type"] = "invalid_command";

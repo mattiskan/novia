@@ -9,7 +9,6 @@ namespace novia {
   const std::string& RequestAttack::target() const {
     return target_;
   }
-
     
     // inherited from InMessage:
   void RequestAttack::read(const Json::Value& data) {
