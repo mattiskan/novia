@@ -76,9 +76,14 @@ app.directive('scroll', function($timeout) {
     return {
 	restrict: 'A',
 	link: function(scope, element, attr) {
-	    scope.$watchCollection(attr.scroll, function(newVal) {
+	    scope.$on("new_message", function() {
+		var elem = element[0];
+		var scrolledBottom = elem.scrollHeight - elem.clientHeight - elem.scrollTop;
 		$timeout(function() {
-		    element[0].scrollTo = element[0].scrollHeight;
+		    if (scrolledBottom < 50) {	
+			elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+		    }
+		    //console.log("new message!!!!!", elem.scrollTop, elem.scrollHeight, elem.clientHeight, scrolledBottom);
 		});
 	    });
 	}

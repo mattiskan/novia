@@ -6,6 +6,7 @@ var controller = function($scope, socket) {
     var lastCmd = "";
     
     var print = function(str) {
+	$scope.$broadcast("new_message");
 	$scope.commands.push({
 	    'str': str,
 	    'prompt': false,
@@ -63,7 +64,7 @@ var controller = function($scope, socket) {
 	
 	command = interpret($scope.cmd);
 
-	command.invoke(print, socket);
+	command.invoke(print, socket, $scope);
 	
 	$scope.cmd = "";
     };

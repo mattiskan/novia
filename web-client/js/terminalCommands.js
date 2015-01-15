@@ -54,7 +54,7 @@ function HelpCommand(args) {
 function ConnectCommand(args) {
     this.ipstr = (args.length >= 1)? args[0]: "127.0.0.1:9002";
 
-    this.invoke = function(print, socket) {
+    this.invoke = function(print, socket, $scope) {
 	print("connecting to " + this.ipstr);
 
 	socket.connect(this.ipstr, function() {
