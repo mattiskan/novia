@@ -32,11 +32,12 @@ namespace novia {
     static std::shared_ptr<Room> from_json(const Json::Value& json, Map& map);
     std::string name() const;
     std::string description() const;
+    Json::Value serialize() const;
+
   private:
     std::list<std::shared_ptr<Character>> characters_;
     std::map<std::string, Door> exits_;
     std::map<std::string, std::shared_ptr<Item>> items_;
-    Json::Value serialize() const;
     std::string name_;
     std::string description_;
   };

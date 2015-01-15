@@ -8,7 +8,16 @@ namespace novia {
 
   Json::Value Room::serialize() const {
     using namespace Json;
-    Value serialized(objectValue);
+    Value serialized;
+    for (const std::pair<std::string, std::shared_ptr<Item>>& item_pair : items()) {
+      serialized["items"].append(item_pair.second->serialize());      
+    }
+    
+    for (const std::pair<std::string, Door>& door_pair : exits()) {
+      serialized["exits"].append(door_pair.second.serialize());
+    }
+    serialized["description"] = description();
+
     return serialized;
   }
 
@@ -52,4 +61,5 @@ namespace novia {
   std::string Room::description() const {
     return description_;
   }
+  
 }

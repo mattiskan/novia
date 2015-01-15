@@ -13,16 +13,21 @@ namespace novia {
   class Room;
   class Map : public Serializable {
   public:
+    typedef std::shared_ptr<Character> CharacterPtr;
+    typedef std::shared_ptr<Room> RoomPtr;
+    typedef std::shared_ptr<Item> ItemPtr;
+
     Map();
     virtual Json::Value serialize() const override;
-    void load_map();
-    std::map<std::string, std::shared_ptr<Room>>& rooms();
-    std::vector<std::shared_ptr<Character>>& characters();
-    std::vector<std::shared_ptr<Item>>& items();
-  private:
-    std::map<std::string, std::shared_ptr<Room>> rooms_;
-    std::vector<std::shared_ptr<Character>> characters_;
+    std::map<std::string, RoomPtr>& rooms();
+    const std::map<std::string, RoomPtr>& rooms() const;
+    std::vector<CharacterPtr>& characters();
+    const std::vector<CharacterPtr>& characters() const;
+    std::vector<ItemPtr>& items();
     void init_from_json(const Json::Value& map);
+  private:
+    std::map<std::string, RoomPtr> rooms_;
+    std::vector<CharacterPtr> characters_;
   };
 
 }

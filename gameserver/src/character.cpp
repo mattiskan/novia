@@ -28,6 +28,10 @@ namespace novia {
   std::string Character::description() const {
     return description_;
   }
+  
+  const std::string& Character::type() const {
+    return type_;
+  }
 
   int Character::items_weight() const {
     int total_weight=0;
@@ -56,8 +60,10 @@ namespace novia {
   Json::Value Character::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
-    serialized["name"] = Value(name());
-    Value& items_json = serialized["items"] = Value(arrayValue);
+    serialized["current_room"] = current_room()->name();
+    serialized["name"] = name();
+    serialized["type"] = type();
+    Value& items_json = serialized["items"] = arrayValue;
     for (const std::shared_ptr<Item>& item : items()) {
       items_json.append(item->serialize());
     }

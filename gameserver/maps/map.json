@@ -1,55 +1,76 @@
 {
-    "rooms": {
-	"Home": {
-	    "items": [ 
-		{
-		    "name": "sword"
-		},
-		{
-		    "name": "small_key"
-		}
-	    ],
-	    "exits": {
-		"School" : {
-		    "description": "A long dark way",
-		    "to": "School",
-		    "lock": "small_key"
-		}
-	    },
-	    "description" : "Your home!"
-	},
-	"School": {
-	    "items": [ 
-		{
-		    "name": "sword"
-		}
-	    ],
-	    "exits": {
-		"Pub" : {
-		    "description": "A long dark way",
-		    "to": "Pub"
-		}
-	    },
-	    "description" : "The School."
-	},
-	"Pub": {
-	    "items": [ 
-		{
-		    "name": "sword"
-		}
-	    ],
-	    "exits": {
-		"Home" : {
-		    "description": "A long dark way",
-		    "to": "Home"
-		}
-	    },
-	    "description" : "The Pub!"
+    "clients": [
+	{
+	    "user_id": 4711,
+	    "name": "axel"
 	}
-    },
-    "characters": {
-	"Beggar" : {
-	    "name": "Beggar"
-	}
+    ],
+    "map": {
+	"rooms": [
+	    {
+		"name": "Home",
+		"items": [ 
+		    {
+			"name": "sword"
+		    },
+		    {
+			"name": "small_key"
+		    }
+		],
+		"exits": [
+		    {
+			"name": "School",
+			"description": "A long dark way",
+			"to": "School",
+			"lock": "small_key"
+		    }
+		],
+		"description" : "Your home!"
+	    },
+	    {
+		"name": "School",
+		"items": [ 
+		    {
+			"name": "sword"
+		    }
+		],
+		"exits": [
+		    {
+			"name": "Pub",
+			"description": "A long dark way",
+			"to": "Pub"
+		    }
+		],
+		"description" : "The School."
+	    },
+	    {
+		"name": "Pub",
+		"items": [ 
+		    {
+			"name": "sword"
+		    }
+		],
+		"exits": [
+		    {
+			"name": "Home",
+			"description": "A long dark way",
+			"to": "Home"
+		    }
+		],
+		"description" : "The Pub!"
+	    }
+	],
+	"characters": [
+	    {
+		"current_room": "Home",
+		"name": "axel",
+		"type": "player",
+		"items": [
+		    {
+			"name": "sword"
+		    }
+		]
+	    }
+	]
     }
 }

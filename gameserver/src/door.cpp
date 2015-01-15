@@ -24,6 +24,10 @@ namespace novia {
     return lock_type_;
   }
 
+  const std::string& Door::name() const {
+    return name_;
+  }
+
   void Door::unlock() {
     lock_type_ = LockType::UNLOCKED;
   }
@@ -31,9 +35,10 @@ namespace novia {
   Json::Value Door::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
-    serialized["description"] = Value(description());
-    serialized["to"] = Value(exit()->name());
-    serialized["lock"] = Value(to_lock_type_string(check_lock()));
+    serialized["name"] = name();
+    serialized["description"] = description();
+    serialized["to"] = exit()->name();
+    serialized["lock"] = to_lock_type_string(check_lock());
     return serialized;
   }
   

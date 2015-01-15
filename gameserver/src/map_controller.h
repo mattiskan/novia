@@ -38,10 +38,14 @@ namespace novia {
     bool player_exists(int user_id) const;
     CharacterPtr player(int user_id);
 
+    void load_game();
+    void save_game();
+
+
   private:
 
     Map map_;
-    std::map<int, std::shared_ptr<Character>> players_;
+    std::map<int, CharacterPtr> players_;
 
     /*    void send_msg_to_character(const Character& character, const std:: string message);
     

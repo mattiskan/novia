@@ -23,7 +23,8 @@ namespace novia {
     typedef std::shared_ptr<Character> CharacterPtr;
     typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
     typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
-
+    
+    friend class Map;
     friend CharacterPtr CharacterFactory::create_character(const Json::Value&, Map&);
     friend CharacterPtr CharacterFactory::create_character(const std::string&, Map&);
     Character();
@@ -38,12 +39,14 @@ namespace novia {
     std::shared_ptr<Room> current_room() const;
     void set_current_room(const std::shared_ptr<Room>& new_room);
     Json::Value serialize() const;
+    const std::string& type() const;
   private:
     int hp_;
     std::string name_;
     std::vector< std::shared_ptr<Item> > items_;
     std::string description_;
     std::shared_ptr<Room> current_room_;
+    std::string type_;
   };
 }
 

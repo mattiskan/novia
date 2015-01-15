@@ -5,13 +5,16 @@
 #include <protocol/response_invalid_command.h>
 #include <protocol/response_event.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
+#include <jsoncpp/json.h>
+#include <algorithm>
 
 namespace novia {
   MapController::MapController() 
     : map_()
   {
-    
+    load_game();
   }
 
   std::unique_ptr<OutMessage> MapController::attack(const CharacterPtr& attacker, const CharacterPtr& victim) {
@@ -127,6 +130,7 @@ namespace novia {
   }
 
   std::unique_ptr<OutMessage> MapController::move(const CharacterPtr& traveler, Door& door) {
+    save_game();
     RoomPtr current_room = door.entrance();
     RoomPtr target_room = door.exit();
     current_room->characters().remove(traveler);
@@ -144,22 +148,45 @@ namespace novia {
     return std::unique_ptr<OutMessage>();
   }
 
-  /*  void MapController::send_msg_to_character(const CharacterPtr& character, const std::string message) {
-      if (!character.has_connection()) {
-	throw std::exception("No connection!");
-      }
-      TextMessageOut json;
-      json.set_message(message);
-      character.client_connection()->send(json);
-  }
-    
-  void MapController::send_msg_to_all(const std::string& message) {
-    for (const std::shared_ptr<Character>& character_ptr : map.characters()) {
-      if (!character_ptr->has_connection()) {
-	continue;
-      }
-      send_msg_to_character(*character_ptr, message);
+  void MapController::load_game() {
+    using namespace Json;
+    Value game_json;
+    std::ifstream map_stream("maps/map.json", std::ifstream::in);
+    if (!map_stream.good()) {
+      map_stream.close();
+      throw std::invalid_argument("Map file not found");
     }
-    }*/
+    Reader json_reader;
+    if (!json_reader.parse(map_stream, game_json)) {
+      throw std::invalid_argument(json_reader.getFormatedErrorMessages());
+    }
+
+    map_stream.close();
+    map_.init_from_json(game_json["map"]);
+    for (const Value& client_json : game_json["clients"]) {
+      players_[client_json["user_id"].asInt()] = 
+	       *std::find_if(map_.characters().begin(), 
+			     map_.characters().end(), [&](const CharacterPtr& char_ptr) {
+	  return char_ptr->name() == client_json["name"].asString();
+	});
+    }
+  }
+
+  void MapController::save_game() {
+    using namespace Json;
+    Value game_json;
+    for (const std::pair<int, CharacterPtr>& char_pair : players_) {
+      Value client;
+      client["user_id"] = char_pair.first;
+      client["name"] = char_pair.second->name();
+      game_json["clients"].append(client);
+    }
+    game_json["map"] = map_.serialize();
+    StyledWriter json_writer;
+    std::ofstream out("maps/map2.json");
+    out << json_writer.write(game_json);
+    out.close();
+  }
+
 
 }

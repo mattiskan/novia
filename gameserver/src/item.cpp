@@ -17,7 +17,10 @@ namespace novia {
   Json::Value Item::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
-
+    serialized["name"] = name();
+    serialized["description"] = description();
+    serialized["weight"] = weight();
+    serialized["store_weight"] = store_weight();
     return serialized;
   }
 
