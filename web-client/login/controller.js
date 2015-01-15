@@ -60,6 +60,12 @@ var controller = function($scope, $timeout, socket) {
 	if (keyEvent.keyCode !== 13) // not enter
 	    return;
 
+	if( $scope.cmd === "clear") {
+	    $scope.commands = [];
+	    $scope.cmd = "";
+	    return;
+	}
+
 	$scope.commands.push({ str: $scope.cmd, prompt:true });
 	
 	command = interpret($scope.cmd);
@@ -70,11 +76,11 @@ var controller = function($scope, $timeout, socket) {
     };
 
     
-    print('Welcome to the crappy shit game. Type "connect" or "help" to get started.');
+    print('Welcome to S1kitspel. Type "connect" or "help" to get started.');
 
     $timeout(function() {
 	print("Or don't, I don't care.");
-    }, 2000);
+    }, 1000);
 };
 
 app.controller('LoginController', controller);

@@ -187,7 +187,7 @@ function AttackCommand(args) {
 	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
-	if (target === undefined) {
+	if (this.target === undefined) {
 	    print("You must attack something.");
 	    this.help(print);
 	    return;
