@@ -70,7 +70,7 @@ var controller = function($scope, $timeout, socket) {
     };
 
     
-    print('Welcome to the crappy shit game. Type "help" or "connect" to get started.');
+    print('Welcome to the crappy shit game. Type "connect" or "help" to get started.');
 
     $timeout(function() {
 	print("Or don't, I don't care.");
