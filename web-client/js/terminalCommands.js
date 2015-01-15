@@ -14,6 +14,7 @@ function interpret(input) {
     case "examine": return new ExamineCommand(args); break;
     case "take": return new TakeCommand(args); break;
     case "use": return new UseCommand(args); break;
+    case "attack": return new AttackCommand(args); break;
 
     default: return new UnknownCommand(cmd);
     }
@@ -37,6 +38,7 @@ function HelpCommand(args) {
 	    print("- move");
 	    print("- use");
 	    print("- take");
+	    print("- attack");
 	    print("See help <command> for help about specific commands.");
 	} else {
 	    console.log("lf help", args[0]);
@@ -132,7 +134,6 @@ function ExamineCommand(args) {
 
 }
 
-
 function TakeCommand(args) {
     this.item = args[0];
 
@@ -173,7 +174,7 @@ function UseCommand(args) {
     };
 }
 
-function Attack(args) {
+function AttackCommand(args) {
     this.target = args[0];
 
     this.invoke = function (print, socket) {
