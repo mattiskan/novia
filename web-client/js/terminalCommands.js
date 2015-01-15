@@ -154,6 +154,7 @@ function UseCommand(args) {
     this.item = args[0];
     this.type = args[1];
     this.target = args[2];
+
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
 	    print("Requires active connection to server");
@@ -170,6 +171,26 @@ function UseCommand(args) {
     this.help = function(print) {
 	print('use [<character|item|backpack|exit> <target>]');
     };
-    
 }
 
+function Attack(args) {
+    this.target = args[0];
+
+    this.invoke = function (print, socket) {
+	if (!socket.isConnected()){
+	    print("Requires active connection to server");
+	    return;
+	}
+	if (target === undefined) {
+	    print("You must attack something.");
+	    this.help(print);
+	    return;
+	}
+	socket.send(new AttackMessage(this.target));
+    };
+
+    this.help = function(print) {
+	print('attack <character>');
+    };
+
+}

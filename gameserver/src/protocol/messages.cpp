@@ -9,6 +9,7 @@
 #include "request_examine.h"
 #include "request_take.h"
 #include "request_use.h"
+#include "request_attack.h"
 
 namespace novia{
   namespace messages {
@@ -33,7 +34,8 @@ namespace novia{
       EXAMINE,
       MOVE,
       TAKE,
-      USE
+      USE,
+      ATTACK
     };
 
     std::unordered_map<std::string, MessageType> from_name_ = {
@@ -41,7 +43,8 @@ namespace novia{
       {"examine", EXAMINE},
       {"move", MOVE},
       {"take", TAKE},
-      {"use", USE}
+      {"use", USE},
+      {"attack", ATTACK}
     };
     
     InMessage* from_type(const std::string& message_type) {
@@ -58,6 +61,7 @@ namespace novia{
       case MOVE: return new RequestMove;
       case TAKE: return new RequestTake;
       case USE: return new RequestUse;
+      case ATTACK: return new RequestAttack;
       }
       std::stringstream error_msg;
       error_msg << "unknown message type enum: '" << message_type<<"'";
