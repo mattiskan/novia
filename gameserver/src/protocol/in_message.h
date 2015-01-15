@@ -31,6 +31,10 @@ namespace novia {
      */
     virtual void on_invoke(Controllers& c, ClientConnection& owner) const = 0;
 
+
+    virtual bool requires_authentication() const {
+      return true;
+    }
   };
 }
 

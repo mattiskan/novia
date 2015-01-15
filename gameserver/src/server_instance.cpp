@@ -5,6 +5,8 @@
 #include <sstream>
 
 #include "controllers.h"
+#include "protocol/response_invalid_command.h"
+
 
 namespace novia {
 
@@ -43,12 +45,21 @@ namespace novia {
   }
 
   void ServerInstance::message_handler(const std::shared_ptr<InMessage>& msg, const std::shared_ptr<ClientConnection> & owner) {
+    std::cout << "message_handler" << std::endl;
+    
     write_mutex.lock();
-    msg->instant_reply(controllers_, *owner);
-    std::cout << "message retrieved!" << std::endl;
-    task_queue_.push([=]() {
-	msg->on_invoke(this->controllers_, *owner);
-      });
+    if(owner->authenticated() || !msg->requires_authentication()) {
+
+      msg->instant_reply(controllers_, *owner);
+      std::cout << "message retrieved!" << std::endl;
+      task_queue_.push([=]() {
+	  msg->on_invoke(this->controllers_, *owner);
+	});
+    } else {
+      auto error = ResponseInvalidCommand::Type::UNAUTHORIZED;
+      owner->send(ResponseInvalidCommand(error, "That command requires login."));
+    }
+      
     write_mutex.unlock();
   }
 

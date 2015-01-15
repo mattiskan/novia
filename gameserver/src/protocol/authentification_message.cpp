@@ -48,5 +48,9 @@ namespace novia {
     }
     // maybe broadcast new user to other players?
   }
+
+  bool AuthentificationMessage::requires_authentication() const {
+    return false;
+  }
 }
 

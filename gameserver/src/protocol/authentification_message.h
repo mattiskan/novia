@@ -24,6 +24,8 @@ namespace novia {
 
     virtual void on_invoke(Controllers& c,
 			   ClientConnection& owner) const override;
+
+    virtual bool requires_authentication() const override;
   };
 }
 
