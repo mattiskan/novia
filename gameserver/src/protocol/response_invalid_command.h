@@ -12,7 +12,7 @@ namespace novia {
   
   class ResponseInvalidCommand : public OutMessage {    
   public:
-    enum class Type { UNKNOWN_TARGET, TOO_FEW_ARGUMENTS, INVALID_COMMAND, NOT_USABLE };
+    enum class Type { UNKNOWN_TARGET, TOO_FEW_ARGUMENTS, INVALID_COMMAND, NOT_USABLE, UNAUTHORIZED };
     ResponseInvalidCommand(Type error_type, const std::string& error_msg);
     const std::string& error_message() const;
     Type error_type() const;
