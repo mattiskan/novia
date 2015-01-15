@@ -1,18 +1,28 @@
+
+h1 {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 40px;
+    font-strech: ultra-expanded;
+    text-align: center;
+}
+
 .terminal {
   color: #FF9500;
   background-color: #222;
-  width: 600px;
+  width: 90%;
+  margin: auto;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #FF9500;
   font-family: FreeMono, monospace;
   font-size: 14px;
   box-sizing: border-box;
+  height: 300px;
 }
 
   .terminal .content {
       overflow-y: scroll;
-      height: 300px;
+      height: 100%;
   }
 
   .terminal .line {
