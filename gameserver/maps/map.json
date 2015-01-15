@@ -1,7 +1,14 @@
 {
     "rooms": {
 	"Home": {
-	    "items": [ 0, 2 ],
+	    "items": [ 
+		{
+		    "name": "sword"
+		},
+		{
+		    "name": "small_key"
+		}
+	    ],
 	    "exits": {
 		"School" : {
 		    "description": "A long dark way",
@@ -12,7 +19,11 @@
 	    "description" : "Your home!"
 	},
 	"School": {
-	    "items": [ 0 ],
+	    "items": [ 
+		{
+		    "name": "sword"
+		}
+	    ],
 	    "exits": {
 		"Pub" : {
 		    "description": "A long dark way",
@@ -22,7 +33,11 @@
 	    "description" : "The School."
 	},
 	"Pub": {
-	    "items": [ 0 ],
+	    "items": [ 
+		{
+		    "name": "sword"
+		}
+	    ],
 	    "exits": {
 		"Home" : {
 		    "description": "A long dark way",
@@ -30,17 +45,6 @@
 		}
 	    },
 	    "description" : "The Pub!"
-	}
-    },
-    "items": {
-	"0": {
-	    "name": "sword"
-	},
-	"1": {
-	    "name": "dagger"
-	},
-	"2": {
-	    "name": "small_key"
 	}
     },
     "characters": {

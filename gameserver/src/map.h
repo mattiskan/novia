@@ -22,7 +22,6 @@ namespace novia {
   private:
     std::map<std::string, std::shared_ptr<Room>> rooms_;
     std::vector<std::shared_ptr<Character>> characters_;
-    std::vector<std::shared_ptr<Item>> items_;
     void init_from_json(const Json::Value& map);
   };
 

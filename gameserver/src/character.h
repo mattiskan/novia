@@ -8,6 +8,7 @@
 #include "character_factory.h"
 #include "item.h"
 #include "room.h"
+#include "serializable.h"
 
 namespace novia {
   class Item;
@@ -17,7 +18,7 @@ namespace novia {
     std::shared_ptr<Character> create_character(const Json::Value&, Map&);
     std::shared_ptr<Character> create_character(const std::string&, Map&);
   }
-  class Character {
+  class Character : Serializable {
   public:
     typedef std::shared_ptr<Character> CharacterPtr;
     typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
@@ -36,6 +37,7 @@ namespace novia {
     int items_max_weight() const;
     std::shared_ptr<Room> current_room() const;
     void set_current_room(const std::shared_ptr<Room>& new_room);
+    Json::Value serialize() const;
   private:
     int hp_;
     std::string name_;

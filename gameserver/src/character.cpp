@@ -52,4 +52,16 @@ namespace novia {
   std::shared_ptr<Room> Character::current_room() const {
     return current_room_;
   }
+
+  Json::Value Character::serialize() const {
+    using namespace Json;
+    Value serialized(objectValue);
+    serialized["name"] = Value(name());
+    Value& items_json = serialized["items"] = Value(arrayValue);
+    for (const std::shared_ptr<Item>& item : items()) {
+      items_json.append(item->serialize());
+    }
+
+    return serialized;
+  }
 }

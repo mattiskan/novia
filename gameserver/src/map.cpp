@@ -36,11 +36,11 @@ namespace novia {
     using namespace Json;
     rooms().clear();
     characters().clear();
-    items().clear();
+    //items().clear();
 
-    for (const std::string& item_id : map["items"].getMemberNames()) {
+    /*for (const std::string& item_id : map["items"].getMemberNames()) {
       items_.push_back(ItemFactory::create_item(map["items"][item_id]));
-    }
+      }*/
 
     for (const std::string& character_name : map["characters"].getMemberNames()) {
       characters_.push_back(CharacterFactory::create_character(map["characters"][character_name], *this));
@@ -50,8 +50,8 @@ namespace novia {
       const Value& room_json = map["rooms"][room_name];
       std::shared_ptr<Room> room(new Room());
       room->description_ = room_json["description"].asString();
-      for (const Value& item_id_json : room_json["items"]) {
-	std::shared_ptr<Item>& item = items().at(item_id_json.asInt());
+      for (const Value& item_json : room_json["items"]) {
+	std::shared_ptr<Item> item = ItemFactory::create_item(item_json);
 	room->items_[item->name()] = item;
       }
       rooms_[room_name] = room;

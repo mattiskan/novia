@@ -16,6 +16,8 @@ namespace novia {
       std::string character_name = character_data["name"].asString();
       std::transform(character_name.begin(), character_name.end(), character_name.begin(), ::tolower);
 
+
+
       if (character_name == "player") {
 	using namespace Json;
 	character->name_ = character_data["playerName"].asString();
@@ -25,7 +27,6 @@ namespace novia {
 	};
 	for (auto& item_name : starting_items) {
 	  std::shared_ptr<Item> item = ItemFactory::create_item(item_name);
-	  map.items().push_back(item);
 	  character->items().push_back(item);
 	}
       } else if (character_name == "beggar") {
@@ -37,6 +38,12 @@ namespace novia {
 	msg << "Unknown character: '" << character_name << "' json: '"<<json_writer.write(character_data) <<"'";
 	throw std::runtime_error(msg.str());
       }
+
+      for (const Json::Value& item_json : character_data["items"]) {
+	std::shared_ptr<Item> item = ItemFactory::create_item(item_json);
+	character->items().push_back(item);
+      }
+
       return character;
     }
   }

@@ -4,7 +4,7 @@
 #define NOVIA_ROOM_PATH_H
 
 #include <memory>
-
+#include <map>
 #include "room.h"
 #include "serializable.h"
 
@@ -16,6 +16,7 @@ namespace novia {
   public:
     enum class LockType { UNLOCKED, SMALL_KEY, LARGE_KEY };
     static LockType to_lock_type(const std::string& str);
+    static std::string to_lock_type_string(LockType lt);
     std::shared_ptr<Room> entrance() const;
 
     std::shared_ptr<Room> exit() const;
@@ -32,6 +33,7 @@ namespace novia {
     std::shared_ptr<Room> exit_;
     std::string description_;
     LockType lock_type_;
+    static const std::vector<std::string> lock_type_strings;
   };
 
 
