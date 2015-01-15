@@ -1,4 +1,4 @@
-
+var NOT_CONNECTED_ERROR = 'Error: Requires active connection to server. See "help connect" for more information';
 
 function interpret(input) {
     tokens = input.split(" ");
@@ -83,6 +83,10 @@ function LoginCommand(args) {
     this.password = args[1];
     
     this.invoke = function(print, socket) {
+	if (!socket.isConnected()){
+	    print(NOT_CONNECTED_ERROR);
+	    return;
+	}
 	socket.send(new AuthentificationMessage(this.username, this.password));
     };
 
@@ -96,7 +100,7 @@ function MoveCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active connection to server");
+	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
 	
@@ -116,7 +120,7 @@ function ExamineCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active connection to server");
+	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
 	if (args.length == 1 && this.type != "backpack") {
@@ -139,7 +143,7 @@ function TakeCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active connection to server");
+	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
 	
@@ -158,7 +162,7 @@ function UseCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active connection to server");
+	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
 	if (this.type !== undefined && ["character", "backpack", "item", "exit"].indexOf(this.type) == -1) {
@@ -179,7 +183,7 @@ function AttackCommand(args) {
 
     this.invoke = function (print, socket) {
 	if (!socket.isConnected()){
-	    print("Requires active connection to server");
+	    print(NOT_CONNECTED_ERROR);
 	    return;
 	}
 	if (target === undefined) {
