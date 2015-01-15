@@ -54,7 +54,6 @@ namespace novia {
 	std::shared_ptr<Item>& item = items().at(item_id_json.asInt());
 	room->items_[item->name()] = item;
       }
-
       rooms_[room_name] = room;
     }
     
@@ -68,6 +67,10 @@ namespace novia {
 	d.description_ = exit["description"].asString();
 	d.entrance_ = room;
 	d.exit_ = rooms()[exit["to"].asString()];
+	Door::LockType locked = Door::to_lock_type(exit.get("lock", Value("unlocked")).asString());
+	d.lock_type_ = locked;
+	
+
 	room->exits()[exit_name] = d;
       }
     }

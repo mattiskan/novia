@@ -14,12 +14,10 @@ namespace novia {
     // inherited from InMessage:
   void RequestMove::read(const Json::Value& data) {
     door_ = data["destination"].asString();
-    std::cout << "read move" << std::endl;
   }
     
 
   void RequestMove::instant_reply(const Controllers& c, ClientConnection& owner) const {
-    std::cout << "instant move" << std::endl;
   }
 
   void RequestMove::on_invoke(Controllers& c, ClientConnection& owner) const {

@@ -31,6 +31,10 @@ namespace novia {
     case Type::INVALID_COMMAND:
       type_val = Value("invalid_command");
       break;
+    case Type::NOT_USABLE:
+      type_val = Value("not_usable");
+      break;
+
     }
     response["type"] = type_val;
     response["message"] = error_message_;

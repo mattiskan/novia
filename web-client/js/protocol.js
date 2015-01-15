@@ -23,3 +23,14 @@ function ExamineMessage(type, target) {
     }
 }
 
+function TakeMessage(item) {
+    this.msg_type = "take";
+    this.target = item;
+}
+
+function UseMessage(item, type, target) {
+    this.msg_type = "use";
+    this.item = item;
+    this.type = type;
+    this.target = target;
+}

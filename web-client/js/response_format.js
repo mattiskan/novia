@@ -3,7 +3,13 @@ var formating = {
     response_new_player_status: function(data) {
 	var string = "";
 	string += data.player +" has";
-	string += (data.status=="CONNECTED")? " connected to the server" : " disconnected from the server";
+	if (data.status == "CONNECTED") {
+	    string += " connected to the server";
+	} else if (data.status=="DISCONNECTED") {
+	    string += " disconnected from the server";
+	} else if (data.status=="NEW_PLAYER") {
+	    string += " has created and connected to the server";
+	}
 	return string;
     },
     confirmation: function(data) {
@@ -40,6 +46,22 @@ var formating = {
     invalid_command: function(data) {
 	var string = "";
 	string += data.message;
+	return string;
+    },
+    response_examine: function(data) {
+	var string = "You examine ";
+	if (data.type=="CHARACTER") {
+	    string += "the character '" +data.character+"' and finds out: "+data.description;
+	} else if (data.type == "ITEM") {
+	    string += "the item '" +data.item+"' and finds out: "+data.description;
+	} else if (data.type == "DOOR") {
+	    string += "the exit '" +data.door+"' and finds out: "+data.description;	    
+	} else if (data.type == "BACKPACK") {
+	    string += "your backpack and finds the following items:\n";
+	    for (var i=0; i<data.items.length; i++) {
+		string += " ["+i+"] "+data.items[i]+"\n";
+	    }
+	}
 	return string;
     }
 

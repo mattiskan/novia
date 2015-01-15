@@ -1,7 +1,7 @@
 {
     "rooms": {
 	"Home": {
-	    "items": [ 0 ],
+	    "items": [ 0, 2 ],
 	    "exits": {
 		"School" : {
 		    "description": "A long dark way",
@@ -33,10 +33,13 @@
     },
     "items": {
 	"0": {
-	    "name": "Sword"
+	    "name": "sword"
 	},
 	"1": {
-	    "name": "Dagger"
+	    "name": "dagger"
+	},
+	"2": {
+	    "name": "small_key"
 	}
     },
     "characters": {

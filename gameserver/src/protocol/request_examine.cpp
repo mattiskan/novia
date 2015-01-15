@@ -85,6 +85,20 @@ namespace novia {
 	response.item = char_ptr->items()[target_int_].get();
       }
       owner.send(response);
+
+    } else if (type() == "exit") {
+      ResponseExamine response;
+      response.type = ResponseExamine::ExamineType::DOOR;
+      
+      if (!room_ptr->exits().count(target())) {
+	std::stringstream msg;
+	msg << "There is no exit with the name '" << target() << "'";
+	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	return;
+      }
+      response.door = &(room_ptr->exits()[target()]);
+
+      owner.send(response);
       
     } else {
 	std::stringstream msg;

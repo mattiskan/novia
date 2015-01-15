@@ -21,6 +21,7 @@ namespace novia {
   }
   class Item : Serializable {
     typedef std::shared_ptr<Character> CharacterPtr;
+    typedef std::shared_ptr<Item> ItemPtr;
   public:
     friend std::shared_ptr<Item> ItemFactory::create_item(const Json::Value&);
 
@@ -30,7 +31,7 @@ namespace novia {
     //Use functions
     typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, CharacterPtr& target)> OnUseCharacterFn;
     typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user)> OnUseFn;
-    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, Item& target)> OnUseItemFn;
+    typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, const ItemPtr& target)> OnUseItemFn;
     typedef std::function<std::unique_ptr<OutMessage>(const CharacterPtr& user, Door& door_path)> OnUseDoor;
     
     Item();

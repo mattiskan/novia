@@ -18,7 +18,6 @@ namespace novia {
     
 
   void RequestTake::instant_reply(const Controllers& c, ClientConnection& owner) const {
-    std::cout << "instant move" << std::endl;
 
   }
 

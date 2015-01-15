@@ -3,6 +3,7 @@
 #include <protocol/response_new_player_status.h>
 #include <protocol/response_info.h>
 #include <protocol/response_invalid_command.h>
+#include <protocol/response_event.h>
 #include <iostream>
 #include <sstream>
 
@@ -17,38 +18,48 @@ namespace novia {
     return std::unique_ptr<OutMessage>();
   }
 
-  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item) {
-    if (item.on_use) {
-      item.on_use(user);
-    } else {
-      return std::unique_ptr<OutMessage>();
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item) {
+    if (!item->on_use) {
+      std::stringstream error_message;
+      error_message << "The item is not usable without a target";
+      return std::unique_ptr<OutMessage>(new ResponseInvalidCommand(ResponseInvalidCommand::Type::NOT_USABLE, 
+								    error_message.str()));
     }
-    return std::unique_ptr<OutMessage>();
+    return item->on_use(user);
   }
-  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, CharacterPtr& target) {
-    if (!item.on_use_character) {
-      return std::unique_ptr<OutMessage>();
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item, CharacterPtr& target) {
+    if (!item->on_use_character) {
+      std::stringstream error_message;
+      error_message << "The item is not usable on character: '" << target->name() << "'";
+      return std::unique_ptr<OutMessage>(new ResponseInvalidCommand(ResponseInvalidCommand::Type::NOT_USABLE, 
+								    error_message.str()));
     }
-    return item.on_use_character(user, target);
+    return item->on_use_character(user, target);
   }
-  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, Door& target) {
-    if (!item.on_use_door) {
-      return std::unique_ptr<OutMessage>();
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item, Door& target) {
+    if (!item->on_use_door) {
+      std::stringstream error_message;
+      error_message << "The item is not usable on the door: '" << target.description() << "'";
+      return std::unique_ptr<OutMessage>(new ResponseInvalidCommand(ResponseInvalidCommand::Type::NOT_USABLE, 
+								    error_message.str()));
     }
-    return item.on_use_door(user, target);
+    return item->on_use_door(user, target);
   }
 
-  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, Item& item, Item& target) {
-    if (!item.on_use_item) {
-      return std::unique_ptr<OutMessage>();
+  std::unique_ptr<OutMessage> MapController::use(const CharacterPtr& user, const ItemPtr& item, const ItemPtr& target) {
+    if (!item->on_use_item) {
+      std::stringstream error_message;
+      error_message << "The item is not usable on the item: '" << target->name() << "'";
+      return std::unique_ptr<OutMessage>(new ResponseInvalidCommand(ResponseInvalidCommand::Type::NOT_USABLE, 
+								    error_message.str()));
     }
-    return item.on_use_item(user, target);
+    return item->on_use_item(user, target);
   }
 
-  std::unique_ptr<OutMessage> MapController::examine(const CharacterPtr& user, const Item& item) {
+  std::unique_ptr<OutMessage> MapController::examine(const CharacterPtr& user, const ItemPtr& item) {
     ResponseExamine* response = new ResponseExamine();
     response->type = ResponseExamine::ExamineType::ITEM;
-    response->item = &item;
+    response->item = item.get();
     return std::unique_ptr<OutMessage>(response);
   }
 
@@ -70,9 +81,13 @@ namespace novia {
     OutMessage* msg;
     const RoomPtr& room_ptr = user->current_room();
     if (room_ptr->items().count(item_name)) {
-      user->items().push_back(room_ptr->items().at(item_name));
+      std::shared_ptr<Item> item_ptr = room_ptr->items().at(item_name);
+      user->items().push_back(item_ptr);
       room_ptr->items().erase(room_ptr->items().find(item_name));
-      //TODO add item message
+      ResponseEvent* response  = new ResponseEvent();
+      response->type = ResponseEvent::Type::ITEM_GAINED;
+      response->item = item_ptr.get();
+      msg = response;
     } else {
       std::stringstream error_msg;
       error_msg << "There is no item with the name '" << item_name << "'";

@@ -21,7 +21,7 @@ namespace novia {
 	character->name_ = character_data["playerName"].asString();
 	std::vector<std::string> starting_items = {
 	  "dagger",
-	  "small bag"
+	  "small_bag"
 	};
 	for (auto& item_name : starting_items) {
 	  std::shared_ptr<Item> item = ItemFactory::create_item(item_name);

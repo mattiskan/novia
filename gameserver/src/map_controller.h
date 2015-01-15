@@ -19,12 +19,12 @@ namespace novia {
 
     std::unique_ptr<OutMessage> attack(const CharacterPtr& attacker, const CharacterPtr& victim);
 
-    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item);
-    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, CharacterPtr& target);
-    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, Door& target);
-    std::unique_ptr<OutMessage> use(const CharacterPtr& user, Item& item, Item& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, const ItemPtr& item);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, const ItemPtr& item, CharacterPtr& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, const ItemPtr& item, Door& target);
+    std::unique_ptr<OutMessage> use(const CharacterPtr& user, const ItemPtr& item, const ItemPtr& target);
 
-    std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Item& item);
+    std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const ItemPtr& item);
     std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const Door& door);
     std::unique_ptr<OutMessage> examine(const CharacterPtr& user, const CharacterPtr& character);
  

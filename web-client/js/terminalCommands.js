@@ -12,6 +12,8 @@ function interpret(input) {
     case "login": return new LoginCommand(args); break;
     case "move": return new MoveCommand(args); break;
     case "examine": return new ExamineCommand(args); break;
+    case "take": return new TakeCommand(args); break;
+    case "use": return new UseCommand(args); break;
 
     default: return new UnknownCommand(cmd);
     }
@@ -33,6 +35,8 @@ function HelpCommand(args) {
 	    print("- help");
 	    print("- login");
 	    print("- move");
+	    print("- use");
+	    print("- take");
 	    print("See help <command> for help about specific commands.");
 	} else {
 	    console.log("lf help", args[0]);
@@ -127,3 +131,45 @@ function ExamineCommand(args) {
     };
 
 }
+
+
+function TakeCommand(args) {
+    this.item = args[0];
+
+    this.invoke = function (print, socket) {
+	if (!socket.isConnected()){
+	    print("Requires active connection to server");
+	    return;
+	}
+	
+	socket.send(new TakeMessage(this.item));
+    };
+
+    this.help = function(print) {
+	print('take <item>');
+    };
+}
+
+function UseCommand(args) {
+    this.item = args[0];
+    this.type = args[1];
+    this.target = args[2];
+    this.invoke = function (print, socket) {
+	if (!socket.isConnected()){
+	    print("Requires active connection to server");
+	    return;
+	}
+	if (type !== undefined || ["character", "backpack", "item", "exit"].indexOf(this.type)) {
+	    print("Unknown or missing type: "+this.type);
+	    this.help(print);
+	    return;
+	}
+	socket.send(new UseMessage(this.item, this.type, this.targer));
+    };
+
+    this.help = function(print) {
+	print('use [<character|item|backpack|exit> <target>]');
+    };
+    
+}
+

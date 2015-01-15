@@ -30,7 +30,7 @@ namespace novia {
     case ExamineType::DOOR:
       message["type"] = "DOOR";
       message["door"] = Value(door->entrance()->name());
-      message["description"] = Value(door->entrance()->description());
+      message["description"] = Value(door->description());
       break;
     case ExamineType::BACKPACK:
       message["type"] = "BACKPACK";
