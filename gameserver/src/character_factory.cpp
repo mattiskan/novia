@@ -37,7 +37,6 @@ namespace novia {
 	character->type_ = character_name;
       } else if (character_name == "beggar") {
 	character->name_ = "Beggar1";
-
       } else {
 	std::stringstream msg;
 	Json::StyledWriter json_writer;

@@ -76,7 +76,7 @@ var controller = function($scope, $timeout, socket) {
     };
 
     
-    print('Welcome to S1kitspel. Type "connect" or "help" to get started.');
+    print('Welcome to Skitspel. Type "connect" or "help" to get started.');
 
     $timeout(function() {
 	print("Or don't, I don't care.");

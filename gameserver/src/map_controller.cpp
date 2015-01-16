@@ -1,4 +1,5 @@
 #include "map_controller.h"
+#include "connection_receiver.h"
 #include <protocol/response_examine.h>
 #include <protocol/response_new_player_status.h>
 #include <protocol/response_info.h>
@@ -10,6 +11,7 @@
 #include <sstream>
 #include <jsoncpp/json.h>
 #include <algorithm>
+#include <unordered_set>
 
 namespace novia {
   MapController::MapController() 
@@ -129,12 +131,12 @@ namespace novia {
   void MapController::add_new_player(const ClientConnection& conn, const std::string& name) {
     if (player_exists(conn.user_id()))
 	throw std::invalid_argument("A player with that user_id is already connected");
-    using namespace Json;
-    Value character(objectValue);
-    character["name"] = Value("player");
+    Json::Value character;
+    character["name"] = "player";
     character["playerName"] = name;
     CharacterPtr new_player = CharacterFactory::create_character(character, map_);
     players_[conn.user_id()] = new_player;
+    map_.characters().push_back(new_player);
     map_.rooms()["Home"]->characters().push_back(new_player);
     new_player->set_current_room(map_.rooms()["Home"]);
 
@@ -204,4 +206,29 @@ namespace novia {
   }
 
 
+  std::unordered_set<MapController::CharacterPtr> was_previously_dead;
+  Json::FastWriter writer;
+  
+  void MapController::kill_dead_players(ConnectionReceiver& cc) {
+    
+    auto is_dead = [] (CharacterPtr& c) {
+      return was_previously_dead.count(c) == 0 && c->is_dead();
+    };
+    
+    auto dead_player_it = std::find_if(map_.characters().begin(),
+					 map_.characters().end(),
+					 is_dead);
+    
+    for( ; dead_player_it != map_.characters().end(); ++dead_player_it) {
+
+      was_previously_dead.insert(*dead_player_it);
+
+      ResponseEvent b_cast;
+      b_cast.type = ResponseEvent::Type::PLAYER_DIED;
+      b_cast.character = dead_player_it->get();
+      
+      cc.broadcast(writer.write(b_cast.get_message()));
+    }
+    
+  }
 }

@@ -64,17 +64,15 @@ var formating = {
 	}
 	return string;
     },
+
     event: function(data) {
-	var string ="";
-	if (data.type=="ITEM_GAINED") {
-	    string += "You gained the item: ";
-	    string += data.item;
-	} else if (data.type=="ITEM_DROPPED") {
-	    string += "You lost the item: ";
-	    string += data.item;
-	}
-	return string;
+	return {
+	    'ITEM_GAINED': 'You gained the item: '+data.item,
+	    'ITEM_DROPPED': 'You dropped the item: '+data.item,
+	    'PLAYER_DIED': data.player + " died.",
+	}[data.type];
     },
+
     attack: function(data) {
 	var response = "Your attack strikes for "+data.damage+".";
 

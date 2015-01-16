@@ -6,8 +6,11 @@
 
 #include "map.h"
 #include "client_connection.h"
-namespace novia {
 
+namespace novia {
+  class ConnectionReceiver;
+
+  
   class MapController {
   public:
     typedef std::shared_ptr<Character> CharacterPtr;
@@ -41,7 +44,7 @@ namespace novia {
     void load_game();
     void save_game();
 
-
+    void kill_dead_players(ConnectionReceiver& cc);
   private:
 
     Map map_;

@@ -9,9 +9,9 @@ namespace novia {
   }
 
   const Json::Value ResponseEvent::get_message() const {
-    using namespace Json;
-    Value message(objectValue);
-    message["msg_type"] = Value("event");
+    Json::Value message;
+    message["msg_type"] = "event";
+    
     switch(type) {
     case Type::ITEM_GAINED:
       message["type"] = "ITEM_GAINED";
@@ -25,9 +25,11 @@ namespace novia {
       message["type"] = "DOOR_OPENED";
       message["door"] = door->description();
       break;
-      //default:
-      //throw std::out_of_range("Unimplemented response event.");
+    case Type::PLAYER_DIED:
+      message["type"] = "PLAYER_DIED";
+      message["player"] = "axel";      
     }
+    
     return message;
   }
 

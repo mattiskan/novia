@@ -27,10 +27,10 @@ namespace novia {
     while(true) {
       write_mutex.lock(); //Make sure only this thread uses the data model.
       process_tasks();
-      /*std::stringstream out;
-      out << "mayday mayday" << i++;
-      
-      connections_.broadcast(out.str());*/
+
+      controllers_.map_controller.kill_dead_players(connections_);
+
+            
       write_mutex.unlock(); 
       sleep_();
     }
