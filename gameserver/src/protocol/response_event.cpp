@@ -27,7 +27,7 @@ namespace novia {
       break;
     case Type::PLAYER_DIED:
       message["type"] = "PLAYER_DIED";
-      message["player"] = "axel";      
+      message["player"] = character->name();      
     }
     
     return message;

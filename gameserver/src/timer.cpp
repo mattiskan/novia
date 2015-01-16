@@ -5,7 +5,7 @@
 namespace novia {
 
   void Timer::schedule(TimerFn& f, time_t ticks_left) {
-    event_queue_.emplace(f, ticks_left);
+    event_queue_.emplace(f, (ticks_left+time_));
   }
 
   void Timer::tick() {

@@ -1,0 +1,101 @@
+{
+   "clients" : [
+      {
+         "name" : "mattis",
+         "user_id" : 1337
+      },
+      {
+         "name" : "axel",
+         "user_id" : 4711
+      }
+   ],
+   "map" : {
+      "characters" : [
+         {
+            "current_room" : "Home",
+            "hp" : 999999,
+            "items" : [
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 0,
+                  "weight" : 0
+               }
+            ],
+            "name" : "axel",
+            "type" : "player"
+         },
+         {
+            "current_room" : "School",
+            "hp" : 1,
+            "items" : [
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 0,
+                  "weight" : 0
+               },
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 538970377,
+                  "weight" : 170026098
+               }
+            ],
+            "name" : "mattis",
+            "type" : "player"
+         }
+      ],
+      "rooms" : [
+         {
+            "description" : "Your home!",
+            "exits" : [
+               {
+                  "description" : "A long dark way",
+                  "lock" : "small_key",
+                  "name" : "School",
+                  "to" : "School"
+               }
+            ],
+            "items" : [
+               {
+                  "description" : "Can open some doors and are then destroyed in the process.",
+                  "name" : "small_key",
+                  "store_weight" : 0,
+                  "weight" : 0
+               }
+            ]
+         },
+         {
+            "description" : "The Pub!",
+            "exits" : [
+               {
+                  "description" : "A long dark way",
+                  "lock" : "unlocked",
+                  "name" : "Home",
+                  "to" : "Home"
+               }
+            ],
+            "items" : [
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 0,
+                  "weight" : 0
+               }
+            ]
+         },
+         {
+            "description" : "The School.",
+            "exits" : [
+               {
+                  "description" : "A long dark way",
+                  "lock" : "unlocked",
+                  "name" : "Pub",
+                  "to" : "Pub"
+               }
+            ]
+         }
+      ]
+   }
+}

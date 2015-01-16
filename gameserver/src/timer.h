@@ -12,6 +12,8 @@ namespace novia {
 
   class TimerEvent;
 
+  //typedef std::function<void(Timer&)> TimerFn;
+
   class Timer {
   public:
     void schedule(TimerFn& f, time_t ticks_left);

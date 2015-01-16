@@ -8,6 +8,7 @@
 #include "connection_receiver.h"
 #include "interval_sleeper.h"
 #include "task_queue.h"
+#include "timer.h"
 
 
 namespace novia {
@@ -27,6 +28,8 @@ namespace novia {
     IntervalSleeper sleep_;
     Controllers controllers_;
     TaskQueue task_queue_;
+    Timer timer_;
+    
     void message_handler(const std::shared_ptr<InMessage>& msg, const std::shared_ptr<ClientConnection>& owner);
     void process_tasks();
   };

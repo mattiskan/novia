@@ -21,6 +21,14 @@ namespace novia {
 					  const std::shared_ptr<ClientConnection>& owner) {
 	this->message_handler(msg, owner);
       });
+
+    TimerFn f = [&] (Timer& timer_ref) {
+      // här kan axel göra något kul med karaktärerna
+
+      timer_ref.schedule(f, 10);
+    };
+    timer_.schedule(f, 100);
+    
     connections_.initiate();
 
     //int i = 0;
@@ -30,7 +38,7 @@ namespace novia {
 
       controllers_.map_controller.kill_dead_players(connections_);
 
-            
+      timer_.tick();
       write_mutex.unlock(); 
       sleep_();
     }
