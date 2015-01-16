@@ -22,7 +22,7 @@ namespace novia {
   }
 
   void AuthentificationMessage::instant_reply(const Controllers& c,
-					      ClientConnection& owner) const {
+					      const std::shared_ptr<ClientConnection>& owner) const {
     bool successful =
       c.user_controller.authenticate(username(), password(), owner);
 
@@ -32,19 +32,20 @@ namespace novia {
     else
       response.set_status(ConfirmationMessage::REJECTED);
 
-    owner.send(response);
+    owner->send(response);
   }
 
-  void AuthentificationMessage::on_invoke(Controllers& c, ClientConnection& owner) const {
-    if (!owner.authenticated())
+  void AuthentificationMessage::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
+    if (!owner->authenticated())
       return;
-    if (!c.map_controller.player_exists(owner.user_id())) {
+    if (!c.map_controller.player_exists(owner->user_id())) {
       c.map_controller.add_new_player(owner, username());
     } else {
+      c.map_controller.add_player_connection(owner);
       ResponseNewPlayerStatus status;
-      status.player = c.map_controller.player(owner.user_id()).get();
+      status.player = c.map_controller.player(owner->user_id()).get();
       status.status = ResponseNewPlayerStatus::Status::CONNECTED;
-      owner.send(status);
+      owner->send(status);
     }
     // maybe broadcast new user to other players?
   }

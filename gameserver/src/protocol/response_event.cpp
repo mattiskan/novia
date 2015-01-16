@@ -27,7 +27,18 @@ namespace novia {
       break;
     case Type::PLAYER_DIED:
       message["type"] = "PLAYER_DIED";
-      message["player"] = character->name();      
+      message["player"] = character->name();
+      break;
+    case Type::PLAYER_ENTERED_ROOM:
+      message["type"] = "PLAYER_ENTERED_ROOM";
+      message["player"] = character->name();
+      message["room"] = room->name();
+      break;
+    case Type::PLAYER_LEFT_ROOM:
+      message["type"] = "PLAYER_LEFT_ROOM";
+      message["player"] = character->name();
+      message["room"] = room->name();
+      break;
     }
     
     return message;

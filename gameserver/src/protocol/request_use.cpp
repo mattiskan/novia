@@ -40,17 +40,17 @@ namespace novia {
   }
     
 
-  void RequestUse::instant_reply(const Controllers& c, ClientConnection& owner) const {
+  void RequestUse::instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
 
   }
 
-  void RequestUse::on_invoke(Controllers& c, ClientConnection& owner) const {
-    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+  void RequestUse::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
+    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
     const std::shared_ptr<Room>& room_ptr = char_ptr->current_room();
     if (item()<0 || (unsigned int)item() >= char_ptr->items().size()) {
 	std::stringstream msg;
 	msg << "You don't have an item with id: '" << item() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
     }
     std::shared_ptr<Item> item_ptr = char_ptr->items()[item()];
@@ -67,49 +67,49 @@ namespace novia {
       if (!character_ptr) {
 	std::stringstream msg;
 	msg << "There is no character with the name '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       std::unique_ptr<OutMessage> response = c.map_controller.use(char_ptr, item_ptr, character_ptr);
-      owner.send(*response);
+      owner->send(*response);
 
     } else if (type() == "item") {
       if (!room_ptr->items().count(target())) {
 	std::stringstream msg;
 	msg << "There is no item in the room with the name '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       std::shared_ptr<Item> item_target_ptr = room_ptr->items()[target()];
       std::unique_ptr<OutMessage> response = c.map_controller.use(char_ptr, item_ptr, item_target_ptr);
-      owner.send(*response);
+      owner->send(*response);
 
     } else if (type() == "backpack") {
       if (!target_int_<0 || (std::size_t)target_int_ >= char_ptr->items().size()) {
 	std::stringstream msg;
 	msg << "There is no item in you backpack with the id '" << target_int() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       std::shared_ptr<Item> item_target_ptr = char_ptr->items()[target_int()];
       std::unique_ptr<OutMessage> response = c.map_controller.use(char_ptr, item_ptr, item_target_ptr);
-      owner.send(*response);
+      owner->send(*response);
 
     } else if (type() == "exit") {
       if (!room_ptr->exits().count(target())) {
 	std::stringstream msg;
 	msg << "There is no exit with the name: '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       Door& door = room_ptr->exits()[target()];
       std::unique_ptr<OutMessage> response = c.map_controller.use(char_ptr, item_ptr, door);
-      owner.send(*response);
+      owner->send(*response);
       
     } else {
 	std::stringstream msg;
 	msg << "You can't use on: '"<<type()<<"'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
 	return;
 
     }

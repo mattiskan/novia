@@ -8,15 +8,15 @@ namespace novia {
   }
 
   void RequestMapMessage::instant_reply(const Controllers& c,
-					ClientConnection& owner) const {
+					const std::shared_ptr<ClientConnection>& owner) const {
 
     Json::Value serialized_map(c.map_controller.get_serialized());
     RequestMapResponse response(serialized_map);
-    owner.send(response);
+    owner->send(response);
   }
   
   void RequestMapMessage::on_invoke(Controllers& c,
-				    ClientConnection& owner) const {
+				    const std::shared_ptr<ClientConnection>& owner) const {
 
   }
 

@@ -14,10 +14,10 @@ namespace novia {
 
   bool UserController::authenticate(const std::string& username,
 				    const std::string& password,
-				    ClientConnection& message_owner) const {
+				    const std::shared_ptr<ClientConnection>& message_owner) const {
     
     if (valid_users.count(username) == 1) {
-      message_owner.authenticate(valid_users[username]);
+      message_owner->authenticate(valid_users[username]);
       return true;
     }
     

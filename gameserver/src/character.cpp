@@ -91,6 +91,12 @@ namespace novia {
     return dmg;
   }
 
-  
+  const std::weak_ptr<ClientConnection>& Character::connection() const {
+    return conn_;
+  }
+
+  std::weak_ptr<ClientConnection>& Character::connection() {
+    return conn_;
+  }
 
 }

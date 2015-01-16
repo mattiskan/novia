@@ -33,17 +33,17 @@ namespace novia {
   }
     
 
-  void RequestExamine::instant_reply(const Controllers& c, ClientConnection& owner) const {
+  void RequestExamine::instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
 
   }
 
-  void RequestExamine::on_invoke(Controllers& c, ClientConnection& owner) const {
-    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+  void RequestExamine::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
+    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
     const std::shared_ptr<Room>& room_ptr = char_ptr->current_room();
     if (type() == "room") {
       ResponseInfo response;
       response.room = room_ptr.get();
-      owner.send(response);
+      owner->send(response);
 
     } else if (type() == "character") {
       ResponseExamine response;
@@ -57,10 +57,10 @@ namespace novia {
       if (response.character == nullptr) {
 	std::stringstream msg;
 	msg << "There is no character with the name '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
-      owner.send(response);
+      owner->send(response);
 
     } else if (type() == "item") {
       ResponseExamine response;
@@ -68,23 +68,23 @@ namespace novia {
       if (!room_ptr->items().count(target())) {
 	std::stringstream msg;
 	msg << "There is no item with the name '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       response.item = room_ptr->items()[target()].get();
-      owner.send(response);
+      owner->send(response);
 
     } else if (type() == "backpack") {
       ResponseExamine response;
       response.type = ResponseExamine::ExamineType::ITEM;
-      const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+      const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
       if (!target_int_<0 || (std::size_t)target_int_ >= char_ptr->items().size()) {
 	response.type = ResponseExamine::ExamineType::BACKPACK;
 	response.character = char_ptr.get();
       } else {
 	response.item = char_ptr->items()[target_int_].get();
       }
-      owner.send(response);
+      owner->send(response);
 
     } else if (type() == "exit") {
       ResponseExamine response;
@@ -93,17 +93,17 @@ namespace novia {
       if (!room_ptr->exits().count(target())) {
 	std::stringstream msg;
 	msg << "There is no exit with the name '" << target() << "'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
 	return;
       }
       response.door = &(room_ptr->exits()[target()]);
 
-      owner.send(response);
+      owner->send(response);
       
     } else {
 	std::stringstream msg;
 	msg << "You can't examine: '"<<type()<<"'";
-	owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
+	owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::INVALID_COMMAND, msg.str()));
 	return;
 
     }

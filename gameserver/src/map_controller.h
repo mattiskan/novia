@@ -38,19 +38,24 @@ namespace novia {
 
     std::unique_ptr<OutMessage> info(const CharacterPtr& traveler);
     
-    void add_new_player(const ClientConnection& conn, const std::string& name);
+    void add_new_player(const std::shared_ptr<ClientConnection>& conn, const std::string& name);
     bool player_exists(int user_id) const;
     CharacterPtr player(int user_id);
 
     void load_game();
     void save_game();
-
+    void broadcast(std::unique_ptr<OutMessage> msg);
+    void broadcast(std::unique_ptr<OutMessage> msg, const CharacterPtr& sender);
+    void broadcast(std::unique_ptr<OutMessage> msg, const std::list<CharacterPtr>& exclude);
+    void broadcast(std::unique_ptr<OutMessage> msg, const RoomPtr& room);
+    void add_player_connection(const std::shared_ptr<ClientConnection>& conn);
     void kill_dead_players(ConnectionReceiver& cc);
 
     void update();
   private:
 
     Map map_;
+    std::map<int, std::weak_ptr<ClientConnection>> player_cons_;
     std::map<int, CharacterPtr> players_;
 
     /*    void send_msg_to_character(const Character& character, const std:: string message);

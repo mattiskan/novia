@@ -15,10 +15,10 @@ namespace novia {
     
 
     virtual void instant_reply(const Controllers& c,
-			       ClientConnection& owner) const override;
+			       const std::shared_ptr<ClientConnection>& owner) const override;
 
     virtual void on_invoke(Controllers& c,
-			   ClientConnection& owner) const override;
+			   const std::shared_ptr<ClientConnection>& owner) const override;
   private:
     std::string target_;
   };

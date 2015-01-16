@@ -9,6 +9,7 @@
 #include "item.h"
 #include "room.h"
 #include "serializable.h"
+#include "client_connection.h"
 
 namespace novia {
   class Item;
@@ -50,7 +51,10 @@ namespace novia {
     void set_current_room(const std::shared_ptr<Room>& new_room);
     Json::Value serialize() const;
     const std::string& type() const;
+    const std::weak_ptr<ClientConnection>& connection() const;
+    std::weak_ptr<ClientConnection>& connection();
   private:
+    std::weak_ptr<ClientConnection> conn_;
     int hp_;
     std::string name_;
     std::vector< std::shared_ptr<Item> > items_;

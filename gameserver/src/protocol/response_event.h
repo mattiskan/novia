@@ -14,10 +14,11 @@ namespace novia {
   
   class ResponseEvent : public OutMessage {    
   public:
-    enum class Type { ITEM_GAINED, ITEM_DROPPED, DOOR_OPENED, PLAYER_DIED };
+    enum class Type { ITEM_GAINED, ITEM_DROPPED, DOOR_OPENED, PLAYER_DIED, PLAYER_ENTERED_ROOM, PLAYER_LEFT_ROOM };
     const Character* character;
     const Item* item;
     const Door* door;
+    const Room* room;
     Type type;
     ResponseEvent();
 

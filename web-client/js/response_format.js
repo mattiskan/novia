@@ -70,11 +70,13 @@ var formating = {
 	    'ITEM_GAINED': 'You gained the item: '+data.item,
 	    'ITEM_DROPPED': 'You dropped the item: '+data.item,
 	    'PLAYER_DIED': data.player + " died.",
+	    'PLAYER_ENTERED_ROOM': data.player + " has entered the room.",
+	    'PLAYER_LEFT_ROOM': data.player + " has left the room.",
 	}[data.type];
     },
 
     attack: function(data) {
-	var response = "Your attack strikes for "+data.damage+".";
+	var response = data.attacker + " strikes " + data.victim  + " for "+data.damage+".";
 
 	if (data.killed == true)
 	    response += " It is fatal.";

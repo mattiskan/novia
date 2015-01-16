@@ -17,21 +17,21 @@ namespace novia {
   }
     
 
-  void RequestMove::instant_reply(const Controllers& c, ClientConnection& owner) const {
+  void RequestMove::instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
   }
 
-  void RequestMove::on_invoke(Controllers& c, ClientConnection& owner) const {
+  void RequestMove::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
     std::cout << "invoke move" << std::endl;
-    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
     std::map<std::string, Door> exits = char_ptr->current_room()->exits();
     if (exits.count(door())) {
 	Door& door_entrance = exits[door()];
 	std::unique_ptr<OutMessage> message = c.map_controller.move(char_ptr, door_entrance);
-	owner.send(*message);
+	owner->send(*message);
     } else {
       std::stringstream msg;
       msg << "There is no door with the name '" << door() << "'";
-      owner.send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
+      owner->send(ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, msg.str()));
     }
   }
 }

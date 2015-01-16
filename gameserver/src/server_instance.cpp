@@ -58,10 +58,10 @@ namespace novia {
     write_mutex.lock();
     if(owner->authenticated() || !msg->requires_authentication()) {
 
-      msg->instant_reply(controllers_, *owner);
+      msg->instant_reply(controllers_, owner);
       std::cout << "message retrieved!" << std::endl;
       task_queue_.push([=]() {
-	  msg->on_invoke(this->controllers_, *owner);
+	  msg->on_invoke(this->controllers_, owner);
 	});
     } else {
       auto error = ResponseInvalidCommand::Type::UNAUTHORIZED;

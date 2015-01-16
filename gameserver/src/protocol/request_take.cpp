@@ -17,13 +17,13 @@ namespace novia {
   }
     
 
-  void RequestTake::instant_reply(const Controllers& c, ClientConnection& owner) const {
+  void RequestTake::instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
 
   }
 
-  void RequestTake::on_invoke(Controllers& c, ClientConnection& owner) const {
-    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+  void RequestTake::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
+    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
     std::unique_ptr<OutMessage> msg = c.map_controller.take(char_ptr, target());
-    owner.send(*msg);
+    owner->send(*msg);
   }
 }

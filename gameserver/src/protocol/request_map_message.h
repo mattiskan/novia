@@ -15,9 +15,9 @@ namespace novia {
     void read(const Json::Value& data) override;
 
     void instant_reply(const Controllers& c,
-		       ClientConnection& owner) const override;
+		       const std::shared_ptr<ClientConnection>& owner) const override;
 
-    void on_invoke(Controllers& c, ClientConnection& owner) const override;
+    void on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const override;
   };
 
   class RequestMapResponse : public OutMessage {

@@ -2,6 +2,7 @@
 #ifndef NOVIA_IN_MESSAGE_H
 #define NOVIA_IN_MESSAGE_H
 
+#include <memory>
 #include <controllers.h>
 #include <jsoncpp/json.h>
 
@@ -23,13 +24,13 @@ namespace novia {
      * Called right after read(), giving some messages the ability to
      * reply without getting executed on the server thread.
      */
-    virtual void instant_reply(const Controllers& c, ClientConnection& owner) const = 0;
+    virtual void instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const = 0;
 
     /**
      * Called on server thread, this is where messages that change the game are
      * expected to do so.
      */
-    virtual void on_invoke(Controllers& c, ClientConnection& owner) const = 0;
+    virtual void on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const = 0;
 
 
     virtual bool requires_authentication() const {

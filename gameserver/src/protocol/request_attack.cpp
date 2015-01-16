@@ -16,12 +16,12 @@ namespace novia {
   }
     
 
-  void RequestAttack::instant_reply(const Controllers& c, ClientConnection& owner) const {
+  void RequestAttack::instant_reply(const Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
 
   }
 
-  void RequestAttack::on_invoke(Controllers& c, ClientConnection& owner) const {
-    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner.user_id());
+  void RequestAttack::on_invoke(Controllers& c, const std::shared_ptr<ClientConnection>& owner) const {
+    const std::shared_ptr<Character>& char_ptr = c.map_controller.player(owner->user_id());
     std::shared_ptr<Character> char_target_ptr;
     for (const std::shared_ptr<Character>& room_char_ptr : char_ptr->current_room()->characters()) {
       if (room_char_ptr->name() == target()) {
@@ -33,10 +33,10 @@ namespace novia {
       std::stringstream error_msg;
       error_msg << "There is no character in your room with the name: " << target();
       ResponseInvalidCommand response = ResponseInvalidCommand(ResponseInvalidCommand::Type::UNKNOWN_TARGET, error_msg.str());
-      owner.send(response);
+      owner->send(response);
       return;
     }
     std::unique_ptr<OutMessage> msg = c.map_controller.attack(char_ptr, char_target_ptr);
-    owner.send(*msg);
+    owner->send(*msg);
   }
 }

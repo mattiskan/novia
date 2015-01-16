@@ -25,11 +25,11 @@ namespace novia {
     if (victim->can_be_attacked(*attacker)) {
       victim->attack(*attacker);
 
-      std::unique_ptr<OutMessage> response(
-	new ResponseAttack(attacker->damage(), victim->is_dead())
-      );
-      
-      return response;
+      ResponseAttack* 
+	response(new ResponseAttack(attacker->damage(), victim->is_dead(), attacker.get(), victim.get()));
+      std::unique_ptr<OutMessage> bc_response(new ResponseAttack(*response));
+      broadcast(std::move(bc_response), std::list<CharacterPtr>{attacker});
+      return std::unique_ptr<OutMessage>(response);
     }
 
     auto not_attackable = ResponseInvalidCommand::Type::NOT_ATTACKABLE;
@@ -128,23 +128,31 @@ namespace novia {
     return players_[user_id];
   }
 
-  void MapController::add_new_player(const ClientConnection& conn, const std::string& name) {
-    if (player_exists(conn.user_id()))
+  void MapController::add_new_player(const std::shared_ptr<ClientConnection>& conn, const std::string& name) {
+    if (player_exists(conn->user_id()))
 	throw std::invalid_argument("A player with that user_id is already connected");
     Json::Value character;
     character["name"] = "player";
     character["playerName"] = name;
     CharacterPtr new_player = CharacterFactory::create_character(character, map_);
-    players_[conn.user_id()] = new_player;
+    players_[conn->user_id()] = new_player;
+    add_player_connection(conn);
+    
     map_.characters().push_back(new_player);
     map_.rooms()["Home"]->characters().push_back(new_player);
     new_player->set_current_room(map_.rooms()["Home"]);
-
+    
     ResponseNewPlayerStatus status;
-    status.player = players_[conn.user_id()].get();
+    status.player = players_[conn->user_id()].get();
     status.status = ResponseNewPlayerStatus::Status::NEW_PLAYER;
-    conn.send(status);
+    conn->send(status);
   }
+
+  void MapController::add_player_connection(const std::shared_ptr<ClientConnection>& conn) {
+    player_cons_[conn->user_id()] = conn;
+    players_[conn->user_id()]->connection() = conn;
+  }
+  
 
   std::unique_ptr<OutMessage> MapController::move(const CharacterPtr& traveler, Door& door) {
     save_game();
@@ -153,6 +161,17 @@ namespace novia {
     current_room->characters().remove(traveler);
     target_room->characters().push_back(traveler);
     traveler->set_current_room(target_room);
+    ResponseEvent* bc_msg = new ResponseEvent();
+    bc_msg->type = ResponseEvent::Type::PLAYER_ENTERED_ROOM;
+    bc_msg->room = door.exit().get(); 
+    bc_msg->character = traveler.get(); 
+    broadcast(std::unique_ptr<OutMessage>(bc_msg), door.exit());
+    bc_msg = new ResponseEvent();
+    bc_msg->type = ResponseEvent::Type::PLAYER_LEFT_ROOM;
+    bc_msg->room = door.entrance().get(); 
+    bc_msg->character = traveler.get(); 
+    broadcast(std::unique_ptr<OutMessage>(bc_msg), door.entrance());
+
 
     ResponseInfo* message = new ResponseInfo();
     message->room = target_room.get();
@@ -225,6 +244,32 @@ namespace novia {
     std::ofstream out("maps/map2.json");
     out << json_writer.write(game_json);
     out.close();
+  }
+
+  void MapController::broadcast(std::unique_ptr<OutMessage> msg) {
+    broadcast(std::move(msg), std::list<CharacterPtr>());
+  }
+  void MapController::broadcast(std::unique_ptr<OutMessage> msg, const CharacterPtr& sender) {
+    broadcast(std::move(msg), std::list<CharacterPtr> {sender});
+  }
+  void MapController::broadcast(std::unique_ptr<OutMessage> msg, const std::list<CharacterPtr>& exclude) {
+    for (const auto& char_pair : players_) {
+      std::cout << "send" << std::endl;
+      if (std::find(exclude.begin(), exclude.end(), char_pair.second) != exclude.end()) //remove excluded
+	continue;
+      const std::shared_ptr<ClientConnection>& con = char_pair.second->connection().lock();
+      if (!con)
+	continue;
+      con->send(*msg);
+    }
+  }
+  void MapController::broadcast(std::unique_ptr<OutMessage> msg, const RoomPtr& room) {
+    for (const auto& char_ptr : room->characters()) {
+      const std::shared_ptr<ClientConnection>& con = char_ptr->connection().lock();
+      if (!con)
+	continue;
+      con->send(*msg);
+    }
   }
 
 
