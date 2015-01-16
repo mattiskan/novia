@@ -1,10 +1,8 @@
 //-*-c++-*-
 #include "character.h"
-#include <algorithm>
 
 namespace novia {
-  Character::Character()
-    : hp_(10) {
+  Character::Character() {
 
   }
 
@@ -12,18 +10,8 @@ namespace novia {
     return hp_;
   }
 
-  int Character::damage() const {
-    int dmg = 1;
-    for(const auto& item_ptr : items()){
-      if(item_ptr->name() == "sword") // because fuck logic
-	dmg *= 2;
-    }
-    return dmg;
-  }
-
-  
   bool Character::can_be_attacked(const Character& attacker) const {
-    return true;
+    return false;
   }
 
   const std::vector<std::shared_ptr<Item>>& Character::items() const {
@@ -39,10 +27,6 @@ namespace novia {
   }
   std::string Character::description() const {
     return description_;
-  }
-
-  bool Character::is_dead() const {
-    return hp_ <= 0;
   }
   
   const std::string& Character::type() const {
@@ -73,17 +57,13 @@ namespace novia {
     return current_room_;
   }
 
-  void Character::attack(const Character& attacker) {
-    hp_ -= std::max(0, attacker.damage());
-  }
-
-
   Json::Value Character::serialize() const {
     using namespace Json;
     Value serialized(objectValue);
     serialized["current_room"] = current_room()->name();
     serialized["name"] = name();
     serialized["type"] = type();
+    serialized["hp"] = hp();
     Value& items_json = serialized["items"] = arrayValue;
     for (const std::shared_ptr<Item>& item : items()) {
       items_json.append(item->serialize());

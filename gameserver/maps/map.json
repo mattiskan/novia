@@ -3,6 +3,10 @@
 	{
 	    "user_id": 4711,
 	    "name": "axel"
+	},
+	{
+	    "user_id": 1337,
+	    "name": "mattis"
 	}
     ],
     "map": {
@@ -65,10 +69,19 @@
 		"current_room": "Home",
 		"name": "axel",
 		"type": "player",
+		"hp": 999999,
 		"items": [
 		    {
 			"name": "sword"
 		    }
+		]
+	    },
+	    {
+		"current_room": "Home",
+		"name": "mattis",
+		"type": "player",
+		"hp": 1,
+		"items": [
 		]
 	    }
 	]

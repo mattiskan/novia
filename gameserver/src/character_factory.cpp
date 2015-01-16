@@ -31,6 +31,7 @@ namespace novia {
 	  }
 	} else {
 	  character->name_ = character_data["name"].asString();
+	  character->hp_ = character_data["hp"].asInt();
 	}
 	  
 	character->type_ = character_name;
