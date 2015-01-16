@@ -175,7 +175,7 @@ function UseCommand(args) {
     };
 
     this.help = function(print) {
-	print('use [<character|item|backpack|exit> <target>]');
+	print('use [<character|item|backpack|exit> [, target]]');
     };
 }
 
