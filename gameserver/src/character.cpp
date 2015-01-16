@@ -11,7 +11,7 @@ namespace novia {
   }
 
   bool Character::can_be_attacked(const Character& attacker) const {
-    return false;
+    return true;
   }
 
   const std::vector<std::shared_ptr<Item>>& Character::items() const {
@@ -71,4 +71,24 @@ namespace novia {
 
     return serialized;
   }
+
+  void Character::attack(const Character& attacker) {
+    hp_ -= std::max(0, attacker.damage());
+  }
+
+  bool Character::is_dead() const {
+    return hp_ <= 0;
+  }
+
+ int Character::damage() const {
+    int dmg = 1;
+    for(const auto& item_ptr : items()){
+      if(item_ptr->name() == "sword") // because fuck logic
+        dmg *= 2;
+    }
+    return dmg;
+  }
+
+  
+
 }
