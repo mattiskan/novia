@@ -160,9 +160,31 @@ namespace novia {
     return std::unique_ptr<OutMessage>(message);
   }
 
+  std::unique_ptr<OutMessage> MapController::teleport(const CharacterPtr& traveler, const RoomPtr& target) {
+    save_game();
+
+    traveler->current_room()->characters().remove(traveler);
+    target->characters().push_back(traveler);
+    traveler->set_current_room(target);
+
+    ResponseInfo* message = new ResponseInfo();
+    message->room = target.get();
+    
+    return std::unique_ptr<OutMessage>(message);
+  }
+
+
   std::unique_ptr<OutMessage> MapController::info(const CharacterPtr& traveler) {
     
     return std::unique_ptr<OutMessage>();
+  }
+
+  void MapController::update() {
+    for (const CharacterPtr& char_ptr : map_.characters()) {
+      if (char_ptr->update) {
+	char_ptr->update(*this);
+      }
+    }
   }
 
   void MapController::load_game() {

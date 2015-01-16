@@ -34,6 +34,7 @@ namespace novia {
     std::unique_ptr<OutMessage> take(const CharacterPtr& user, const std::string& item_name);
 
     std::unique_ptr<OutMessage> move(const CharacterPtr& traveler, Door& door);
+    std::unique_ptr<OutMessage> teleport(const CharacterPtr& traveler, const RoomPtr& target);
 
     std::unique_ptr<OutMessage> info(const CharacterPtr& traveler);
     
@@ -45,6 +46,8 @@ namespace novia {
     void save_game();
 
     void kill_dead_players(ConnectionReceiver& cc);
+
+    void update();
   private:
 
     Map map_;

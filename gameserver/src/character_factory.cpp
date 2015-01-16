@@ -2,6 +2,7 @@
 #include "character_factory.h"
 #include <algorithm>
 #include <sstream>
+#include "map_controller.h"
 
 namespace novia {
   namespace CharacterFactory {
@@ -37,6 +38,25 @@ namespace novia {
 	character->type_ = character_name;
       } else if (character_name == "beggar") {
 	character->name_ = "Beggar1";
+      } else if (character_name == "dog") {
+	character->name_ = "guard_dog";
+	character->update = [=](MapController& map) {
+	  const auto& room = character->current_room();
+	  for (auto& char_ptr : room->characters()) {
+	    if (char_ptr->name() == "mattis") {
+	      map.attack(character, char_ptr);
+	      break;
+	    }
+	  }
+	  if (map.player_exists(4711)) {
+	    const auto& owner = map.player(4711);
+	    if (owner->current_room() != character->current_room()) {
+	      map.teleport(character, owner->current_room());
+	    }
+	  }
+	};
+	character->hp_ = 100;
+	
       } else {
 	std::stringstream msg;
 	Json::StyledWriter json_writer;
@@ -50,6 +70,7 @@ namespace novia {
       if (!init) {
 	character->current_room_ = map.rooms()[character_data["current_room"].asString()];
 	character->current_room()->characters().push_back(character);
+	character->type_ = character_name;
       }
       return character;
     }

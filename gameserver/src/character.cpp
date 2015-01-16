@@ -2,7 +2,9 @@
 #include "character.h"
 
 namespace novia {
-  Character::Character() {
+  Character::Character()
+    : update([](MapController& mapcontroller){})
+  {
 
   }
 

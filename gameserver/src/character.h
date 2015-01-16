@@ -14,6 +14,7 @@ namespace novia {
   class Item;
   class Character;
   class Map;
+  class MapController;
   namespace CharacterFactory {
     std::shared_ptr<Character> create_character(const Json::Value&, Map&);
     std::shared_ptr<Character> create_character(const std::string&, Map&);
@@ -23,7 +24,8 @@ namespace novia {
     typedef std::shared_ptr<Character> CharacterPtr;
     typedef std::function<void(int damage, CharacterPtr& victim, CharacterPtr& attacker)> OnHitFn;
     typedef std::function<int(CharacterPtr& victim, CharacterPtr& attacker)> OnAttackFn;
-    
+    typedef std::function<void(MapController&)> OnUpdateFn; 
+
     friend class Map;
     friend CharacterPtr CharacterFactory::create_character(const Json::Value&, Map&);
     friend CharacterPtr CharacterFactory::create_character(const std::string&, Map&);
@@ -43,6 +45,7 @@ namespace novia {
     virtual bool can_be_attacked(const Character& attacker) const;
     virtual void attack(const Character& attacker);
 
+    OnUpdateFn update;
     
     void set_current_room(const std::shared_ptr<Room>& new_room);
     Json::Value serialize() const;
