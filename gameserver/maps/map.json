@@ -78,6 +78,14 @@
 	    },
 	    {
 		"current_room": "Home",
+		"name": "guard_dog",
+		"type": "dog",
+		"hp": 100,
+		"items": [
+		]
+	    },
+	    {
+		"current_room": "Pub",
 		"name": "mattis",
 		"type": "player",
 		"hp": 1,

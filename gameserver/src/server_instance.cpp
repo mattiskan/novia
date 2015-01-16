@@ -23,7 +23,7 @@ namespace novia {
       });
 
     TimerFn f = [&] (Timer& timer_ref) {
-      // här kan axel göra något kul med karaktärerna
+      controllers_.map_controller.update();
 
       timer_ref.schedule(f, 10);
     };

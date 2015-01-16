@@ -41,13 +41,13 @@ namespace novia {
       } else if (character_name == "dog") {
 	character->name_ = "guard_dog";
 	character->update = [=](MapController& map) {
-	  const auto& room = character->current_room();
-	  for (auto& char_ptr : room->characters()) {
-	    if (char_ptr->name() == "mattis") {
-	      map.attack(character, char_ptr);
-	      break;
+	  if (map.player_exists(1337)) {
+	    const auto& mattis = map.player(1337);
+	    if (mattis->current_room() == character->current_room()) {
+	      map.attack(character, mattis);
 	    }
 	  }
+
 	  if (map.player_exists(4711)) {
 	    const auto& owner = map.player(4711);
 	    if (owner->current_room() != character->current_room()) {

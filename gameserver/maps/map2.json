@@ -26,22 +26,16 @@
             "type" : "player"
          },
          {
-            "current_room" : "School",
+            "current_room" : "Home",
+            "hp" : 100,
+            "items" : [],
+            "name" : "guard_dog",
+            "type" : "dog"
+         },
+         {
+            "current_room" : "Pub",
             "hp" : 1,
-            "items" : [
-               {
-                  "description" : "Normal sword",
-                  "name" : "sword",
-                  "store_weight" : 0,
-                  "weight" : 0
-               },
-               {
-                  "description" : "Normal sword",
-                  "name" : "sword",
-                  "store_weight" : 538970377,
-                  "weight" : 170026098
-               }
-            ],
+            "items" : [],
             "name" : "mattis",
             "type" : "player"
          }
@@ -63,8 +57,15 @@
                   "name" : "small_key",
                   "store_weight" : 0,
                   "weight" : 0
+               },
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 0,
+                  "weight" : 0
                }
-            ]
+            ],
+            "name" : "Home"
          },
          {
             "description" : "The Pub!",
@@ -83,7 +84,8 @@
                   "store_weight" : 0,
                   "weight" : 0
                }
-            ]
+            ],
+            "name" : "Pub"
          },
          {
             "description" : "The School.",
@@ -94,7 +96,16 @@
                   "name" : "Pub",
                   "to" : "Pub"
                }
-            ]
+            ],
+            "items" : [
+               {
+                  "description" : "Normal sword",
+                  "name" : "sword",
+                  "store_weight" : 538970377,
+                  "weight" : 170026098
+               }
+            ],
+            "name" : "School"
          }
       ]
    }

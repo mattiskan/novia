@@ -17,7 +17,7 @@ namespace novia {
       serialized["exits"].append(door_pair.second.serialize());
     }
     serialized["description"] = description();
-
+    serialized["name"] = name();
     return serialized;
   }
 
